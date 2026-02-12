@@ -157,3 +157,27 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
   });
 }
+
+// Theme toggle functionality
+const themeToggleBtn = document.getElementById('theme-toggle');
+const body = document.body;
+
+// Load saved theme
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'light') {
+  body.classList.add('light-mode');
+  themeToggleBtn.classList.add('dark'); // Show sun icon
+}
+
+// Toggle theme
+themeToggleBtn.addEventListener('click', () => {
+  body.classList.toggle('light-mode');
+  themeToggleBtn.classList.toggle('dark');
+
+  // Save theme preference
+  if (body.classList.contains('light-mode')) {
+    localStorage.setItem('theme', 'light');
+  } else {
+    localStorage.setItem('theme', 'dark');
+  }
+});
