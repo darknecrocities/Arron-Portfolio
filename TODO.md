@@ -5,3 +5,4 @@
 - [x] Add toggle functionality in script.js (event listener, localStorage)
 - [x] Test toggle across sections
 - [x] Ensure responsiveness
+- [x] Fix cards gap on GitHub tab

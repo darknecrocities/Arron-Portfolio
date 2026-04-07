@@ -44,6 +44,11 @@
     - google font link
   -->
 <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,600&display=swap" rel="stylesheet">
+
+  <!--
+    - github component css
+  -->
+  <link rel="stylesheet" href="./assets/css/github.css">
 </head>
 
 <body bgcolor="black">
@@ -213,11 +218,7 @@
           </li>
 
           <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Portfolio</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Project</button>
+            <button class="navbar-link" data-nav-link>Gallery</button>
           </li>
 
           <li class="navbar-item">
@@ -225,7 +226,7 @@
           </li>
 
           <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Blog</button>
+            <button class="navbar-link" data-nav-link>GitHub</button>
           </li>
 
           <li class="navbar-item">
@@ -268,9 +269,7 @@
           <p>I am also a <strong>5× Hackathon Champion</strong> and recognized as one of the <strong>top GitHub users in the Philippines</strong>, continuously pushing boundaries in open-source contribution, innovation, and competitive development.</p>
 
           <p>Passionate about technology, innovation, and mentorship, I strive to empower the next generation of programmers while building scalable solutions that create meaningful real-world impact.</p>
-
         </section>
-
 
         <!--
           - service
@@ -1195,241 +1194,6 @@ support his peers.
 
 
 
-      <!--
-        - #PORTFOLIO
-      -->
-
-      <article class="portfolio" data-page="portfolio">
-
-        <header>
-          <h2 class="h2 article-title">Portfolio</h2>
-        </header>
-
-        <section class="projects">
-
-          <ul class="filter-list">
-
-            <li class="filter-item">
-              <button class="active" data-filter-btn>All</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Machine Learning</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Applications</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>App development</button>
-            </li>
-
-          </ul>
-
-          <div class="filter-select-box">
-
-            <button class="filter-select" data-select>
-
-              <div class="select-value" data-selecct-value>Select category</div>
-
-              <div class="select-icon">
-                <ion-icon name="chevron-down"></ion-icon>
-              </div>
-
-            </button>
-
-            <ul class="select-list">
-
-              <li class="select-item">
-                <button data-select-item>All</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Web design</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Applications</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Web development</button>
-              </li>
-
-            </ul>
-
-          </div>
-
-          <ul class="project-list">
-
-            <li class="project-item  active" data-filter-item data-category="web development">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-1.jpg" alt="finance" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Finance</h3>
-
-                <p class="project-category">Web development</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web development">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-2.png" alt="orizon" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Orizon</h3>
-
-                <p class="project-category">Web development</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web design">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-3.jpg" alt="fundo" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Fundo</h3>
-
-                <p class="project-category">Web design</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="applications">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-4.png" alt="brawlhalla" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Brawlhalla</h3>
-
-                <p class="project-category">Applications</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web design">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-5.png" alt="dsm." loading="lazy">
-                </figure>
-
-                <h3 class="project-title">DSM.</h3>
-
-                <p class="project-category">Web design</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web design">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-6.png" alt="metaspark" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">MetaSpark</h3>
-
-                <p class="project-category">Web design</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web development">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-7.png" alt="summary" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Summary</h3>
-
-                <p class="project-category">Web development</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="applications">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-8.jpg" alt="task manager" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Task Manager</h3>
-
-                <p class="project-category">Applications</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web development">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-9.png" alt="arrival" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Arrival</h3>
-
-                <p class="project-category">Web development</p>
-
-              </a>
-            </li>
-
-          </ul>
-
-        </section>
-
-      </article>
 
 
 
@@ -1439,251 +1203,16 @@ support his peers.
         - #project
       -->
 
-      <article class="project" data-page="project">
+      <article class="gallery" data-page="gallery">
 
         <header>
-          <h2 class="h2 article-title">Arron's Project</h2>
+          <h2 class="h2 article-title">Project Gallery</h2>
         </header>
 
         <section class="project-posts">
 
-          <ul class="project-posts-list">
-
-            <li class="project-post-item">
-              <a href="https://github.com/ArronJaviya/Artifyai.git" target="_blank">
-
-                <figure class="project-banner-box">
-
-
-
-                  <img src="./assets/images/project-9.jpg" alt="ArtifyAI" loading="lazy" target="_blank">
-                </figure>
-
-                <div class="project-content">
-
-                  <div class="project-meta">
-                    <p class="project-category">Artifyai AI tools</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">June - August, 2024</time>
-                  </div>
-
-                  <h3 class="h3 project-item-title">Artifyai AI</h3>
-
-                  <p class="project-text">
-                    ArtifyAI is an AI-driven web application that integrates various AI models such as ChatGPT, Gemini,
-                    and image generation tools.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="project-post-item">
-              <a href="https://github.com/vishalthadani/G3_Krackit/tree/master" target="_blank">
-
-                <figure class="project-banner-box">
-
-
-
-                  <img src="./assets/images/1.png" alt="Career counselling" loading="lazy" target="_blank">
-                </figure>
-
-                <div class="project-content">
-
-                  <div class="project-meta">
-                    <p class="project-category">Career counselling Website </p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Fed - May, 2024</time>
-                  </div>
-
-                  <h3 class="h3 project-item-title">Krackit - Career counselling</h3>
-
-                  <p class="project-text">
-                    Krackit is basically a career counseling website. Its purpose is to guide students in determining
-                    which career path is the best fit for them.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="project-post-item">
-              <a href="https://github.com/ArronJaviya/Apple_product_sell_website.git" target="_blank">
-
-                <figure class="project-banner-box">
-                  <img src="./assets/images/product2.jpg" alt="Best fonts every designer" loading="lazy">
-                </figure>
-
-                <div class="project-content">
-
-                  <div class="project-meta">
-                    <p class="project-category">Apple Product Selling website</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">March-May, 2023</time>
-                  </div>
-
-                  <h3 class="h3 project-item-title"> i - Product Selling</h3>
-
-                  <p class="project-text">
-                    I built an e-commerce website that essentially sells Apple products.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="project-post-item">
-              <a href="https://github.com/ArronJaviya/TechPurchasePro.git" target="_blank">
-
-                <figure class="project-banner-box">
-                  <img src="./assets/images/project-3.jpeg" alt="Design digest #80" loading="lazy">
-                </figure>
-
-                <div class="project-content">
-
-                  <div class="project-meta">
-                    <p class="project-category">TechPurchase Pro</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">August - Septemder, 2020</time>
-                  </div>
-
-                  <h3 class="h3 project-item-title">TechPurchase Pro</h3>
-
-                  <p class="project-text">
-                    I built a console-based project in which I included customer requirements to suggest the
-                    best-fitting product for them. </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="project-post-item">
-              <a href="https://github.com/ArronJaviya/Health-Website.git" target="_blank">
-
-                <figure class="project-banner-box">
-                  <img src="./assets/images/project-4.png" alt="UI interactions of the week" loading="lazy">
-                </figure>
-
-                <div class="project-content">
-
-                  <div class="project-meta">
-                    <p class="project-category">Health Care website</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">September, 2021</time>
-                  </div>
-
-                  <h3 class="h3 project-item-title">HardCore Fitness</h3>
-
-                  <p class="project-text">
-                    I built this website for my college project. It's a healthcare platform featuring tools to monitor
-                    calorie intake and maintenance of daily calorie goals. </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="project-post-item">
-              <a href="https://Arronjaviya.github.io/old_style-Calculator-/" target="_blank">
-
-                <figure class="project-banner-box">
-                  <img src="./assets/images/Project-5.jpeg" alt="The forgotten art of spacing" loading="lazy">
-                </figure>
-
-                <div class="project-content">
-
-                  <div class="project-meta">
-                    <p class="project-category">Basic Calculator</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23"> Octomber, 2023</time>
-                  </div>
-
-                  <h3 class="h3 project-item-title">Old Style Calculator</h3>
-
-                  <p class="project-text">
-                    I developed a classic, basic calculator to demonstrate my CSS proficiency and showcase a vintage
-                    design aesthetic. </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="project-post-item">
-              <a href="https://github.com/ArronJaviya/ATM-System.git" target="_blank">
-
-                <figure class="project-banner-box">
-                  <img src="./assets/images/6-Project.jpeg" alt="Design digest #79" loading="lazy">
-                </figure>
-
-                <div class="project-content">
-
-                  <div class="project-meta">
-                    <p class="project-category">ATM System With mysql </p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">April, 2024</time>
-                  </div>
-
-                  <h3 class="h3 project-item-title">ATM System</h3>
-
-                  <p class="project-text">
-                    I developed an ATM system in Java, leveraging libraries to execute CRUD operations, with all data
-                    seamlessly stored in a MySQL database. </p>
-
-                </div>
-
-              </a>
-            </li>
-
-
-
-
-            <li class="project-post-item">
-              <a href="https://github.com/ArronJaviya/Olympics-Database-Management-System" target="_blank">
-
-                <figure class="project-banner-box">
-                  <img src="./assets/images/7-Project.png" alt="Design digest #79" loading="lazy">
-                </figure>
-
-                <div class="project-content">
-
-                  <div class="project-meta">
-                    <p class="project-category">DataBase Of Olympic</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Decmber, 2023</time>
-                  </div>
-
-                  <h3 class="h3 project-item-title">Data Analysis of Olympic</h3>
-
-                  <p class="project-text">
-
-                    I dedication to building this database with meticulous steps and integrating ER functionality,
-                    schemas, and SQL queries showcases your proficiency and commitment to academic excellence.
-                </div>
-
-              </a>
-            </li>
-
+          <ul class="project-posts-list" id="project-list">
+            <!-- Dynamically populated from GitHub JSON -->
           </ul>
 
         </section>
@@ -1866,161 +1395,19 @@ support his peers.
 
       </article>
 
-
-
-
-
       <!--
-        - #BLOG
+        - #GITHUB
       -->
 
-      <article class="blog" data-page="blog">
+      <article class="github" data-page="github">
 
         <header>
-          <h2 class="h2 article-title">Blog</h2>
+          <h2 class="h2 article-title">GitHub Insights</h2>
         </header>
 
-        <section class="blog-posts">
-
-          <h3 class="h3 section-title">Latest Posts</h3>
-
-          <ul class="blog-list">
-
-            <li class="blog-item">
-              <div class="blog-content">
-                <h4 class="h4 blog-title">
-                  Hackathon winners highlight AI’s potential in community solutions
-                </h4>
-                <p class="blog-description">
-                  Two innovative apps that combine technology with community-driven solutions took top honors at a recent hackathon in Quezon City, signaling the growing role of AI-driven tools in addressing everyday challenges.
-            
-                  The winning projects, BetterBee and EcoCycle, were announced during the event hosted at High Grounds Café on November 3 by the Internet Computer Protocol (ICP) Hub Philippines.
-            
-                  The hackathon centered around Caffeine AI, a platform that lets users build apps simply by chatting with artificial intelligence. This is what organizers call the “self-writing internet,” where app development does not run on traditional coding.
-                </p>
-            
-                <a href="https://philstartech.com/news/2025/11/10/15733/hackathon-winners-highlight-ais-potential-in-community-solutions/" 
-                   target="_blank" 
-                   class="blog-link">
-                  See more →
-                </a>
-            
-                <span class="blog-date">November 7, 2025</span>
-              </div>
-            </li>
-
-            <li class="blog-item">
-              <div class="blog-content">
-                <h4 class="h4 blog-title">𝗖𝗮𝗳𝗳𝗲𝗶𝗻𝗲 𝗔𝗜 𝗠𝗮𝗻𝗶𝗹𝗮: 𝗧𝗵𝗲 𝗙𝗶𝗿𝘀𝘁-𝗘𝘃𝗲𝗿 𝗖𝗮𝗳𝗳𝗲𝗶𝗻𝗲 𝗔𝗜 𝗘𝘃𝗲𝗻𝘁 𝗶𝗻 𝘁𝗵𝗲 𝗣𝗵𝗶𝗹𝗶𝗽𝗽𝗶𝗻𝗲𝘀 🇵🇭</h4>
-                <p class="blog-description">
-                  What a day for innovation in the Philippines! Over 200 developers, creators, and AI enthusiasts from across the country gathered for the first-ever Caffeine AI Manila, held at High Grounds Cafe, Quezon City. We're proud to support our code camp partner, ICP Philippines, for the hackathon and launch of Caffeine AI. ⚡
-The event kicked off with the Caffeine Hackathon, where participants were divided into Technical and Non-Technical tracks. From 3PM to 6PM, builders turned ideas into prototypes through conversational development — creating apps powered entirely by words. ☕ 
-Only three teams from each track advanced to the finals, showcasing impressive creativity and problem-solving.
-As the night continued, the main event began with two powerful panel discussions exploring AI innovation and Women in Tech — sparking conversations about collaboration, empowerment, and the future of human-centered AI. 🎤 👩‍💻
-The event concluded with the announcement of the Hackathon Champions:<br><br>
-• Team Arron with EcoCycle under the Technical Track ♻️
-<br>
-• Team Ascent with Better Bee under the Non-Technical Track 🐝
-<br><br>
-Both teams took home $500 each — a well-deserved recognition of their creativity and groundbreaking ideas. 🏆 
-Huge thanks to all the volunteers, mentors, and participants who made this pioneering event possible. Your energy and passion brought the Self-Writing Internet to life — and this is only the beginning. ✨
-                </p>
-
-                <a href="https://web.facebook.com/share/p/16dyZdhqNg/" 
-                   target="_blank" 
-                   class="blog-link">
-                  See more →
-                </a>
-                <span class="blog-date">July 1, 2025</span>
-              </div>
-            </li>
-            
-            
-
-            <li class="blog-item">
-              <div class="blog-content">
-                <h4 class="h4 blog-title">#DEVCONDiaries Ep.3 | AppCon 2024 Spotlight</h4>
-                <p class="blog-description">
-                  At AppCon 2024, one team stood out 𝒏𝒐𝒕 𝒋𝒖𝒔𝒕 𝒇𝒐𝒓 𝒕𝒉𝒆𝒊𝒓 𝒄𝒐𝒅𝒆—𝒃𝒖𝒕 𝒇𝒐𝒓 𝒕𝒉𝒆𝒊𝒓 𝒄𝒂𝒖𝒔𝒆.
-Meet 𝑻𝒆𝒂𝒎 𝑩𝒊𝒕𝑷𝒚𝒓𝒆, the brains behind 𝗘𝗺𝗯𝗲𝗿𝘄𝗮𝘁𝗰𝗵, an AI-powered app that detects fire hazards in real time using CCTV feeds, with alerts that could one day reach emergency responders before disaster strikes. Born out of concern for friends in fire-prone areas, this project is proof that 𝘁𝗲𝗰𝗵 𝗯𝘂𝗶𝗹𝘁 𝘄𝗶𝘁𝗵 𝗲𝗺𝗽𝗮𝘁𝗵𝘆 𝘀𝗮𝘃𝗲𝘀 𝗹𝗶𝘃𝗲𝘀.
-Led by 𝗔𝗿𝗿𝗼𝗻—CEO of Google Developer Groups on Campus - Holy Angel University, UP GenAI Hackathon Champion, DataCamp Scholar, former Google Developer Groups on Campus - Holy Angel University CTO, and Google Solution Challenge competitor—the team pushed their limits at AppCon and proved what collaboration, resilience, and purpose can achieve.
-                </p>
-
-                <a href="https://web.facebook.com/share/p/16dyZdhqNg/" 
-                   target="_blank" 
-                   class="blog-link">
-                  See more →
-                </a>
-                <span class="blog-date">July 1, 2025</span>
-              </div>
-            </li>
-
-            <li class="blog-item">
-              <div class="blog-content">
-                <h4 class="h4 blog-title">🚀 Announcing the AppCon 2024 Top 20! 🚀</h4>
-                <p class="blog-description">
-                  After an incredible round of submissions and intense evaluations, we’re excited to reveal the Top 20 teams (in no particular order) who stood out with their creativity, innovation, and passion. 
-Congratulations to all the finalists! Good luck on the next round: the pitching and second judging. 💡🎉💻
-                </p>
-                <a href="https://web.facebook.com/share/p/1CMAbvGw8e/" 
-                   target="_blank" 
-                   class="blog-link">
-                  See more →
-                </a>
-                <span class="blog-date">March 7, 2025</span>
-              </div>
-            </li>
-
-            <li class="blog-item">
-              <div class="blog-content">
-                <h4 class="h4 blog-title">DevSync: GitHub Collaboration Meets API Testing</h4>
-                <p class="blog-description">
-                  DevSync is an interactive and beginner-friendly workshop designed to bridge two essential pillars of modern software development — GitHub collaboration and API testing using Postman. This session aims to equip participants with practical knowledge and hands-on experience in version control workflows and API testing methodologies, fostering a deeper understanding of collaborative software engineering practices.
-<br><br>
-                  Through guided sessions, live demos, and team-based activities, attendees will learn how to manage repositories, contribute to open-source projects, and test APIs effectively. The workshop blends technical skill-building with community-driven collaboration, encouraging developers to sync their knowledge and creativity.
-                </p>
-
-                <a href="https://gdg.community.dev/events/details/google-gdg-on-campus-holy-angel-university-angeles-philippines-presents-devsync-github-collaboration-meets-api-testing/" 
-                   target="_blank" 
-                   class="blog-link">
-                  See more →
-                </a>
-                <span class="blog-date">July 1, 2025</span>
-              </div>
-            </li>
-
-            <li class="blog-item">
-              <div class="blog-content">
-                <h4 class="h4 blog-title">UI/UX Design Principles for Developers</h4>
-                <p class="blog-description">
-                  Bridge the gap between development and design. Learn essential UI/UX principles that every developer should know to create more intuitive and user-friendly applications.
-                </p>
-                <span class="blog-date">November 28, 2024</span>
-              </div>
-            </li>
-
-            <li class="blog-item">
-              <div class="blog-content">
-                <h4 class="h4 blog-title">Machine Learning for Beginners: Getting Started</h4>
-                <p class="blog-description">
-                  Embark on your machine learning journey with this comprehensive guide. From basic concepts to practical implementation, learn the fundamentals that will open doors to AI development.
-                </p>
-                <span class="blog-date">November 20, 2024</span>
-              </div>
-            </li>
-
-            <li class="blog-item">
-              <div class="blog-content">
-                <h4 class="h4 blog-title">Cybersecurity Best Practices for Web Developers</h4>
-                <p class="blog-description">
-                  Security should be a top priority for every developer. Learn essential cybersecurity practices, from secure coding to protecting against common web vulnerabilities.
-                </p>
-                <span class="blog-date">November 15, 2024</span>
-              </div>
-            </li>
-
-          </ul>
-
+        <section class="github-content">
+          <!-- Dynamically populated by github-app.js -->
+          <div id="github-dashboard-container"></div>
         </section>
 
       </article>
@@ -2079,9 +1466,27 @@ Congratulations to all the finalists! Good luck on the next round: the pitching 
   </main>
 
   <!--
+    - #GITHUB DETAIL MODAL
+  -->
+
+  <div id="github-detail-modal" class="modal-container">
+    <div class="overlay" data-overlay></div>
+    <section class="github-modal glassmorphism">
+      <button class="github-modal-close-btn" id="close-github-modal">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+      <div id="github-modal-content">
+        <!-- Populated dynamically by github-app.js -->
+      </div>
+    </section>
+  </div>
+
+  <!--
     - custom js link
   -->
   <script src="./assets/js/script.js"></script>
+  <script src="./assets/data/github-repos.js"></script>
+  <script src="./assets/js/github-app.js"></script>
   <!--
     - ionicon link
   -->
