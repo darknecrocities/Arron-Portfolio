@@ -179,6 +179,22 @@ window.GITHUB_REPOS = [
     "topics": []
   },
   {
+    "name": "acadacrchive",
+    "description": "AcadArchive is a mobile application designed to help students store, organize, and manage their academic documents and projects securely in one centralized digital platform. ",
+    "url": "https://github.com/darknecrocities/acadacrchive",
+    "homepage": "",
+    "stars": 1,
+    "watchers": 1,
+    "forks": 0,
+    "open_issues": 0,
+    "language": "Dart",
+    "created": "2025-10-16T04:17:26Z",
+    "updated": "2026-04-09T06:29:05Z",
+    "size": 1822,
+    "license": null,
+    "topics": []
+  },
+  {
     "name": "Virtual-Paging-Algorithms-Simulation",
     "description": "A modern, interactive Streamlit desktop application that visualizes classic Operating System memory management and page replacement algorithms, supercharged with AI insights via Google Gemini.",
     "url": "https://github.com/darknecrocities/Virtual-Paging-Algorithms-Simulation",
@@ -915,6 +931,22 @@ window.GITHUB_REPOS = [
     "topics": []
   },
   {
+    "name": "Arron-Portfolio",
+    "description": null,
+    "url": "https://github.com/darknecrocities/Arron-Portfolio",
+    "homepage": "https://arron-portfolio-delta.vercel.app",
+    "stars": 1,
+    "watchers": 1,
+    "forks": 0,
+    "open_issues": 0,
+    "language": "JavaScript",
+    "created": "2026-02-11T15:53:19Z",
+    "updated": "2026-04-07T15:19:52Z",
+    "size": 7488,
+    "license": null,
+    "topics": []
+  },
+  {
     "name": "Group-2",
     "description": null,
     "url": "https://github.com/darknecrocities/Group-2",
@@ -1007,22 +1039,6 @@ window.GITHUB_REPOS = [
     "created": "2026-02-03T03:46:22Z",
     "updated": "2026-02-23T17:28:04Z",
     "size": 0,
-    "license": null,
-    "topics": []
-  },
-  {
-    "name": "Arron-Portfolio",
-    "description": null,
-    "url": "https://github.com/darknecrocities/Arron-Portfolio",
-    "homepage": "https://arron-portfolio-delta.vercel.app",
-    "stars": 1,
-    "watchers": 1,
-    "forks": 0,
-    "open_issues": 0,
-    "language": "HTML",
-    "created": "2026-02-11T15:53:19Z",
-    "updated": "2026-02-12T12:37:17Z",
-    "size": 7470,
     "license": null,
     "topics": []
   },
@@ -1263,22 +1279,6 @@ window.GITHUB_REPOS = [
     "created": "2025-10-25T04:48:18Z",
     "updated": "2025-10-25T06:52:07Z",
     "size": 0,
-    "license": null,
-    "topics": []
-  },
-  {
-    "name": "acadacrchive",
-    "description": null,
-    "url": "https://github.com/darknecrocities/acadacrchive",
-    "homepage": null,
-    "stars": 1,
-    "watchers": 1,
-    "forks": 0,
-    "open_issues": 0,
-    "language": "Dart",
-    "created": "2025-10-16T04:17:26Z",
-    "updated": "2025-10-16T06:12:24Z",
-    "size": 1822,
     "license": null,
     "topics": []
   }

@@ -46,6 +46,11 @@
 <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,600&display=swap" rel="stylesheet">
 
   <!--
+    - achievements component css
+  -->
+  <link rel="stylesheet" href="./assets/css/certifications.css">
+
+  <!--
     - github component css
   -->
   <link rel="stylesheet" href="./assets/css/github.css">
@@ -225,9 +230,7 @@
             <button class="navbar-link" data-nav-link>Achievements</button>
           </li>
 
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>GitHub</button>
-          </li>
+
 
           <li class="navbar-item">
             <button class="navbar-link" data-nav-link>Contact</button>
@@ -266,7 +269,7 @@
 
           <p>As a <strong>Former DataCamp Scholar</strong> and <strong>Tech Consultant & Officer-in-Charge at LOOP (League of Outstanding Programmers)</strong>, I mentor aspiring developers while strengthening my expertise in software engineering, data science, and analytics.</p>
 
-          <p>I am also a <strong>5× Hackathon Champion</strong> and recognized as one of the <strong>top GitHub users in the Philippines</strong>, continuously pushing boundaries in open-source contribution, innovation, and competitive development.</p>
+          <p>I am also a <strong>5× Hackathon Champion</strong>, continuously pushing boundaries in competitive development, innovation, and technical leadership.</p>
 
           <p>Passionate about technology, innovation, and mentorship, I strive to empower the next generation of programmers while building scalable solutions that create meaningful real-world impact.</p>
         </section>
@@ -1230,187 +1233,57 @@ support his peers.
       <article class="achievements" data-page="achievements">
 
         <header>
-          <h2 class="h2 article-title">Achievements</h2>
+          <h2 class="h2 article-title">Achievements & Certifications</h2>
         </header>
 
-        <section class="hackathons">
+        <p class="achievements-intro">
+          A collection of certifications and achievements showcasing my journey in AI, Data Science, Cloud, and Software Engineering.
+        </p>
 
-          <h3 class="h3 section-title">Hackathons</h3>
-
-          <ul class="achievement-list">
-
-            <li class="achievement-item">
-              <div class="achievement-content">
-                <h4 class="h4 achievement-title">Hackathon Winner - Google UP: Build with AI</h4>
-                <p class="achievement-description">
-                  Secured Champion in the national level hackathon organized by GDG University of the Philippines, Manila, developing an innovative AI-powered solution for Terms and condition or Contracts for the users.
-                </p>
-                <span class="achievement-date">March 2025</span>
-              </div>
-            </li>
-
-            <li class="achievement-item">
-              <div class="achievement-content">
-                <h4 class="h4 achievement-title">Skydev 2025 - Champion</h4>
-                <p class="achievement-description">
-                  Secured Champion place on SkyDev 2025 Hackathon, our project dedicated to visually impaired person to use an computer vision on smartphones camera for assisting daily tasking.
-                </p>
-                <span class="achievement-date">October 2025</span>
-              </div>
-            </li>
-
-            <li class="achievement-item">
-              <div class="achievement-content">
-                <h4 class="h4 achievement-title"> Caffeine.ai - Champion</h4>
-                <p class="achievement-description">
-                 Achieved an Champion place on the Technical Track, our project is focusing on AI-Integration of an waste management system with integrating of an blockchain crypto redeemable points.
-                </p>
-                <span class="achievement-date">November 2025</span>
-              </div>
-            </li>
-
-            <li class="achievement-item">
-              <div class="achievement-content">
-                <h4 class="h4 achievement-title"> 2025 UNity - Champion</h4>
-                <p class="achievement-description">
-                 Achieved an Champion place on the 2025 UNity Hackathon, our project is focusing on AI-Integration of an Disaster Management system.
-                </p>
-                <span class="achievement-date">November 2025</span>
-              </div>
-            </li>
-
-            <li class="achievement-item">
-              <div class="achievement-content">
-                <h4 class="h4 achievement-title"> SparkHub - Champion</h4>
-                <p class="achievement-description">
-                 Achieved an Champion place Online hackathon on Devpost, our project is focusing on AI-Integration of an waste management system with integrating of an blockchain crypto redeemable points.
-                </p>
-                <span class="achievement-date">November 2025</span>
-              </div>
-            </li>
-
-            <li class="achievement-item">
-              <div class="achievement-content">
-                <h4 class="h4 achievement-title"> Appcon - Finalist</h4>
-                <p class="achievement-description">
-                 Achieved Finalist on Appcon 2024, our project is Emberwatch an AI Detecting and Early Fire hazard detection system.
-                </p>
-                <span class="achievement-date">November 2025</span>
-              </div>
-            </li>
-
-          </ul>
-
+        <!-- Stats Summary -->
+        <section class="cert-stats-container" data-cert-stats>
+          <div class="cert-stat-item">
+            <span class="cert-stat-label">Total Credentials</span>
+            <div class="cert-stat-value" data-total-certs>0</div>
+          </div>
+          <div class="cert-stat-item">
+            <span class="cert-stat-label">AI & ML</span>
+            <div class="cert-stat-value" data-ai-certs>0</div>
+          </div>
+          <div class="cert-stat-item">
+            <span class="cert-stat-label">Cloud / DevOps</span>
+            <div class="cert-stat-value" data-cloud-certs>0</div>
+          </div>
         </section>
 
-        <section class="achievements-section">
+        <!-- Search & Filter Controls -->
+        <section class="cert-controls">
+          <div class="cert-search-wrap">
+            <ion-icon name="search-outline" class="search-icon"></ion-icon>
+            <input type="text" class="cert-search-input" placeholder="Search certifications or issuers..." data-cert-search>
+          </div>
 
-          <h3 class="h3 section-title">Achievements</h3>
-
-          <ul class="achievement-list">
-
-            <li class="achievement-item">
-              <div class="achievement-content">
-                <h4 class="h4 achievement-title">Dean's List - HAU</h4>
-                <p class="achievement-description">
-                  Recognized on the Dean's List for academic excellence in the 2023-2024 academic year.
-                </p>
-                <span class="achievement-date">2024</span>
-              </div>
-            </li>
-
-            <li class="achievement-item">
-              <div class="achievement-content">
-                <h4 class="h4 achievement-title">Best Project Award - College Tech Fest</h4>
-                <p class="achievement-description">
-                  Awarded Best Project for developing an AI-powered career counseling platform.
-                </p>
-                <span class="achievement-date">2023</span>
-              </div>
-            </li>
-
-            <li class="achievement-item">
-              <div class="achievement-content">
-                <h4 class="h4 achievement-title">Open Source Contributor</h4>
-                <p class="achievement-description">
-                  Active contributor to various open source projects on GitHub, with over 500+ contributions.
-                </p>
-                <span class="achievement-date">2022-Present</span>
-              </div>
-            </li>
-
+          <ul class="cert-filter-list">
+            <li><button class="filter-btn active" data-filter-btn="all">All</button></li>
+            <li><button class="filter-btn" data-filter-btn="AI / Machine Learning">AI / ML</button></li>
+            <li><button class="filter-btn" data-filter-btn="Cloud / DevOps">Cloud / DevOps</button></li>
+            <li><button class="filter-btn" data-filter-btn="Data Science">Data Science</button></li>
+            <li><button class="filter-btn" data-filter-btn="Web Development">Web Development</button></li>
+            <li><button class="filter-btn" data-filter-btn="Cybersecurity">Cybersecurity</button></li>
+            <li><button class="filter-btn" data-filter-btn="Certifications & Hackathons">Others</button></li>
           </ul>
-
         </section>
 
-        <section class="certifications">
-
-          <h3 class="h3 section-title">Certifications</h3>
-
-          <ul class="certification-list">
-
-            <li class="certification-item">
-              <div class="certification-content">
-                <h4 class="h4 certification-title">AWS Certified Cloud Practitioner</h4>
-                <p class="certification-issuer">Amazon Web Services</p>
-                <span class="certification-date">2024</span>
-              </div>
-            </li>
-
-            <li class="certification-item">
-              <div class="certification-content">
-                <h4 class="h4 certification-title">Google Cloud Professional Developer</h4>
-                <p class="certification-issuer">Google Cloud</p>
-                <span class="certification-date">2025</span>
-              </div>
-            </li>
-
-            <li class="certification-item">
-              <div class="certification-content">
-                <h4 class="h4 certification-title">Google Generative AI Leader </h4>
-                <p class="certification-issuer">Google Cloud</p>
-                <span class="certification-date">2025</span>
-              </div>
-            </li>
-
-            <li class="certification-item">
-              <div class="certification-content">
-                <h4 class="h4 certification-title">Meta React Developer Certificate</h4>
-                <p class="certification-issuer">Meta (Facebook)</p>
-                <span class="certification-date">2024</span>
-              </div>
-            </li>
-
-            <li class="certification-item">
-              <div class="certification-content">
-                <h4 class="h4 certification-title">Oracle Java Programmer (OCJP)</h4>
-                <p class="certification-issuer">Oracle</p>
-                <span class="certification-date">2022</span>
-              </div>
-            </li>
-
-          </ul>
-
+        <!-- Certifications Grid -->
+        <section class="cert-grid-container">
+          <div class="cert-grid" data-cert-grid>
+            <!-- Dynamically populated by certifications-app.js -->
+          </div>
         </section>
 
       </article>
 
-      <!--
-        - #GITHUB
-      -->
 
-      <article class="github" data-page="github">
-
-        <header>
-          <h2 class="h2 article-title">GitHub Insights</h2>
-        </header>
-
-        <section class="github-content">
-          <!-- Dynamically populated by github-app.js -->
-          <div id="github-dashboard-container"></div>
-        </section>
-
-      </article>
 
 
 
@@ -1466,31 +1339,69 @@ support his peers.
   </main>
 
   <!--
-    - #GITHUB DETAIL MODAL
-  -->
-
-  <div id="github-detail-modal" class="modal-container">
-    <div class="overlay" data-overlay></div>
-    <section class="github-modal glassmorphism">
-      <button class="github-modal-close-btn" id="close-github-modal">
-        <ion-icon name="close-outline"></ion-icon>
-      </button>
-      <div id="github-modal-content">
-        <!-- Populated dynamically by github-app.js -->
-      </div>
-    </section>
-  </div>
-
-  <!--
     - custom js link
   -->
   <script src="./assets/js/script.js"></script>
+
+
+  <!--
+    - Certifications App Logic
+  -->
+  <script src="./assets/data/certifications.js"></script>
+  <script src="./assets/js/certifications-app.js"></script>
+
+  <!--
+    - GitHub Portfolio Logic
+  -->
   <script src="./assets/data/github-repos.js"></script>
   <script src="./assets/js/github-app.js"></script>
+
   <!--
     - ionicon link
   -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!-- Certification Modal Structure -->
+  <div class="modal-container" data-modal-overlay>
+    <div class="overlay" data-overlay></div>
+    <section class="cert-modal" data-cert-modal>
+      <button class="modal-close-btn" data-modal-close>
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+
+      <div class="cert-modal-header">
+        <h3 class="h3 modal-title" data-modal-title>Certification Title</h3>
+        <p class="modal-category" data-modal-category>Category</p>
+      </div>
+
+      <div class="cert-description-box">
+        <h4 class="h4" style="margin-bottom: 10px; color: var(--orange-yellow-crayola);">Key Learnings</h4>
+        <p class="modal-description" data-modal-description style="line-height: 1.6; color: var(--light-gray);">Description goes here.</p>
+      </div>
+
+      <div class="modal-content" style="margin-top: 25px;">
+        <div class="modal-details" style="display: flex; flex-direction: column; gap: 8px;">
+          <p><strong>Issuer:</strong> <span data-modal-issuer style="color: var(--white-2);">Issuer Name</span></p>
+          <p><strong>Date:</strong> <span data-modal-date style="color: var(--white-2);">Date</span></p>
+          <p data-modal-id><strong>Credential ID:</strong> <span style="color: var(--white-2);">ID</span></p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- GitHub Repo Detail Modal -->
+  <div class="modal-container" id="github-detail-modal">
+    <div class="overlay" data-overlay></div>
+    <section class="github-modal glassmorphism">
+      <button class="github-modal-close-btn" id="close-github-modal" aria-label="Close modal">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+      <div id="github-modal-content">
+        <!-- Dynamically populated by github-app.js -->
+      </div>
+    </section>
+  </div>
+
 </body>
 </html>
