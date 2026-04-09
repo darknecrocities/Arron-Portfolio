@@ -7,7 +7,67 @@
 const CERTIFICATIONS_DATA = [
   // --- HACKATHONS ---
   {
-    title: "Batang Techno: Building the Minds of Tomorrow's Innovators Hackathon",
+    title: "Google UP: Build with AI Hackathon - Champion",
+    issuer: "GDG University of the Philippines Manila",
+    date: "March 2025",
+    category: "Certifications & Hackathons",
+    icon: "trophy-outline",
+    type: "Hackathon",
+    color: "#4285F4",
+    description: "Secured the Champion title in the highly competitive 'Build with AI' hackathon organized by Google Developer Group (GDG) at the University of the Philippines Manila. The project involved architecting an innovative AI-driven framework designed to automate the analysis of complex legal documents, Terms of Service, and contracts. By leveraging Large Language Models and natural language processing, the solution provided users with instant, simplified summaries of legal obligations and hidden clauses, significantly improving transparency and user awareness. This victory demonstrated a deep understanding of AI integration, user-centric design, and the ability to solve real-world problems through cutting-edge technology. The experience highlighted the importance of ethical AI and responsible data handling while delivering a high-performance prototype within a rigorous 24-hour development cycle."
+  },
+  {
+    title: "SkyDev 2025 Hackathon - Champion",
+    issuer: "SkyDev Community",
+    date: "October 2025",
+    category: "Certifications & Hackathons",
+    icon: "trophy-outline",
+    type: "Hackathon",
+    color: "#00BCFF",
+    description: "Achieved First Place at the SkyDev 2025 Hackathon with an impactful project dedicated to revolutionizing accessibility for the visually impaired. The team developed a sophisticated smartphone-based assistant that utilizes advanced computer vision and real-time object detection to help users navigate their daily environments and perform tasks independently. By integrating monocular depth estimation and spatial audio feedback, the application provides an intuitive map of the surroundings through hair-trigger camera processing. This project was recognized for its technical complexity, humanitarian focus, and potential for large-scale social impact. Arron led the computer vision pipeline development, ensuring the model's accuracy and low-latency performance on mobile hardware. The win solidified his commitment to building inclusive technology that empowers people with diverse abilities through the intelligent application of AI."
+  },
+  {
+    title: "Caffeine.ai Hackathon - Champion (Technical Track)",
+    issuer: "Caffeine AI / ICP Philippines",
+    date: "November 2025",
+    category: "Certifications & Hackathons",
+    icon: "trophy-outline",
+    type: "Hackathon",
+    color: "#6F4E37",
+    description: "Awarded as the Champion in the Technical Track of the inaugural Caffeine AI Manila hackathon. The winning project, EcoCycle, introduced a revolutionary approach to urban waste management by combining the power of Caffeine's 'self-writing internet' platform with blockchain technology. The system features a real-time AI classification engine for waste sorting, which rewards users with redeemable crypto tokens for correct disposal. This integration of AI and decentralized finance (DeFi) creates an incentive-based recycling ecosystem that is both transparent and highly scalable. The hackathon challenged participants to build production-ready apps using conversational development tools, where Arron excelled at translating complex requirements into a functional, data-driven architecture. This victory underscored the potential of Generative AI to accelerate the development of sustainable, web3-integrated urban solutions."
+  },
+  {
+    title: "UNity 2025 Hackathon - Champion",
+    issuer: "UNity Tech Global",
+    date: "November 2025",
+    category: "Certifications & Hackathons",
+    icon: "trophy-outline",
+    type: "Hackathon",
+    color: "#2E7D32",
+    description: "Secured the top spot at the UNity 2025 Hackathon, an event focused on leveraging technology for global humanitarian goals. The team developed 'GuardianNet,' an advanced AI-driven disaster management and response system designed to optimize resource allocation during natural calamities. By processing real-time satellite imagery and social media sentiment analysis, the system identifies high-risk zones and predicts evacuation paths with high precision. The platform also integrates an offline-first communication protocol for edge devices, ensuring functionality even when traditional infrastructure fails. Arron's contribution focused on the machine learning models for risk prediction and the development of a resilient data synchronization layer. This achievement was praised by the judging panel for its readiness for deployment and its holistic approach to disaster resilience, bridging the gap between emergency response and long-term planning."
+  },
+  {
+    title: "SparkHub Online Hackathon - Champion",
+    issuer: "Devpost / SparkHub",
+    date: "November 2025",
+    category: "Certifications & Hackathons",
+    icon: "trophy-outline",
+    type: "Hackathon",
+    color: "#FF4081",
+    description: "Achieved the Champion place in the SparkHub international online hackathon hosted on Devpost. The project focused on a decentralized waste management platform that utilizes AI-powered image recognition to verify recycling efforts and reward users with blockchain-backed incentives. This cross-border competition required collaboration with global developers and mentors, showcasing Arron's ability to work effectively in a remote, high-stakes environment. The technical implementation involved building a robust API between the AI classification engine and a smart contract layer on the Polygon network. The project was selected for its innovative use of Web3 technologies to solve environmental challenges and its exceptional UI/UX design. This victory highlighted Arron's proficiency in full-stack AI development and his capability to deliver world-class software that meets international standards of excellence."
+  },
+  {
+    title: "Appcon 2024 - Finalist",
+    issuer: "Appcon Philippines",
+    date: "November 2024",
+    category: "Certifications & Hackathons",
+    icon: "trophy-outline",
+    type: "Hackathon",
+    color: "#D32F2F",
+    description: "Recognized as a National Finalist at Appcon 2024 for the 'EmberWatch' project, a groundbreaking AI-powered fire detection and early warning system. EmberWatch utilizes real-time thermal camera feeds and computer vision to identify fire hazards and anomalies before they escalate into full-scale emergencies. The system is designed for high-density residential and commercial spaces, providing instant alerts and evacuation guidance through a mobile dashboard. During the competition, Arron demonstrated the system's effectiveness in various simulated scenarios, proving its reliability and fast detection speed. Being a finalist in such a prestigious competition among hundreds of entries highlighted the project's technical merit and its potential to save lives through proactive safety technology. This experience refined Arron's skills in real-time system architecture and strengthened his focus on building AI solutions for public safety."
+  },
+  {
+    title: "Batang Techno Hackathon",
     issuer: "Batangas State University",
     date: "March 2026",
     category: "Certifications & Hackathons",
@@ -15,6 +75,36 @@ const CERTIFICATIONS_DATA = [
     type: "Hackathon",
     color: "#FFD700",
     description: "Participated in and competed at the Batang Techno hackathon hosted by Batangas State University, a prestigious competition focused on cultivating the next generation of technology innovators. During this intensive event, Arron demonstrated strong problem-solving abilities by designing and prototyping a technology-driven solution under strict time constraints. The hackathon challenged participants to address real-world problems through creative application of software engineering, data analytics, and emerging technologies. Key skills honed during this experience include rapid ideation, agile development under pressure, effective team coordination, and delivering compelling technical presentations to a panel of academic and industry judges. The event also provided invaluable networking opportunities with fellow developers, professors, and industry mentors, reinforcing the importance of collaboration and innovation in the tech ecosystem. This experience solidified Arron's ability to translate abstract ideas into functional prototypes within a competitive environment."
+  },
+  {
+    title: "Dean's List Academic Excellence Award",
+    issuer: "Holy Angel University",
+    date: "Academic Year 2023-2024",
+    category: "Certifications & Hackathons",
+    icon: "ribbon-outline",
+    type: "Honor",
+    color: "#C5A059",
+    description: "Recognized on the prestigious Dean's List at Holy Angel University for achieving outstanding academic performance throughout the 2023-2024 academic year. This honor is reserved for students who maintain a superior grade point average while carrying a full course load in the School of Computing. Achieving this status requires not only technical proficiency in complex subjects like Data Structures, Algorithms, and Software Engineering but also a strong commitment to academic rigor and a disciplined approach to learning. This recognition reflects Arron's dedication to mastering his craft and his ability to balance demanding coursework with extracurricular projects and research. It serves as a testament to his strong analytical foundation and his consistent pursuit of excellence in all aspects of his undergraduate education, laying the groundwork for his professional career in technology and artificial intelligence."
+  },
+  {
+    title: "Best Project Award",
+    issuer: "HAU College Tech Fest",
+    date: "October 2023",
+    category: "Certifications & Hackathons",
+    icon: "star-outline",
+    type: "Award",
+    color: "#FFD700",
+    description: "Recipient of the 'Best Project Award' during the HAU College Tech Fest for the development of an innovative AI-powered career counseling platform. The project, designed to bridge the gap between academic preparation and industry requirements, uses machine learning to match students' skills and interests with real-time job market trends and personalized learning roadmaps. By integrating semantic analysis of curriculum data and job descriptions, the platform provides actionable insights for students to future-proof their careers. The award was given based on several criteria, including technical complexity, social relevance, and the quality of the final prototype. This project was one of Arron's first major forays into the intersection of education and AI, proving his ability to conceptualize and execute data-driven solutions that address fundamental challenges in his community. The success of this project motivated him to further explore the vast potential of intelligent systems."
+  },
+  {
+    title: "Open Source Contributor Status",
+    issuer: "Global GitHub Community",
+    date: "2022-Present",
+    category: "Certifications & Hackathons",
+    icon: "logo-github",
+    type: "Contribution",
+    color: "#FFFFFF",
+    description: "An active and dedicated member of the open-source community, with over 500+ meaningful contributions across various projects on GitHub. This ongoing journey involves collaborating with developers worldwide to refine, optimize, and expand the functionality of diverse software libraries and applications. Contributions range from critical bug fixes and documentation improvements to the development of new features in AI-related repositories and frontend frameworks. This commitment to open source is driven by a belief in the power of collaborative software development and the importance of contributing back to the tools that power the modern web. Through this process, Arron has refined his skills in version control, code review, and cross-team communication while staying at the forefront of emerging technology trends. His GitHub profile serves as a living record of his technical evolution and his dedication to the 'Learn in Public' philosophy that defines the modern software engineering ethos."
   },
 
   // --- AI / ML ---
