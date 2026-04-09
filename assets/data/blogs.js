@@ -56,7 +56,7 @@ const BLOGS_DATA = [
     image: "./assets/images/skydev.jpg",
     description: "Revolutionizing accessibility with computer vision. A championship project designed to assist visually impaired individuals.",
     link: "https://www.facebook.com/share/v/18PVWqJ3Xs/",
-    content: "SkyDev 2025 saw the birth of a computer vision assistant that turns smartphone cameras into 'digital eyes' for the visually impaired. Using real-time object detection and spatial audio, the app helps users navigate daily environments safely. Arron served as the lead AI developer, optimizing the models for low-latency mobile inference, proving that AI can be a powerful force for social good."
+    content: "SkyDev 2025 saw the birth of a computer vision assistant that turns smartphone cameras into 'digital eyes' for the visually impaired. Using real-time object detection and spatial audio, the app helps users navigate daily environments safely. Arron served as the lead AI developer, optimizing the models for low-latency mobile inference, proving that AI can be a powerful force for social good.<br><br><div class='video-container'><iframe src='https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1980850402701774%2F&show_text=false&width=560&t=0' width='100%' height='314' style='border:none;overflow:hidden' scrolling='no' frameborder='0' allowfullscreen='true' allow='autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share'></iframe></div>"
   },
   {
     title: "Leading the Future: CEO of GDG on Campus HAU",
