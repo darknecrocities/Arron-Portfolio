@@ -47,12 +47,13 @@ function populateProjectsSection() {
     const li = document.createElement('li');
     li.className = 'project-post-item';
 
-    const ogImage = `https://opengraph.githubassets.com/1/${GITHUB_USERNAME}/${repo.name}`;
+    const localImage = `./assets/images/projects/${repo.name}.png`;
+    const fallbackImage = `https://opengraph.githubassets.com/1/${GITHUB_USERNAME}/${repo.name}`;
 
     li.innerHTML = `
       <div class="repo-trigger" data-repo-name="${repo.name}">
         <figure class="project-banner-box">
-          <img src="${ogImage}" alt="${repo.name}" loading="lazy">
+          <img src="${localImage}" alt="${repo.name}" loading="lazy" onerror="this.onerror=null; this.src='${fallbackImage}';">
         </figure>
 
         <div class="project-content">
