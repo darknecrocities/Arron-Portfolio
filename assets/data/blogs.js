@@ -102,6 +102,24 @@ const BLOGS_DATA = [
   description: "Recognized among the Top GitHub Users in the Philippines, ranking #11 for contributions, collaboration, and open-source impact.",
   link: "https://committers.top/philippines_public#darknecrocities",
   content: "Arron Parejas was recognized as one of the Top GitHub Users in the Philippines, achieving an impressive rank of #11 among a highly competitive community of developers. This distinction reflects consistent contributions to open-source projects, active collaboration with other developers, and a strong commitment to building impactful solutions. From developing innovative applications to sharing knowledge through code, Arron has demonstrated both technical skill and community leadership in the open-source space. This milestone highlights the importance of persistence, creativity, and collaboration—where even small contributions can lead to meaningful impact. Being part of the top GitHub users in the country not only strengthens Arron’s profile as a developer but also reinforces his passion for technology, innovation, and giving back to the global developer community."
+},
+{
+  "title": "SkillCon – Empowering Skills, Connecting Opportunities 🌟",
+  "category": "Hackathon Project",
+  "date": "2025",
+  "image": "./assets/images/skillcon.jpeg",
+  "description": "A full-stack platform that empowers underserved workers by connecting skills to verified opportunities through AI-driven matching and digital portfolios.",
+  "link": "https://www.linkedin.com/posts/arron-parejas-6711b6289_hackathon-skillcon-innovation-activity-7360690940321148929-xNLP",
+  "content": "SkillCon is an innovative platform designed to uplift underserved and informal workers by bridging the gap between skills, trust, and economic opportunities. As a full-stack developer, Arron Parejas handled backend systems, frontend development using Flutter, AI integration, and cloud-based infrastructure. The platform features personalized skill development paths, real-time labor market analysis, verified digital skill portfolios with trust scores, and smart opportunity matching. It also includes geolocation-based search for jobs and services. This project demonstrates Arron’s ability to design and build scalable, impactful systems that address real-world socio-economic challenges."
+},
+{
+  "title": "BotaniCatch – Top Participants | GDG Solution Challenge 🌿🏆",
+  "category": "GDG Solution Challenge Project",
+  "date": "2025",
+  "image": "./assets/images/botanicatch.jpeg",
+  "description": "A sustainability-focused mobile app that helps users explore, identify, and document native plants in the Philippines using AI and gamification.",
+  "link": "https://www.linkedin.com/posts/arron-parejas-6711b6289_botanicatch-gdgsolutionchallenge2024-sustainability-activity-7328805330048425984-YQuB",
+  "content": "BotaniCatch is a mobile application developed for the GDG Solution Challenge, where the team was recognized as Top Participants. The project focuses on sustainability and environmental awareness by enabling users to explore, identify, and document native plants in the Philippines. Built using Flutter, the app features PlantDex with over 29,000 native plants, including scientific and local names, classifications, and detailed descriptions. As a full-stack developer, Arron Parejas contributed to frontend components, backend systems, data integration, and the development of a multimodal RAG-based AI system for plant identification and intelligent querying. The platform integrates Firebase for authentication, Google Cloud for scalable backend services, and geolocation APIs. With gamification features like achievements and progress tracking, BotaniCatch promotes interactive learning while encouraging users to reconnect with nature through technology."
 }
 ];
 
