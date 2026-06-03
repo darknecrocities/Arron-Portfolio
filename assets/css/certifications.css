@@ -3,13 +3,13 @@
 \*-----------------------------------*/
 
 :root {
-  --cert-accent-blue: #4285F4;
-  --cert-accent-purple: #A435F0;
-  --cert-bg-gradient: linear-gradient(135deg, rgba(66, 133, 244, 0.1) 0%, rgba(164, 53, 240, 0.1) 100%);
-  --cert-card-bg: hsla(240, 2%, 12%, 0.7);
-  --cert-border: 1px solid hsla(0, 0%, 100%, 0.1);
-  --cert-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --cert-accent-soft: hsla(240, 2%, 12%, 0.8);
+  --cert-accent-blue: var(--orange-yellow-crayola);
+  --cert-accent-purple: var(--vegas-gold);
+  --cert-bg-gradient: var(--text-gradient-yellow);
+  --cert-card-bg: var(--eerie-black-2);
+  --cert-border: 1px solid var(--jet);
+  --cert-shadow: var(--shadow-3);
+  --cert-accent-soft: var(--eerie-black-1);
 }
 
 /* --- Intro Text --- */
@@ -124,9 +124,10 @@
 
 .filter-btn.active {
   background: var(--cert-bg-gradient);
-  color: var(--white-1);
+  color: var(--smoky-black);
   border-color: var(--cert-accent-blue);
-  box-shadow: 0 0 15px rgba(66, 133, 244, 0.3);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+  font-weight: var(--fw-600);
 }
 
 .filter-btn:hover:not(.active) {

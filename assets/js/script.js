@@ -155,17 +155,45 @@ for (let i = 0; i < navigationLinks.length; i++) {
 const themeToggleBtn = document.getElementById('theme-toggle');
 const body = document.body;
 
+// Custom cursor glow logic
+const cursorGlow = document.createElement('div');
+cursorGlow.className = 'cursor-glow';
+document.body.appendChild(cursorGlow);
+
+document.addEventListener('mousemove', (e) => {
+  cursorGlow.style.left = e.clientX + 'px';
+  cursorGlow.style.top = e.clientY + 'px';
+});
+
+document.addEventListener('mousedown', () => {
+  cursorGlow.style.transform = 'translate(-50%, -50%) scale(0.75)';
+});
+
+document.addEventListener('mouseup', () => {
+  cursorGlow.style.transform = 'translate(-50%, -50%) scale(1)';
+});
+
+function updateGlowColor() {
+  if (body.classList.contains('light-mode')) {
+    cursorGlow.style.background = 'radial-gradient(circle, rgba(0, 255, 102, 0.06) 0%, rgba(0, 179, 68, 0.012) 50%, transparent 100%)';
+  } else {
+    cursorGlow.style.background = 'radial-gradient(circle, rgba(0, 240, 255, 0.06) 0%, rgba(189, 0, 255, 0.012) 50%, transparent 100%)';
+  }
+}
+
 // Load saved theme
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'light') {
   body.classList.add('light-mode');
   themeToggleBtn.classList.add('dark'); // Show sun icon
 }
+updateGlowColor();
 
 // Toggle theme
 themeToggleBtn.addEventListener('click', () => {
   body.classList.toggle('light-mode');
   themeToggleBtn.classList.toggle('dark');
+  updateGlowColor();
 
   // Save theme preference
   if (body.classList.contains('light-mode')) {
