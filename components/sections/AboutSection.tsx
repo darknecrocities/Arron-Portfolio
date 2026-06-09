@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { SKILLS } from "@/data/misc";
-import { FiZap, FiAward, FiUsers, FiCode } from "react-icons/fi";
+import { FiZap, FiAward, FiUsers, FiCode, FiTrendingUp } from "react-icons/fi";
 
 const SERVICES = [
   {
@@ -30,10 +30,10 @@ const SERVICES = [
 ];
 
 const BADGES = [
-  { emoji: "🚀", label: "Former GDG CEO", title: "Former CEO of GDG on Campus HAU" },
-  { emoji: "🏆", label: "6x Champion", title: "National & Global Hackathon Champion" },
-  { emoji: "📊", label: "Top Scholar", title: "Top DataCamp Scholar" },
-  { emoji: "💻", label: "NVIDIA & Microsoft", title: "Former Intern" },
+  { icon: FiZap, label: "Former GDG CEO", title: "Former CEO of GDG on Campus HAU" },
+  { icon: FiAward, label: "6x Champion", title: "National & Global Hackathon Champion" },
+  { icon: FiTrendingUp, label: "Top Scholar", title: "Top DataCamp Scholar" },
+  { icon: FiCode, label: "NVIDIA & Microsoft", title: "Former Intern" },
 ];
 
 function SkillBar({ skill, index }: { skill: { name: string; level: number }; index: number }) {
@@ -105,22 +105,25 @@ export default function AboutSection() {
               <div>
                 <h2 className="text-headline text-white font-black leading-none">Arron Parejas</h2>
                 <p className="text-silver-400 text-sm mt-1">AI Engineer & Community Leader</p>
-                <p className="text-silver-600 text-xs mt-0.5">Pampanga, Philippines 🇵🇭</p>
+                <p className="text-silver-600 text-xs mt-0.5">Pampanga, Philippines</p>
               </div>
             </div>
 
             {/* Badges */}
             <div className="flex flex-wrap gap-2">
-              {BADGES.map((badge) => (
-                <div
-                  key={badge.label}
-                  title={badge.title}
-                  className="glass-crimson px-3 py-1.5 rounded-sm border border-crimson-600/20 text-sm"
-                >
-                  <span className="mr-1.5">{badge.emoji}</span>
-                  <span className="text-silver-200 font-semibold">{badge.label}</span>
-                </div>
-              ))}
+              {BADGES.map((badge) => {
+                const Icon = badge.icon;
+                return (
+                  <div
+                    key={badge.label}
+                    title={badge.title}
+                    className="glass-crimson px-3 py-1.5 rounded-sm border border-crimson-600/20 text-sm flex items-center gap-1.5"
+                  >
+                    <Icon size={14} className="text-crimson-300" />
+                    <span className="text-silver-200 font-semibold">{badge.label}</span>
+                  </div>
+                );
+              })}
             </div>
 
             {/* Bio */}

@@ -91,7 +91,7 @@ export default function AchievementsSection() {
                       className="w-10 h-10 rounded-sm flex items-center justify-center flex-shrink-0"
                       style={{ background: `${achievement.color}15`, border: `1px solid ${achievement.color}40` }}
                     >
-                      <span style={{ color: iconColor }} className="text-lg leading-none">{TYPE_EMOJI[achievement.type]}</span>
+                      <Icon style={{ color: iconColor }} size={18} />
                     </div>
                     <div className="min-w-0">
                       <span
@@ -112,7 +112,7 @@ export default function AchievementsSection() {
                       <p className="text-silver-600 text-xs">{achievement.date}</p>
                     </div>
                     {achievement.type === "Champion" && (
-                      <div className="text-amber-400 text-lg">🏆</div>
+                      <FiAward className="text-amber-400" size={18} />
                     )}
                   </div>
 

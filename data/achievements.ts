@@ -14,7 +14,7 @@ export interface Achievement {
 export const ACHIEVEMENTS: Achievement[] = [
   {
     id: "up-genai",
-    title: "Google UP: Build with AI Hackathon — Champion 🏆",
+    title: "Google UP: Build with AI Hackathon — Champion",
     issuer: "GDG University of the Philippines Manila",
     date: "March 2025",
     type: "Champion",
@@ -27,7 +27,7 @@ export const ACHIEVEMENTS: Achievement[] = [
   },
   {
     id: "skydev",
-    title: "SkyDev 2025 Hackathon — Champion 🏆",
+    title: "SkyDev 2025 Hackathon — Champion",
     issuer: "SkyDev Community",
     date: "October 2025",
     type: "Champion",
@@ -40,7 +40,7 @@ export const ACHIEVEMENTS: Achievement[] = [
   },
   {
     id: "caffeine-ai",
-    title: "Caffeine.ai Hackathon — Champion (Technical Track) 🏆",
+    title: "Caffeine.ai Hackathon — Champion (Technical Track)",
     issuer: "Caffeine AI / ICP Philippines",
     date: "November 2025",
     type: "Champion",
@@ -53,7 +53,7 @@ export const ACHIEVEMENTS: Achievement[] = [
   },
   {
     id: "unity-2025",
-    title: "UNity 2025 Hackathon — Champion 🏆",
+    title: "UNity 2025 Hackathon — Champion",
     issuer: "UNity Tech Global",
     date: "November 2025",
     type: "Champion",
@@ -65,7 +65,7 @@ export const ACHIEVEMENTS: Achievement[] = [
   },
   {
     id: "sparkhub",
-    title: "SparkHub Online Hackathon — Champion 🏆",
+    title: "SparkHub Online Hackathon — Champion",
     issuer: "Devpost / SparkHub",
     date: "November 2025",
     type: "Champion",
@@ -77,7 +77,7 @@ export const ACHIEVEMENTS: Achievement[] = [
   },
   {
     id: "ghackathon",
-    title: "GHackathon 2025 — Champion 🏆",
+    title: "GHackathon 2025 — Champion",
     issuer: "GIT",
     date: "March 2026",
     type: "Champion",
@@ -102,7 +102,7 @@ export const ACHIEVEMENTS: Achievement[] = [
   },
   {
     id: "github-rank",
-    title: "Top GitHub Philippines — Rank #11 🇵🇭",
+    title: "Top GitHub Philippines — Rank #11",
     issuer: "committers.top",
     date: "2025",
     type: "Award",

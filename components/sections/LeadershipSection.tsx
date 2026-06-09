@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { LEADERSHIP_JOURNEY } from "@/data/misc";
 import { EXPERIENCE } from "@/data/experience";
-import { FiChevronRight } from "react-icons/fi";
+import { FiChevronRight, FiZap } from "react-icons/fi";
 
 export default function LeadershipSection() {
   const ref = useRef<HTMLElement>(null);
@@ -145,7 +145,9 @@ export default function LeadershipSection() {
               className="glass-crimson border border-crimson-600/20 rounded-lg p-5"
             >
               <div className="flex items-start gap-3">
-                <div className="text-2xl">🚀</div>
+                <div className="w-10 h-10 border border-crimson-600/30 rounded-sm flex items-center justify-center bg-crimson-600/5 flex-shrink-0">
+                  <FiZap size={16} className="text-crimson-300" />
+                </div>
                 <div>
                   <h4 className="text-white font-black text-sm">Founder — DevHirang</h4>
                   <p className="text-crimson-300 text-xs font-semibold">Community Startup · 2025</p>

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { FiGithub, FiLinkedin, FiInstagram, FiMail, FiDownload, FiArrowRight } from "react-icons/fi";
+import { FiGithub, FiLinkedin, FiInstagram, FiMail, FiDownload, FiArrowRight, FiAward } from "react-icons/fi";
 
 const ROTATING_TITLES = [
   "AI Engineer",
@@ -70,12 +70,12 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-hero-gradient pointer-events-none z-[1]" />
 
       <div className="container-site relative z-10 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-6 items-center min-h-[90vh]">
+        <div className="grid grid-cols-2 gap-4 sm:gap-12 items-center min-h-[90vh]">
           
           {/* LEFT — Content */}
           <motion.div
             style={{ y: textY }}
-            className="flex flex-col gap-6 py-20 lg:py-0 order-2 lg:order-1"
+            className="flex flex-col gap-4 sm:gap-6 py-10 sm:py-0 order-1"
           >
             {/* Badge */}
             <motion.div
@@ -84,8 +84,8 @@ export default function HeroSection() {
               transition={{ delay: 0.2 }}
               className="flex items-center gap-2"
             >
-              <div className="w-8 h-px bg-crimson-400" />
-              <span className="text-crimson-200 text-xs font-bold uppercase tracking-[0.2em]">
+              <div className="w-4 sm:w-8 h-px bg-crimson-400" />
+              <span className="text-crimson-200 text-[9px] sm:text-xs font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] line-clamp-1">
                 AI Engineer · Hackathon Champion · Community Leader
               </span>
             </motion.div>
@@ -115,12 +115,12 @@ export default function HeroSection() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="flex items-center gap-3 h-8"
+              className="flex items-center gap-2 sm:gap-3 h-8"
             >
-              <div className="w-1 h-6 bg-crimson-400 rounded-full" />
-              <span className="text-silver-300 text-lg font-medium tracking-wide">
+              <div className="w-1 h-4 sm:h-6 bg-crimson-400 rounded-full" />
+              <span className="text-silver-300 text-sm sm:text-lg font-medium tracking-wide">
                 {displayText}
-                <span className="inline-block w-0.5 h-5 bg-crimson-200 ml-0.5 animate-[blink_1s_step-end_infinite]" />
+                <span className="inline-block w-0.5 h-4 sm:h-5 bg-crimson-200 ml-0.5 animate-[blink_1s_step-end_infinite]" />
               </span>
             </motion.div>
 
@@ -129,7 +129,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="text-silver-400 text-base leading-relaxed max-w-md"
+              className="text-silver-400 text-xs sm:text-base leading-relaxed max-w-md"
             >
               BS Computer Science student at Holy Angel University · CEO of{" "}
               <span className="text-silver-200 font-medium">GDG on Campus HAU</span> ·
@@ -145,12 +145,12 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
-              className="grid grid-cols-4 gap-4 py-4 border-y border-white/5"
+              className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 py-3 sm:py-4 border-y border-white/5"
             >
               {HERO_STATS.map((stat) => (
                 <div key={stat.label} className="text-center">
-                  <div className="text-white font-black text-xl glow-text-red">{stat.value}</div>
-                  <div className="text-silver-500 text-xs uppercase tracking-wider mt-0.5">{stat.label}</div>
+                  <div className="text-white font-black text-sm sm:text-xl glow-text-red">{stat.value}</div>
+                  <div className="text-silver-500 text-[9px] sm:text-xs uppercase tracking-wider mt-0.5">{stat.label}</div>
                 </div>
               ))}
             </motion.div>
@@ -160,23 +160,23 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="flex flex-wrap gap-3"
+              className="flex flex-wrap gap-2 sm:gap-3"
             >
               <button
                 onClick={scrollToAbout}
-                className="btn-primary group"
+                className="btn-primary group text-xs sm:text-sm py-2 sm:py-3.5 px-4 sm:px-8"
                 aria-label="View my work"
               >
                 <span>View Work</span>
-                <FiArrowRight className="group-hover:translate-x-1 transition-transform" size={14} />
+                <FiArrowRight className="group-hover:translate-x-1 transition-transform" size={12} />
               </button>
               <a
                 href="/projects/ArronKian_Parejas_Resume.pdf"
                 download
-                className="btn-secondary group"
+                className="btn-secondary group text-xs sm:text-sm py-2 sm:py-3.5 px-4 sm:px-8"
                 aria-label="Download CV"
               >
-                <FiDownload size={14} />
+                <FiDownload size={12} />
                 <span>Download CV</span>
               </a>
             </motion.div>
@@ -186,7 +186,7 @@ export default function HeroSection() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1 }}
-              className="flex items-center gap-4"
+              className="flex items-center gap-3 sm:gap-4"
             >
               {[
                 { href: "https://www.linkedin.com/in/arron-parejas-6711b6289/", icon: FiLinkedin, label: "LinkedIn" },
@@ -200,21 +200,21 @@ export default function HeroSection() {
                   target={href.startsWith("mailto") ? undefined : "_blank"}
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-9 h-9 border border-white/10 rounded-sm flex items-center justify-center text-silver-500 hover:text-crimson-200 hover:border-crimson-600/40 hover:bg-crimson-600/5 transition-all duration-200"
+                  className="w-8 h-8 sm:w-9 sm:h-9 border border-white/10 rounded-sm flex items-center justify-center text-silver-500 hover:text-crimson-200 hover:border-crimson-600/40 hover:bg-crimson-600/5 transition-all duration-200"
                 >
-                  <Icon size={16} />
+                  <Icon size={14} />
                 </a>
               ))}
-              <div className="h-px w-8 bg-white/10" />
-              <span className="text-silver-600 text-xs uppercase tracking-widest">Connect</span>
+              <div className="h-px w-4 sm:w-8 bg-white/10" />
+              <span className="text-silver-600 text-[10px] sm:text-xs uppercase tracking-widest">Connect</span>
             </motion.div>
           </motion.div>
 
           {/* RIGHT — Portrait */}
-          <div className="relative flex justify-center lg:justify-end order-1 lg:order-2">
+          <div className="relative flex justify-center lg:justify-end order-2">
             <motion.div
               style={{ y: imageY, scale: imageScale, opacity: imageOpacity }}
-              className="relative"
+              className="relative w-full"
             >
               {/* Portrait glow */}
               <div className="portrait-glow" />
@@ -224,18 +224,18 @@ export default function HeroSection() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2, duration: 1.2, ease: "easeOut" }}
-                className="relative w-[320px] h-[420px] sm:w-[400px] sm:h-[520px] lg:w-[480px] lg:h-[620px]"
+                className="relative w-full max-w-[200px] sm:max-w-[400px] lg:max-w-[480px] aspect-[3/4] mx-auto lg:mr-0"
               >
                 {/* Red rim light effects */}
                 <div
-                  className="absolute -left-4 top-[20%] bottom-[20%] w-1 rounded-full opacity-70"
+                  className="absolute -left-2 sm:-left-4 top-[20%] bottom-[20%] w-1 rounded-full opacity-70"
                   style={{
                     background: "linear-gradient(180deg, transparent, rgba(208,0,0,0.8), transparent)",
                     filter: "blur(4px)",
                   }}
                 />
                 <div
-                  className="absolute -right-3 top-[30%] bottom-[30%] w-0.5 rounded-full opacity-40"
+                  className="absolute -right-2 sm:-right-3 top-[30%] bottom-[30%] w-0.5 rounded-full opacity-40"
                   style={{
                     background: "linear-gradient(180deg, transparent, rgba(208,0,0,0.5), transparent)",
                     filter: "blur(3px)",
@@ -260,7 +260,7 @@ export default function HeroSection() {
                     fill
                     className="object-cover object-center"
                     priority
-                    sizes="(max-width: 640px) 320px, (max-width: 1024px) 400px, 480px"
+                    sizes="(max-width: 640px) 200px, (max-width: 1024px) 400px, 480px"
                   />
                   {/* Cinematic overlay */}
                   <div
@@ -275,22 +275,25 @@ export default function HeroSection() {
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -bottom-4 -left-6 glass-crimson rounded-lg px-4 py-3 border border-crimson-600/30"
+                  className="absolute -bottom-4 -left-2 sm:-left-6 glass-crimson rounded-lg px-2 sm:px-4 py-1.5 sm:py-3 border border-crimson-600/30 flex items-center gap-1 sm:gap-2"
                 >
-                  <div className="text-crimson-200 text-xs font-bold uppercase tracking-wider">
-                    🏆 6x Champion
+                  <FiAward className="text-crimson-200" size={14} />
+                  <div>
+                    <div className="text-crimson-200 text-[8px] sm:text-xs font-bold uppercase tracking-wider">
+                      6x Champion
+                    </div>
+                    <div className="text-silver-400 text-[6px] sm:text-[10px] mt-0.5">National & Global Level</div>
                   </div>
-                  <div className="text-silver-400 text-[10px] mt-0.5">National & Global Level</div>
                 </motion.div>
 
                 {/* Floating badge 2 */}
                 <motion.div
                   animate={{ y: [0, 6, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute -top-3 -right-6 glass-crimson rounded-lg px-4 py-3 border border-crimson-600/20"
+                  className="absolute -top-3 -right-2 sm:-right-6 glass-crimson rounded-lg px-2 sm:px-4 py-1.5 sm:py-3 border border-crimson-600/20"
                 >
-                  <div className="text-white text-xs font-bold">NVIDIA · Microsoft</div>
-                  <div className="text-silver-400 text-[10px] mt-0.5">Former Intern</div>
+                  <div className="text-white text-[8px] sm:text-xs font-bold">NVIDIA · Microsoft</div>
+                  <div className="text-silver-400 text-[6px] sm:text-[10px] mt-0.5">Former Intern</div>
                 </motion.div>
               </motion.div>
             </motion.div>

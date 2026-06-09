@@ -77,11 +77,32 @@ export default function Navbar() {
             onClick={() => scrollTo("#home")}
             className="flex items-center gap-3 group"
           >
-            <div className="relative w-8 h-8">
-              <div className="absolute inset-0 bg-crimson-400 rounded-sm opacity-80 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute inset-0.5 bg-bg-primary rounded-sm flex items-center justify-center">
-                <span className="text-crimson-200 font-black text-sm leading-none">AP</span>
-              </div>
+            <div className="relative w-9 h-9 flex items-center justify-center">
+              {/* Outer animated hexagon wrapper */}
+              <svg
+                className="absolute inset-0 w-full h-full text-crimson-500/30 group-hover:text-crimson-500 transition-colors duration-500 group-hover:rotate-12"
+                viewBox="0 0 100 100"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <polygon
+                  points="50,5 92,28 92,72 50,95 8,72 8,28"
+                  stroke="currentColor"
+                  strokeWidth="6"
+                  strokeLinejoin="round"
+                />
+                <polygon
+                  points="50,15 82,33 82,67 50,85 18,67 18,33"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeDasharray="4 8"
+                  strokeLinejoin="round"
+                  className="opacity-60"
+                />
+              </svg>
+              <span className="text-white font-black text-xs tracking-wider z-10 transition-transform duration-300 group-hover:scale-105">
+                AP
+              </span>
             </div>
             <span className="text-silver-100 font-bold text-sm tracking-wider uppercase hidden sm:block">
               Arron Parejas
@@ -130,9 +151,9 @@ export default function Navbar() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="fixed inset-0 z-40 glass-dark pt-20 lg:hidden"
+          className="fixed inset-0 z-40 glass-dark pt-20 lg:hidden overflow-y-auto"
         >
-          <div className="container-site flex flex-col gap-2 pt-6">
+          <div className="container-site flex flex-col gap-2 pt-6 pb-12">
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.href}

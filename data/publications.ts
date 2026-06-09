@@ -13,7 +13,7 @@ export interface Publication {
 export const PUBLICATIONS: Publication[] = [
   {
     id: "up-genai",
-    title: "UP GenAI Hackathon — National Champion 🏆",
+    title: "UP GenAI Hackathon — National Champion",
     category: "Hackathon Winner",
     date: "March 2025",
     image: "/up.jpg",
@@ -26,7 +26,7 @@ export const PUBLICATIONS: Publication[] = [
   },
   {
     id: "caffeine-ai",
-    title: "Caffeine AI Manila — Champion (Technical Track) 🏆",
+    title: "Caffeine AI Manila — Champion (Technical Track)",
     category: "Hackathon Champion",
     date: "November 10, 2025",
     image: "/caffeine.jpg",
@@ -39,7 +39,7 @@ export const PUBLICATIONS: Publication[] = [
   },
   {
     id: "skydev",
-    title: "SkyDev 2025 — AI for Accessibility Champion 🏆",
+    title: "SkyDev 2025 — AI for Accessibility Champion",
     category: "Hackathon Winner",
     date: "October 2025",
     image: "/skydev.jpg",
@@ -52,7 +52,7 @@ export const PUBLICATIONS: Publication[] = [
   },
   {
     id: "appcon",
-    title: "Appcon 2024 — National Finalist 🇵🇭🔥",
+    title: "Appcon 2024 — National Finalist",
     category: "Hackathon Finalist",
     date: "June 2025",
     image: "/bitpyre.jpg",
@@ -65,7 +65,7 @@ export const PUBLICATIONS: Publication[] = [
   },
   {
     id: "neurocare-research",
-    title: "NeuroCare AI — Reinforcement Learning for Breast Cancer Diagnosis 🧬",
+    title: "NeuroCare AI — Reinforcement Learning for Breast Cancer Diagnosis",
     category: "Research",
     date: "June 2025",
     image: "/cancer.png",
@@ -78,7 +78,7 @@ export const PUBLICATIONS: Publication[] = [
   },
   {
     id: "gdg-ceo",
-    title: "Leading the Future: CEO of GDG on Campus HAU 🚀",
+    title: "Leading the Future: CEO of GDG on Campus HAU",
     category: "Leadership",
     date: "2025–2026",
     image: "/gdg-ceo.jpg",
@@ -91,7 +91,7 @@ export const PUBLICATIONS: Publication[] = [
   },
   {
     id: "devhirang-launch",
-    title: "First Launch: Community Startup 'DevHirang' 🚀🇵🇭",
+    title: "First Launch: Community Startup 'DevHirang'",
     category: "Startup / Community",
     date: "June 2025",
     image: "/devhirang.jpeg",
@@ -104,7 +104,7 @@ export const PUBLICATIONS: Publication[] = [
   },
   {
     id: "devsync",
-    title: "DevSync: GitHub Collaboration Meets API Testing 🚀",
+    title: "DevSync: GitHub Collaboration Meets API Testing",
     category: "Workshop",
     date: "October 27, 2025",
     image: "/devsync.jpg",
@@ -117,7 +117,7 @@ export const PUBLICATIONS: Publication[] = [
   },
   {
     id: "ai-con-website",
-    title: "AI Con HAU Official Website Launch 💥🌐",
+    title: "AI Con HAU Official Website Launch",
     category: "Website Launch",
     date: "2025",
     image: "/website.jpg",
@@ -130,7 +130,7 @@ export const PUBLICATIONS: Publication[] = [
   },
   {
     id: "datacamp-top",
-    title: "Top 1 DataCamp Scholar — GDG on Campus HAU 🥇",
+    title: "Top 1 DataCamp Scholar — GDG on Campus HAU",
     category: "Achievement",
     date: "2025",
     image: "/datacamp.jpg",
@@ -143,7 +143,7 @@ export const PUBLICATIONS: Publication[] = [
   },
   {
     id: "github-rank",
-    title: "Top GitHub Developer in the Philippines — Rank #11 🇵🇭💻",
+    title: "Top GitHub Developer in the Philippines — Rank #11",
     category: "Achievement",
     date: "2025",
     image: "/github-top.png",
@@ -156,7 +156,7 @@ export const PUBLICATIONS: Publication[] = [
   },
   {
     id: "skillcon",
-    title: "SkillCon — Empowering Skills, Connecting Opportunities 🌟",
+    title: "SkillCon — Empowering Skills, Connecting Opportunities",
     category: "Hackathon Project",
     date: "2025",
     image: "/skillcon.jpeg",
@@ -169,7 +169,7 @@ export const PUBLICATIONS: Publication[] = [
   },
   {
     id: "botanicatch",
-    title: "BotaniCatch — Top Participants | GDG Solution Challenge 🌿🏆",
+    title: "BotaniCatch — Top Participants | GDG Solution Challenge",
     category: "GDG Solution Challenge Project",
     date: "2025",
     image: "/botanicatch.jpeg",

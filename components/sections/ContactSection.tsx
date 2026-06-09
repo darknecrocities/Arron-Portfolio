@@ -104,7 +104,7 @@ export default function ContactSection() {
             {[
               { icon: FiMail, label: "Email", value: "parejasarronkian@gmail.com", href: "mailto:parejasarronkian@gmail.com" },
               { icon: FiPhone, label: "Phone", value: "+63 9691379979", href: "tel:+639691379979" },
-              { icon: FiMapPin, label: "Location", value: "Pampanga, Philippines 🇵🇭", href: null },
+              { icon: FiMapPin, label: "Location", value: "Pampanga, Philippines", href: null },
             ].map(({ icon: Icon, label, value, href }) => (
               <div key={label} className="flex items-center gap-4">
                 <div className="w-10 h-10 border border-crimson-600/30 rounded-sm flex items-center justify-center bg-crimson-600/5 flex-shrink-0">
@@ -275,7 +275,7 @@ export default function ContactSection() {
             © {new Date().getFullYear()} Arron Kian Parejas. All rights reserved.
           </p>
           <p className="text-silver-700 text-xs">
-            Built with ❤️ · Next.js · TypeScript · Framer Motion
+            Built with passion · Next.js · TypeScript · Framer Motion
           </p>
         </div>
       </div>

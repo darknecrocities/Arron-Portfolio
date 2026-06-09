@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { FEATURED_PROJECTS, ALL_PROJECTS, Project } from "@/data/projects";
-import { FiGithub, FiExternalLink, FiStar, FiX } from "react-icons/fi";
+import { FiGithub, FiExternalLink, FiStar, FiX, FiTarget } from "react-icons/fi";
 
 const LANG_COLORS: Record<string, string> = {
   Python: "#3776AB",
@@ -51,8 +51,9 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           </div>
 
           {project.impact && (
-            <div className="mt-3 px-3 py-2 bg-crimson-600/10 border border-crimson-600/20 rounded-sm">
-              <span className="text-crimson-200 text-xs font-bold">🎯 Impact: </span>
+            <div className="mt-3 px-3 py-2 bg-crimson-600/10 border border-crimson-600/20 rounded-sm flex items-center gap-1.5">
+              <FiTarget className="text-crimson-200 flex-shrink-0" size={14} />
+              <span className="text-crimson-200 text-xs font-bold">Impact: </span>
               <span className="text-silver-300 text-xs">{project.impact}</span>
             </div>
           )}
@@ -146,7 +147,10 @@ function FeaturedCard({ project, index }: { project: Project; index: number }) {
             )}
             <p className="text-silver-400 text-xs leading-relaxed mt-2 line-clamp-3">{project.description}</p>
             {project.impact && (
-              <p className="text-crimson-200 text-xs font-semibold mt-2">🎯 {project.impact}</p>
+              <p className="text-crimson-200 text-xs font-semibold mt-2 flex items-center gap-1">
+                <FiTarget size={12} />
+                <span>Impact: {project.impact}</span>
+              </p>
             )}
             <div className="flex flex-wrap gap-1 mt-3">
               {project.tags.slice(0, 3).map((tag) => (

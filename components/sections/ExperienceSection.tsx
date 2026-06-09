@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { EXPERIENCE, EDUCATION } from "@/data/experience";
-import { FiBriefcase, FiBook, FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiBriefcase, FiBook, FiChevronDown, FiChevronUp, FiStar } from "react-icons/fi";
 
 function ExperienceCard({ exp, index }: { exp: typeof EXPERIENCE[0]; index: number }) {
   const [expanded, setExpanded] = useState(false);
@@ -169,7 +169,10 @@ export default function ExperienceSection() {
                       <p className="text-crimson-300 text-xs font-semibold mt-0.5">{edu.school}</p>
                       <p className="text-silver-600 text-xs mt-0.5">{edu.period}</p>
                       {edu.note && (
-                        <p className="text-amber-400/80 text-xs mt-2 font-medium">⭐ {edu.note}</p>
+                        <p className="text-amber-400/80 text-xs mt-2 font-medium flex items-center gap-1">
+                          <FiStar size={12} className="flex-shrink-0" />
+                          <span>{edu.note}</span>
+                        </p>
                       )}
                     </div>
                   </motion.div>
