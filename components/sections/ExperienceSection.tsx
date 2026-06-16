@@ -80,6 +80,11 @@ export default function ExperienceSection() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [tab, setTab] = useState<"experience" | "education">("experience");
+  const [showAllExp, setShowAllExp] = useState(false);
+  const [showAllEdu, setShowAllEdu] = useState(false);
+
+  const displayedExperience = showAllExp ? EXPERIENCE : EXPERIENCE.slice(0, 5);
+  const displayedEducation = showAllEdu ? EDUCATION : EDUCATION.slice(0, 3);
 
   return (
     <section id="experience" ref={ref} className="section-base relative z-10">
@@ -140,10 +145,21 @@ export default function ExperienceSection() {
               {/* Timeline line */}
               <div className="timeline-line" style={{ left: "24px" }} />
               <div className="space-y-4">
-                {EXPERIENCE.map((exp, i) => (
+                {displayedExperience.map((exp, i) => (
                   <ExperienceCard key={exp.id} exp={exp} index={i} />
                 ))}
               </div>
+
+              {EXPERIENCE.length > 5 && (
+                <div className="mt-8 flex justify-center">
+                  <button
+                    onClick={() => setShowAllExp(!showAllExp)}
+                    className="btn-secondary w-full sm:w-auto px-12 justify-center"
+                  >
+                    {showAllExp ? "Show Less" : `View All ${EXPERIENCE.length} Experiences`}
+                  </button>
+                </div>
+              )}
             </motion.div>
           ) : (
             <motion.div
@@ -155,7 +171,7 @@ export default function ExperienceSection() {
             >
               <div className="timeline-line" style={{ left: "24px" }} />
               <div className="space-y-4">
-                {EDUCATION.map((edu, i) => (
+                {displayedEducation.map((edu, i) => (
                   <motion.div
                     key={edu.degree + i}
                     initial={{ opacity: 0, x: -30 }}
@@ -178,6 +194,17 @@ export default function ExperienceSection() {
                   </motion.div>
                 ))}
               </div>
+
+              {EDUCATION.length > 3 && (
+                <div className="mt-8 flex justify-center">
+                  <button
+                    onClick={() => setShowAllEdu(!showAllEdu)}
+                    className="btn-secondary w-full sm:w-auto px-12 justify-center"
+                  >
+                    {showAllEdu ? "Show Less" : `View All ${EDUCATION.length} Education Milestones`}
+                  </button>
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

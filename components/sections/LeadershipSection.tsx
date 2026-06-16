@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { LEADERSHIP_JOURNEY } from "@/data/misc";
-import { EXPERIENCE } from "@/data/experience";
 import { FiChevronRight, FiZap } from "react-icons/fi";
 
 export default function LeadershipSection() {
@@ -104,9 +103,9 @@ export default function LeadershipSection() {
               },
               {
                 org: "League of Outstanding Programmers",
-                role: "Member",
-                period: "2023 — Present",
-                desc: "Active member of the League of Outstanding Programmers — participating in competitions, knowledge sharing, and community events.",
+                role: "Tech Consultant",
+                period: "2024 — 2025",
+                desc: "Provide a technical guidance for the organization such as workshop and projects.",
                 link: "#",
                 color: "#FFD700",
               },

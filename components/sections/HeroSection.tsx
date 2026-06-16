@@ -49,8 +49,10 @@ export default function HeroSection() {
       if (displayText.length > 0) {
         timer = setTimeout(() => setDisplayText(current.slice(0, displayText.length - 1)), 40);
       } else {
-        setIsDeleting(false);
-        setTitleIndex((i) => (i + 1) % ROTATING_TITLES.length);
+        timer = setTimeout(() => {
+          setIsDeleting(false);
+          setTitleIndex((i) => (i + 1) % ROTATING_TITLES.length);
+        }, 300);
       }
     }
     return () => clearTimeout(timer);

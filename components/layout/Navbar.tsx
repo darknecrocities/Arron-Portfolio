@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Link from "next/link";
 import { FiMenu, FiX } from "react-icons/fi";
 
 const NAV_ITEMS = [

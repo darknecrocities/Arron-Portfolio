@@ -2,7 +2,7 @@
 
 import { useRef, useState, useMemo } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { FiSearch, FiX, FiFilter } from "react-icons/fi";
+import { FiSearch, FiX } from "react-icons/fi";
 
 // Inline certifications data (migrated from certifications.js)
 const CERTS_DATA = [
@@ -78,6 +78,7 @@ export default function CertificationsSection() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [showAll, setShowAll] = useState(false);
 
   const filtered = useMemo(() => {
     return CERTS_DATA.filter((cert) => {
@@ -95,6 +96,8 @@ export default function CertificationsSection() {
     aiml: CERTS_DATA.filter((c) => c.category === "AI / Machine Learning").length,
     cloud: CERTS_DATA.filter((c) => c.category === "Cloud / DevOps").length,
   }), []);
+
+  const displayedCerts = showAll ? filtered : filtered.slice(0, 9);
 
   return (
     <section id="certifications" ref={ref} className="section-base relative z-10">
@@ -147,13 +150,19 @@ export default function CertificationsSection() {
               type="text"
               placeholder="Search certifications or issuers..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setShowAll(false);
+              }}
               className="w-full bg-white/5 border border-white/8 rounded-sm pl-9 pr-4 py-2.5 text-sm text-silver-200 placeholder-silver-600 focus:outline-none focus:border-crimson-600/40 transition-colors"
               aria-label="Search certifications"
             />
             {search && (
               <button
-                onClick={() => setSearch("")}
+                onClick={() => {
+                  setSearch("");
+                  setShowAll(false);
+                }}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-silver-600 hover:text-silver-300"
                 aria-label="Clear search"
               >
@@ -173,7 +182,10 @@ export default function CertificationsSection() {
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
-              onClick={() => setActiveCategory(cat)}
+              onClick={() => {
+                setActiveCategory(cat);
+                setShowAll(false);
+              }}
               className={`filter-btn ${activeCategory === cat ? "active" : ""}`}
             >
               {cat}
@@ -183,20 +195,20 @@ export default function CertificationsSection() {
 
         {/* Results count */}
         <p className="text-silver-600 text-xs mb-4">
-          Showing {filtered.length} of {CERTS_DATA.length} credentials
+          Showing {Math.min(displayedCerts.length, filtered.length)} of {filtered.length} matching credentials
         </p>
 
         {/* Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <AnimatePresence mode="popLayout">
-            {filtered.map((cert, i) => (
+            {displayedCerts.map((cert, i) => (
               <motion.div
                 key={`${cert.title}-${cert.issuer}-${i}`}
                 layout
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ delay: i * 0.02 }}
+                transition={{ delay: i * 0.01 }}
                 className="cert-card p-4"
               >
                 <div className="flex items-start gap-3">
@@ -224,6 +236,18 @@ export default function CertificationsSection() {
 
         {filtered.length === 0 && (
           <p className="text-center text-silver-600 text-sm py-12">No certifications found. Try a different search or filter.</p>
+        )}
+
+        {/* Toggle button */}
+        {filtered.length > 9 && (
+          <div className="mt-8 flex justify-center">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="btn-secondary w-full sm:w-auto px-12 justify-center"
+            >
+              {showAll ? "Show Less" : `View All ${filtered.length} Matching Credentials`}
+            </button>
+          </div>
         )}
       </div>
       <div className="section-divider mt-20" />

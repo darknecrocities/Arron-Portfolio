@@ -275,7 +275,7 @@ export default function ContactSection() {
             © {new Date().getFullYear()} Arron Kian Parejas. All rights reserved.
           </p>
           <p className="text-silver-700 text-xs">
-            Built with passion · Next.js · TypeScript · Framer Motion
+            Developed by Arron Kian Parejas · Next.js · TypeScript · Framer Motion
           </p>
         </div>
       </div>

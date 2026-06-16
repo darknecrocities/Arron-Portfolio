@@ -14,14 +14,6 @@ const TYPE_ICONS = {
   Contribution: FiGithub,
 };
 
-const TYPE_EMOJI: Record<string, string> = {
-  Champion: "🏆",
-  Finalist: "🥈",
-  Award: "⭐",
-  Honor: "🎖️",
-  Contribution: "💻",
-};
-
 const TYPE_COLORS = {
   Champion: "#FFD700",
   Finalist: "#C0C0C0",
@@ -34,6 +26,9 @@ export default function AchievementsSection() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [selected, setSelected] = useState<typeof ACHIEVEMENTS[0] | null>(null);
+  const [showAll, setShowAll] = useState(false);
+
+  const displayedAchievements = showAll ? ACHIEVEMENTS : ACHIEVEMENTS.slice(0, 6);
 
   return (
     <section id="achievements" ref={ref} className="section-base relative z-10">
@@ -61,77 +56,93 @@ export default function AchievementsSection() {
 
         {/* Trophy wall grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {ACHIEVEMENTS.map((achievement, i) => {
-            const Icon = TYPE_ICONS[achievement.type];
-            const iconColor = TYPE_COLORS[achievement.type];
+          <AnimatePresence mode="popLayout">
+            {displayedAchievements.map((achievement, i) => {
+              const Icon = TYPE_ICONS[achievement.type];
+              const iconColor = TYPE_COLORS[achievement.type];
 
-            return (
-              <motion.div
-                key={achievement.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: i * 0.07 }}
-                className="trophy-card cursor-pointer group relative"
-                onClick={() => setSelected(achievement)}
-                role="button"
-                aria-label={`View ${achievement.title} details`}
-              >
-                {/* Image if available */}
-                {achievement.image && (
-                  <div className="relative h-36 overflow-hidden rounded-t-lg">
-                    <Image src={achievement.image} alt={achievement.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent" />
-                  </div>
-                )}
-
-                <div className="p-5">
-                  {/* Badge */}
-                  <div className="flex items-start gap-3 mb-3">
-                    <div
-                      className="w-10 h-10 rounded-sm flex items-center justify-center flex-shrink-0"
-                      style={{ background: `${achievement.color}15`, border: `1px solid ${achievement.color}40` }}
-                    >
-                      <Icon style={{ color: iconColor }} size={18} />
+              return (
+                <motion.div
+                  key={achievement.id}
+                  layout
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="trophy-card cursor-pointer group relative"
+                  onClick={() => setSelected(achievement)}
+                  role="button"
+                  aria-label={`View ${achievement.title} details`}
+                >
+                  {/* Image if available */}
+                  {achievement.image && (
+                    <div className="relative h-36 overflow-hidden rounded-t-lg">
+                      <Image src={achievement.image} alt={achievement.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent" />
                     </div>
-                    <div className="min-w-0">
-                      <span
-                        className="text-[10px] font-black uppercase tracking-widest"
-                        style={{ color: achievement.color }}
+                  )}
+
+                  <div className="p-5">
+                    {/* Badge */}
+                    <div className="flex items-start gap-3 mb-3">
+                      <div
+                        className="w-10 h-10 rounded-sm flex items-center justify-center flex-shrink-0"
+                        style={{ background: `${achievement.color}15`, border: `1px solid ${achievement.color}40` }}
                       >
-                        {achievement.type}
-                      </span>
-                      <h3 className="text-silver-100 text-sm font-bold leading-tight mt-0.5 line-clamp-2">
-                        {achievement.title}
-                      </h3>
+                        <Icon style={{ color: iconColor }} size={18} />
+                      </div>
+                      <div className="min-w-0">
+                        <span
+                          className="text-[10px] font-black uppercase tracking-widest"
+                          style={{ color: achievement.color }}
+                        >
+                          {achievement.type}
+                        </span>
+                        <h3 className="text-silver-100 text-sm font-bold leading-tight mt-0.5 line-clamp-2">
+                          {achievement.title}
+                        </h3>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between gap-2">
+                      <div>
+                        <p className="text-silver-500 text-xs">{achievement.issuer}</p>
+                        <p className="text-silver-600 text-xs">{achievement.date}</p>
+                      </div>
+                      {achievement.type === "Champion" && (
+                        <FiAward className="text-amber-400" size={18} />
+                      )}
+                    </div>
+
+                    <div className="mt-3 pt-3 border-t border-white/5">
+                      <span className="text-crimson-300 text-xs font-semibold">View Details →</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between gap-2">
-                    <div>
-                      <p className="text-silver-500 text-xs">{achievement.issuer}</p>
-                      <p className="text-silver-600 text-xs">{achievement.date}</p>
-                    </div>
-                    {achievement.type === "Champion" && (
-                      <FiAward className="text-amber-400" size={18} />
-                    )}
-                  </div>
-
-                  <div className="mt-3 pt-3 border-t border-white/5">
-                    <span className="text-crimson-300 text-xs font-semibold">View Details →</span>
-                  </div>
-                </div>
-
-                {/* Glow on hover */}
-                <div
-                  className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-                  style={{
-                    boxShadow: `inset 0 0 30px ${achievement.color}10`,
-                  }}
-                />
-              </motion.div>
-            );
-          })}
+                  {/* Glow on hover */}
+                  <div
+                    className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                    style={{
+                      boxShadow: `inset 0 0 30px ${achievement.color}10`,
+                    }}
+                  />
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
         </div>
+
+        {/* Toggle Button */}
+        {ACHIEVEMENTS.length > 6 && (
+          <div className="mt-8 flex justify-center">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="btn-secondary w-full sm:w-auto px-12 justify-center"
+            >
+              {showAll ? "Show Less" : `View All ${ACHIEVEMENTS.length} Achievements`}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Modal */}
