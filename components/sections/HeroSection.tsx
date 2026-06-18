@@ -6,6 +6,7 @@ import Image from "next/image";
 import { FiGithub, FiLinkedin, FiInstagram, FiMail, FiDownload, FiArrowRight, FiAward } from "react-icons/fi";
 
 const ROTATING_TITLES = [
+  "Monster Dev",
   "AI Engineer",
   "Software Engineer",
   "Machine Learning Engineer",
@@ -17,7 +18,7 @@ const ROTATING_TITLES = [
 ];
 
 const HERO_STATS = [
-  { value: "6+", label: "Championships" },
+  { value: "7+", label: "Championships" },
   { value: "40+", label: "Certifications" },
   { value: "#11", label: "GitHub PH" },
   { value: "1K+", label: "Community" },
@@ -88,8 +89,27 @@ export default function HeroSection() {
             >
               <div className="w-4 sm:w-8 h-px bg-crimson-400" />
               <span className="text-crimson-200 text-[9px] sm:text-xs font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] line-clamp-1">
-                AI Engineer · Hackathon Champion · Community Leader
+                Monster Dev · AI Engineer · Hackathon Champion · Community Leader
               </span>
+            </motion.div>
+
+            {/* Aura Title Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.25, duration: 0.6 }}
+              className="relative self-start mt-2"
+            >
+              {/* Backlight Aura Effect */}
+              <div className="absolute inset-0 bg-crimson-600/35 rounded-full blur-xl animate-[pulse_3.5s_ease-in-out_infinite]" />
+              
+              {/* The Badge Container */}
+              <div className="relative flex items-center gap-2 px-4 py-1.5 border border-crimson-500/40 rounded-full bg-black/60 backdrop-blur-md shadow-[0_0_20px_rgba(208,0,0,0.3)]">
+                <span className="w-2 h-2 rounded-full bg-crimson-400 animate-[ping_1.5s_ease-in-out_infinite]" />
+                <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-crimson-300 via-crimson-100 to-white glow-text-red">
+                  Monster Dev
+                </span>
+              </div>
             </motion.div>
 
             {/* Name */}
@@ -282,7 +302,7 @@ export default function HeroSection() {
                   <FiAward className="text-crimson-200" size={14} />
                   <div>
                     <div className="text-crimson-200 text-[8px] sm:text-xs font-bold uppercase tracking-wider">
-                      6x Champion
+                      7x Champion
                     </div>
                     <div className="text-silver-400 text-[6px] sm:text-[10px] mt-0.5">National & Global Level</div>
                   </div>

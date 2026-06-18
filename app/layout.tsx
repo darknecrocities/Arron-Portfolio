@@ -11,7 +11,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Arron Kian Parejas | AI Engineer · Hackathon Champion · Community Leader",
   description:
-    "Portfolio of Arron Kian Parejas — AI Engineer, Software Engineer, ML Researcher, 6x Hackathon Champion, CEO of GDG on Campus HAU, and Open Source Contributor. Intern at NVIDIA & Microsoft.",
+    "Portfolio of Arron Kian Parejas — AI Engineer, Software Engineer, ML Researcher, 7x Hackathon Champion, CEO of GDG on Campus HAU, and Open Source Contributor. Intern at NVIDIA & Microsoft.",
   keywords: [
     "Arron Parejas",
     "AI Engineer Philippines",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     url: "https://arronparejas.dev",
     title: "Arron Kian Parejas | AI Engineer · Hackathon Champion",
     description:
-      "Elite AI Engineer, Software Engineer, Researcher, and 6x Hackathon Champion from the Philippines.",
+      "Elite AI Engineer, Software Engineer, Researcher, and 7x Hackathon Champion from the Philippines.",
     siteName: "Arron Kian Parejas",
     images: [
       {
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Arron Kian Parejas | AI Engineer · Hackathon Champion",
-    description: "Elite AI Engineer, 6x Hackathon Champion, CEO of GDG on Campus HAU.",
+    description: "Elite AI Engineer, 7x Hackathon Champion, CEO of GDG on Campus HAU.",
     images: ["/new_pfp.png"],
   },
   robots: {

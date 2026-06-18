@@ -20,7 +20,7 @@ const SERVICES = [
   {
     icon: FiAward,
     title: "Hackathon Champion",
-    desc: "25+ hackathons joined, 15+ wins, and 6x National & Global Champion. Rapid prototyping and execution under pressure.",
+    desc: "25+ hackathons joined, 15+ wins, and 7x National & Global Champion. Rapid prototyping and execution under pressure.",
   },
   {
     icon: FiUsers,
@@ -31,7 +31,7 @@ const SERVICES = [
 
 const BADGES = [
   { icon: FiZap, label: "Former GDG CEO", title: "Former CEO of GDG on Campus HAU" },
-  { icon: FiAward, label: "6x Champion", title: "National & Global Hackathon Champion" },
+  { icon: FiAward, label: "7x Champion", title: "National & Global Hackathon Champion" },
   { icon: FiTrendingUp, label: "Top Scholar", title: "Top DataCamp Scholar" },
   { icon: FiCode, label: "NVIDIA & Microsoft", title: "Former Intern" },
 ];
