@@ -6,7 +6,7 @@ import Image from "next/image";
 import { FiGithub, FiLinkedin, FiInstagram, FiMail, FiDownload, FiArrowRight, FiAward } from "react-icons/fi";
 
 const ROTATING_TITLES = [
-  "Final Boss",
+  "AI & Systems Engineer",
   "AI Engineer",
   "Software Engineer",
   "Machine Learning Engineer",
@@ -107,7 +107,7 @@ export default function HeroSection() {
               <div className="relative flex items-center gap-2 px-4 py-1.5 border border-crimson-500/40 rounded-full bg-black/60 backdrop-blur-md shadow-[0_0_20px_rgba(208,0,0,0.3)]">
                 <span className="w-2 h-2 rounded-full bg-crimson-400 animate-[ping_1.5s_ease-in-out_infinite]" />
                 <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-crimson-300 via-crimson-100 to-white glow-text-red">
-                  Final Boss
+                  SYSTEMS ARCHITECT
                 </span>
               </div>
             </motion.div>
@@ -121,11 +121,11 @@ export default function HeroSection() {
               <h1
                 className="text-display font-black text-white relative"
                 style={{
-                  textShadow: "0 0 40px rgba(208,0,0,0.45), 0 0 80px rgba(208,0,0,0.2)",
+                  textShadow: "0 0 45px rgba(208,0,0,0.55), 0 0 90px rgba(208,0,0,0.3)",
                 }}
               >
                 {/* Backdrop Name Aura */}
-                <div className="absolute -left-10 top-0 w-80 h-40 bg-crimson-600/10 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute -left-16 -top-10 w-96 h-56 bg-crimson-600/15 rounded-full blur-3xl pointer-events-none animate-[pulse_5s_ease-in-out_infinite]" />
                 ARRON
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-silver-100 to-silver-300">
@@ -242,6 +242,15 @@ export default function HeroSection() {
             >
               {/* Portrait glow */}
               <div className="portrait-glow" />
+
+              {/* Majestic Final Boss Backlight Aura */}
+              <div
+                className="absolute -inset-6 rounded-lg opacity-50 animate-[pulse_4.5s_ease-in-out_infinite] pointer-events-none"
+                style={{
+                  background: "radial-gradient(circle, rgba(208,0,0,0.45) 0%, transparent 70%)",
+                  filter: "blur(24px)",
+                }}
+              />
 
               {/* Portrait container */}
               <motion.div
