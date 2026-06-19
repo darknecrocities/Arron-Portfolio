@@ -6,7 +6,7 @@ import Image from "next/image";
 import { FiGithub, FiLinkedin, FiInstagram, FiMail, FiDownload, FiArrowRight, FiAward } from "react-icons/fi";
 
 const ROTATING_TITLES = [
-  "Monster Dev",
+  "Final Boss",
   "AI Engineer",
   "Software Engineer",
   "Machine Learning Engineer",
@@ -73,12 +73,12 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-hero-gradient pointer-events-none z-[1]" />
 
       <div className="container-site relative z-10 w-full">
-        <div className="grid grid-cols-2 gap-4 sm:gap-12 items-center min-h-[90vh]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[90vh] py-12 lg:py-0">
           
           {/* LEFT — Content */}
           <motion.div
             style={{ y: textY }}
-            className="flex flex-col gap-4 sm:gap-6 py-10 sm:py-0 order-1"
+            className="flex flex-col gap-4 sm:gap-6 py-4 lg:py-0"
           >
             {/* Badge */}
             <motion.div
@@ -89,7 +89,7 @@ export default function HeroSection() {
             >
               <div className="w-4 sm:w-8 h-px bg-crimson-400" />
               <span className="text-crimson-200 text-[9px] sm:text-xs font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] line-clamp-1">
-                Monster Dev · AI Engineer · Hackathon Champion · Community Leader
+                AI Engineer · Hackathon Champion · Community Leader
               </span>
             </motion.div>
 
@@ -107,7 +107,7 @@ export default function HeroSection() {
               <div className="relative flex items-center gap-2 px-4 py-1.5 border border-crimson-500/40 rounded-full bg-black/60 backdrop-blur-md shadow-[0_0_20px_rgba(208,0,0,0.3)]">
                 <span className="w-2 h-2 rounded-full bg-crimson-400 animate-[ping_1.5s_ease-in-out_infinite]" />
                 <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-crimson-300 via-crimson-100 to-white glow-text-red">
-                  Monster Dev
+                  Final Boss
                 </span>
               </div>
             </motion.div>
@@ -119,11 +119,13 @@ export default function HeroSection() {
               transition={{ delay: 0.3, duration: 0.8 }}
             >
               <h1
-                className="text-display font-black text-white"
+                className="text-display font-black text-white relative"
                 style={{
-                  textShadow: "0 0 60px rgba(208,0,0,0.15)",
+                  textShadow: "0 0 40px rgba(208,0,0,0.45), 0 0 80px rgba(208,0,0,0.2)",
                 }}
               >
+                {/* Backdrop Name Aura */}
+                <div className="absolute -left-10 top-0 w-80 h-40 bg-crimson-600/10 rounded-full blur-3xl pointer-events-none" />
                 ARRON
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-silver-100 to-silver-300">
@@ -233,7 +235,7 @@ export default function HeroSection() {
           </motion.div>
 
           {/* RIGHT — Portrait */}
-          <div className="relative flex justify-center lg:justify-end order-2">
+          <div className="relative flex justify-center lg:justify-end">
             <motion.div
               style={{ y: imageY, scale: imageScale, opacity: imageOpacity }}
               className="relative w-full"
@@ -246,7 +248,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2, duration: 1.2, ease: "easeOut" }}
-                className="relative w-full max-w-[200px] sm:max-w-[400px] lg:max-w-[480px] aspect-[3/4] mx-auto lg:mr-0"
+                className="relative w-full max-w-[280px] sm:max-w-[400px] lg:max-w-[480px] aspect-[3/4] mx-auto lg:mr-0"
               >
                 {/* Red rim light effects */}
                 <div
