@@ -93,25 +93,6 @@ export default function HeroSection() {
               </span>
             </motion.div>
 
-            {/* Aura Title Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.25, duration: 0.6 }}
-              className="relative self-start mt-2"
-            >
-              {/* Backlight Aura Effect */}
-              <div className="absolute inset-0 bg-crimson-600/35 rounded-full blur-xl animate-[pulse_3.5s_ease-in-out_infinite]" />
-              
-              {/* The Badge Container */}
-              <div className="relative flex items-center gap-2 px-4 py-1.5 border border-crimson-500/40 rounded-full bg-black/60 backdrop-blur-md shadow-[0_0_20px_rgba(208,0,0,0.3)]">
-                <span className="w-2 h-2 rounded-full bg-crimson-400 animate-[ping_1.5s_ease-in-out_infinite]" />
-                <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-crimson-300 via-crimson-100 to-white glow-text-red">
-                  SYSTEMS ARCHITECT
-                </span>
-              </div>
-            </motion.div>
-
             {/* Name */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -128,9 +109,7 @@ export default function HeroSection() {
                 <div className="absolute -left-16 -top-10 w-96 h-56 bg-crimson-600/15 rounded-full blur-3xl pointer-events-none animate-[pulse_5s_ease-in-out_infinite]" />
                 ARRON
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-silver-100 to-silver-300">
-                  PAREJAS
-                </span>
+                PAREJAS
               </h1>
             </motion.div>
 
