@@ -73,12 +73,12 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-hero-gradient pointer-events-none z-[1]" />
 
       <div className="container-site relative z-10 w-full">
-        <div className="grid grid-cols-2 gap-4 sm:gap-8 lg:gap-12 items-center min-h-[90vh]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[90vh] py-12 md:py-0">
           
           {/* LEFT — Content */}
           <motion.div
             style={{ y: textY }}
-            className="flex flex-col gap-4 sm:gap-6 py-10 sm:py-0"
+            className="flex flex-col gap-4 sm:gap-6 py-6 md:py-0"
           >
             {/* Badge */}
             <motion.div
@@ -236,7 +236,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2, duration: 1.2, ease: "easeOut" }}
-                className="relative w-full max-w-[180px] sm:max-w-[340px] md:max-w-[400px] lg:max-w-[480px] aspect-[3/4] mx-auto lg:mr-0"
+                className="relative w-full max-w-[280px] sm:max-w-[340px] md:max-w-[400px] lg:max-w-[480px] aspect-[3/4] mx-auto lg:mr-0"
               >
                 {/* Red rim light effects */}
                 <div
