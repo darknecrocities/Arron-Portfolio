@@ -11,6 +11,16 @@ export interface Experience {
 
 export const EXPERIENCE: Experience[] = [
   {
+    id: "gdg-consultant",
+    role: "Consultant",
+    company: "Google Developer Groups on Campus (HAU)",
+    period: "May 2026 — Present",
+    description:
+      "Advising and mentoring the new leadership team, assisting in technical workshop planning, and guiding strategic initiatives for the developer community on campus.",
+    tags: ["Mentorship", "Consulting", "Leadership", "Community Engagement"],
+    highlight: true,
+  },
+  {
     id: "intuition-machines",
     role: "Machine Learning Intern — Computer Vision",
     company: "Intuition Machines",
@@ -54,9 +64,9 @@ export const EXPERIENCE: Experience[] = [
     id: "gdg-ceo",
     role: "CEO / Chapter Lead",
     company: "Google Developer Groups on Campus (HAU)",
-    period: "Apr 2025 — Present",
+    period: "Apr 2025 — May 2026",
     description:
-      "Leading the organization, managing technical initiatives, organizing workshops and events, overseeing project execution, and driving innovation within the developer community.",
+      "Led the organization, managed technical initiatives, organized workshops and events, oversaw project execution, and drove innovation within the developer community.",
     tags: ["Leadership", "Community", "Events", "Strategy"],
     highlight: false,
   },

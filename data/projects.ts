@@ -15,6 +15,21 @@ export interface Project {
 
 export const FEATURED_PROJECTS: Project[] = [
   {
+    id: "domodomo",
+    name: "DomoDomo",
+    description:
+      "An all-in-one local development toolbox and offline AI workspace running entirely in-browser with zero-telemetry. Integrates WebAssembly (WASM), HTML5 Canvas, and WebGPU/WebGL acceleration to execute secure operations—such as local LLM chat, speech-to-text, PDF editing/signing, image background removal, and an offline agent orchestration IDE—ensuring absolute privacy with no server infrastructure requirements.",
+    url: "https://github.com/darknecrocities/DomoDomo---All-in-one-Tool",
+    homepage: "https://domodomo.site/#/",
+    stars: 5,
+    language: "TypeScript",
+    tags: ["Local AI", "WebAssembly (WASM)", "Ollama", "Developer Tools", "Privacy-First"],
+    featured: true,
+    image: "/projects/domodomo.png",
+    role: "Creator & Founder",
+    impact: "100% offline-first execution with zero server-side telemetry",
+  },
+  {
     id: "neurocare",
     name: "NeuroCare AI",
     description:
