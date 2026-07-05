@@ -13,19 +13,6 @@ export interface Achievement {
 
 export const ACHIEVEMENTS: Achievement[] = [
   {
-    id: "google-io-2026",
-    title: "Google I/O Extended Hackathon 2026 — Champion",
-    issuer: "Google Developer Groups Philippines",
-    date: "June 2026",
-    type: "Champion",
-    color: "#EA4335",
-    icon: "trophy",
-    image: "/project-1.jpg",
-    link: "https://github.com/darknecrocities",
-    description:
-      "Claimed the Championship title at the Google I/O Extended Hackathon 2026. Designed and built an advanced AI agent framework facilitating real-time edge-device orchestration and model execution.",
-  },
-  {
     id: "up-genai",
     title: "Google UP: Build with AI Hackathon — Champion",
     issuer: "GDG University of the Philippines Manila",
