@@ -94,10 +94,10 @@ export default function LeadershipSection() {
                 color: "#4285F4",
               },
               {
-                org: "DEVCON Philippines",
-                role: "Partnerships Coordinator",
+                org: "DEVCON Pampanga",
+                role: "Tech Staff",
                 period: "May 2024 — Present",
-                desc: "Coordinating partnerships and strengthening industry connections in the developer ecosystem in Central Luzon.",
+                desc: "Managing technical setup, event operations, and supporting developer community initiatives for DEVCON Pampanga.",
                 link: "#",
                 color: "#FF6B35",
               },

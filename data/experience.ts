@@ -122,12 +122,12 @@ export const EXPERIENCE: Experience[] = [
   },
   {
     id: "devcon",
-    role: "Partnerships Coordinator",
-    company: "DEVCON Philippines",
+    role: "Tech Staff",
+    company: "DEVCON Pampanga",
     period: "May 2024 — Present",
     description:
-      "Coordinating partnerships, managing collaborations, and strengthening industry connections within the developer ecosystem in Central Luzon.",
-    tags: ["Partnerships", "Community", "Developer Relations"],
+      "Managing technical setup, infrastructure, and event operations for developer meetups, workshops, and community events under DEVCON Pampanga.",
+    tags: ["Tech Staff", "Event Operations", "Community", "Technical Support"],
     highlight: false,
   },
   {
