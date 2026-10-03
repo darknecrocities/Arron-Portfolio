@@ -206,7 +206,7 @@ export const STATS = [
   { label: "GitHub PH Ranking", value: 11, prefix: "#", description: "Top Contributor in the Philippines" },
   { label: "Developers Impacted", value: 1000, suffix: "+", description: "Mentored Across Regional Chapters" },
   { label: "Open Source Commits", value: 500, suffix: "+", description: "Contributions to Public Repos" },
-  { label: "Shipped Projects", value: 12, suffix: "+", description: "AI, Mobile, and Web Applications" },
+  { label: "Shipped Apps", value: 70, suffix: "+", description: "AI, Mobile, and Web Applications" },
 ];
 
 export const LEADERSHIP_JOURNEY = [
