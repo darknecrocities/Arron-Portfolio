@@ -469,39 +469,3 @@
   0%, 100% { opacity: 0.15; }
   50% { opacity: 0.35; }
 }
-
-/* ==========================================
-   VERTICAL INFINITE MARQUEE CAROUSEL
-   ========================================== */
-@keyframes marquee-scroll-up {
-  0% { transform: translateY(0%); }
-  100% { transform: translateY(-50%); }
-}
-
-@keyframes marquee-scroll-down {
-  0% { transform: translateY(-50%); }
-  100% { transform: translateY(0%); }
-}
-
-.animate-marquee-up {
-  animation: marquee-scroll-up 30s linear infinite;
-}
-
-.animate-marquee-down {
-  animation: marquee-scroll-down 30s linear infinite;
-}
-
-.animate-marquee-up-slow {
-  animation: marquee-scroll-up 38s linear infinite;
-}
-
-.animate-marquee-down-slow {
-  animation: marquee-scroll-down 38s linear infinite;
-}
-
-.pause-hover:hover .animate-marquee-up,
-.pause-hover:hover .animate-marquee-down,
-.pause-hover:hover .animate-marquee-up-slow,
-.pause-hover:hover .animate-marquee-down-slow {
-  animation-play-state: paused;
-}

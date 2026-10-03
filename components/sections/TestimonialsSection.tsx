@@ -1,11 +1,12 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { TESTIMONIALS_COLUMNS, Testimonial } from "@/data/misc";
 import SectionHeading from "@/components/motion/SectionHeading";
 
 function TestimonialCard({ item }: { item: Testimonial }) {
   return (
-    <div className="bg-[#0c0c0c] border border-white/10 p-5 rounded-sm hover:border-white/30 transition-all hover:bg-[#121212] select-none flex flex-col justify-between mb-4">
+    <div className="bg-[#0c0c0c] border border-white/10 p-5 rounded-sm hover:border-white/30 transition-colors select-none flex flex-col justify-between">
       <div>
         {/* Highlight Tag */}
         <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-2.5">
@@ -18,17 +19,17 @@ function TestimonialCard({ item }: { item: Testimonial }) {
         </p>
       </div>
 
-      {/* Author Details */}
+      {/* Author & Role (No fake company) */}
       <div className="flex items-center gap-3 pt-3 border-t border-white/10">
         <div className="w-8 h-8 rounded-full bg-white text-black font-mono font-bold text-xs flex items-center justify-center flex-shrink-0">
           {item.initials}
         </div>
         <div className="min-w-0">
           <div className="text-white font-semibold text-xs sm:text-sm truncate">
-            {item.name}
+            {item.author}
           </div>
-          <div className="text-zinc-500 text-[11px] truncate">
-            {item.role} · {item.org}
+          <div className="text-zinc-400 text-[11px] truncate font-mono">
+            {item.role}
           </div>
         </div>
       </div>
@@ -36,12 +37,49 @@ function TestimonialCard({ item }: { item: Testimonial }) {
   );
 }
 
+function MarqueeColumn({
+  items,
+  reverse = false,
+  duration = 32,
+  className = "",
+}: {
+  items: Testimonial[];
+  reverse?: boolean;
+  duration?: number;
+  className?: string;
+}) {
+  // Loop array 3 times for seamless non-stop continuous cycling
+  const looped = [...items, ...items, ...items];
+
+  return (
+    <div className={`relative overflow-hidden h-full ${className}`}>
+      <motion.div
+        className="flex flex-col gap-4 py-2"
+        initial={{ y: reverse ? "-33.333%" : "0%" }}
+        animate={{ y: reverse ? "0%" : "-33.333%" }}
+        transition={{
+          y: {
+            duration,
+            ease: "linear",
+            repeat: Infinity,
+            repeatType: "loop",
+          },
+        }}
+      >
+        {looped.map((item, idx) => (
+          <TestimonialCard key={`${item.id}-${idx}`} item={item} />
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
 export default function TestimonialsSection() {
-  const colAnimations = [
-    "animate-marquee-up",
-    "animate-marquee-down",
-    "animate-marquee-up-slow",
-    "animate-marquee-down-slow",
+  const columnConfigs = [
+    { reverse: false, duration: 32, className: "block" },
+    { reverse: true, duration: 36, className: "hidden sm:block" },
+    { reverse: false, duration: 28, className: "hidden lg:block" },
+    { reverse: true, duration: 34, className: "hidden lg:block" },
   ];
 
   return (
@@ -49,13 +87,13 @@ export default function TestimonialsSection() {
       <div className="container-site">
         <SectionHeading
           eyebrow="Endorsements & Testimonies"
-          title="What People Say"
-          description="Perspectives from university professors, hackathon teammates, startup partners, and student developers."
+          title="What Collaborators Say"
+          description="Perspectives from faculty mentors, hackathon teammates, and student developers."
           align="center"
         />
 
         {/* 4-Column Infinite Vertical Marquee Container */}
-        <div className="relative h-[620px] sm:h-[680px] overflow-hidden pause-hover border-y border-white/10">
+        <div className="relative h-[620px] sm:h-[680px] overflow-hidden border-y border-white/10 my-4">
           {/* Top and Bottom Gradient Fade for smooth infinite effect */}
           <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-black via-black/80 to-transparent z-20 pointer-events-none" />
           <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black via-black/80 to-transparent z-20 pointer-events-none" />
@@ -63,29 +101,18 @@ export default function TestimonialsSection() {
           {/* 4 Columns Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 h-full">
             {TESTIMONIALS_COLUMNS.map((column, colIdx) => {
-              const animClass = colAnimations[colIdx % colAnimations.length];
-              // Double array for seamless non-stop loop
-              const loopedItems = [...column, ...column];
-
+              const cfg = columnConfigs[colIdx % columnConfigs.length];
               return (
-                <div
+                <MarqueeColumn
                   key={colIdx}
-                  className="relative overflow-hidden h-full hidden first:block sm:block sm:[&:nth-child(2)]:block lg:[&:nth-child(3)]:block lg:[&:nth-child(4)]:block"
-                >
-                  <div className={`flex flex-col ${animClass}`}>
-                    {loopedItems.map((item, idx) => (
-                      <TestimonialCard key={`${item.id}-${idx}`} item={item} />
-                    ))}
-                  </div>
-                </div>
+                  items={column}
+                  reverse={cfg.reverse}
+                  duration={cfg.duration}
+                  className={cfg.className}
+                />
               );
             })}
           </div>
-        </div>
-
-        {/* Bottom subtle note */}
-        <div className="text-center font-mono text-[11px] text-zinc-500 mt-4">
-          Hover over any card to pause scrolling
         </div>
       </div>
       <div className="section-divider mt-20" />
