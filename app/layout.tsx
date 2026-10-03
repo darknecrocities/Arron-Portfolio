@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,33 +8,42 @@ const inter = Inter({
   display: "swap",
 });
 
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Arron Kian Parejas | AI Engineer · Hackathon Champion · Community Leader",
+  metadataBase: new URL("https://arronparejas.dev"),
+  title: "Arron Kian Parejas | AI Engineer · Systems · Community Leader",
   description:
-    "Portfolio of Arron Kian Parejas — AI Engineer, Software Engineer, ML Researcher, 7x Hackathon Champion, CEO of GDG on Campus HAU, and Open Source Contributor. Intern at NVIDIA & Microsoft.",
+    "Portfolio of Arron Kian Parejas — AI Engineer, ML Researcher, 6x Hackathon Champion, Consultant & former Chapter Lead at GDG on Campus HAU.",
   keywords: [
     "Arron Parejas",
     "AI Engineer Philippines",
-    "Software Engineer",
+    "Computer Vision",
     "Machine Learning",
     "Hackathon Champion",
     "Google Developer Groups",
     "GDG HAU",
-    "NVIDIA Intern",
-    "Microsoft Intern",
-    "Computer Vision",
-    "Full Stack Developer",
-    "Philippines Developer",
+    "Software Engineer",
+    "Holy Angel University",
   ],
   authors: [{ name: "Arron Kian Parejas" }],
   creator: "Arron Kian Parejas",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
   openGraph: {
     type: "website",
     locale: "en_PH",
     url: "https://arronparejas.dev",
     title: "Arron Kian Parejas | AI Engineer · Hackathon Champion",
     description:
-      "Elite AI Engineer, Software Engineer, Researcher, and 7x Hackathon Champion from the Philippines.",
+      "AI Engineer, Researcher, and 6x Hackathon Champion from the Philippines.",
     siteName: "Arron Kian Parejas",
     images: [
       {
@@ -48,7 +57,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Arron Kian Parejas | AI Engineer · Hackathon Champion",
-    description: "Elite AI Engineer, 7x Hackathon Champion, CEO of GDG on Campus HAU.",
+    description: "AI Engineer, 6x Hackathon Champion, Former Chapter Lead at GDG on Campus HAU.",
     images: ["/new_pfp.png"],
   },
   robots: {
@@ -63,8 +72,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="antialiased bg-bg-primary text-silver-100 overflow-x-hidden">
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className="antialiased bg-black text-zinc-100 overflow-x-hidden selection:bg-white selection:text-black">
         {children}
       </body>
     </html>

@@ -1,145 +1,98 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ACHIEVEMENTS } from "@/data/achievements";
-import { FiAward, FiStar, FiGithub, FiExternalLink, FiX } from "react-icons/fi";
-
-const TYPE_ICONS = {
-  Champion: FiAward,
-  Finalist: FiAward,
-  Award: FiStar,
-  Honor: FiStar,
-  Contribution: FiGithub,
-};
-
-const TYPE_COLORS = {
-  Champion: "#FFD700",
-  Finalist: "#C0C0C0",
-  Award: "#FFD700",
-  Honor: "#C5A059",
-  Contribution: "#FFFFFF",
-};
+import { FiExternalLink, FiX } from "react-icons/fi";
+import SectionHeading from "@/components/motion/SectionHeading";
 
 export default function AchievementsSection() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
   const [selected, setSelected] = useState<typeof ACHIEVEMENTS[0] | null>(null);
   const [showAll, setShowAll] = useState(false);
 
   const displayedAchievements = showAll ? ACHIEVEMENTS : ACHIEVEMENTS.slice(0, 6);
 
   return (
-    <section id="achievements" ref={ref} className="section-base relative z-10">
-      {/* Championship wall background */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none" style={{
-        background: "radial-gradient(ellipse at 50% 0%, rgba(120,0,0,0.5) 0%, transparent 60%)",
-      }} />
-
+    <section id="achievements" className="section-base relative z-10">
       <div className="container-site relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="mb-12"
-        >
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-px bg-crimson-400" />
-            <span className="text-crimson-200 text-xs font-bold uppercase tracking-[0.2em]">Achievements</span>
-            <div className="flex-1 h-px bg-white/5" />
-          </div>
-          <h2 className="text-headline text-white font-black">Championship Wall</h2>
-          <p className="text-silver-400 text-sm mt-2 max-w-xl">
-            6+ hackathon championships. National and global recognition. Built from pure execution.
-          </p>
-        </motion.div>
+        <SectionHeading
+          eyebrow="Honors & Awards"
+          title="Championship Wall"
+          description="National championships, hackathon victories, and academic distinction across competitive arenas."
+        />
 
-        {/* Trophy wall grid */}
+        {/* Trophy Wall Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <AnimatePresence mode="popLayout">
-            {displayedAchievements.map((achievement, i) => {
-              const Icon = TYPE_ICONS[achievement.type];
-              const iconColor = TYPE_COLORS[achievement.type];
-
-              return (
-                <motion.div
-                  key={achievement.id}
-                  layout
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ delay: i * 0.05 }}
-                  className="trophy-card cursor-pointer group relative"
-                  onClick={() => setSelected(achievement)}
-                  role="button"
-                  aria-label={`View ${achievement.title} details`}
-                >
+            {displayedAchievements.map((achievement, i) => (
+              <motion.div
+                key={achievement.id}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ delay: i * 0.05 }}
+                className="trophy-card cursor-pointer group flex flex-col justify-between"
+                onClick={() => setSelected(achievement)}
+                role="button"
+                aria-label={`View ${achievement.title} details`}
+              >
+                <div>
                   {/* Image if available */}
                   {achievement.image && (
-                    <div className="relative h-36 overflow-hidden rounded-t-lg">
-                      <Image src={achievement.image} alt={achievement.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent" />
+                    <div className="relative h-36 overflow-hidden border-b border-white/10 grayscale contrast-110 group-hover:contrast-125 transition-all">
+                      <Image
+                        src={achievement.image}
+                        alt={achievement.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
                     </div>
                   )}
 
                   <div className="p-5">
-                    {/* Badge */}
-                    <div className="flex items-start gap-3 mb-3">
-                      <div
-                        className="w-10 h-10 rounded-sm flex items-center justify-center flex-shrink-0"
-                        style={{ background: `${achievement.color}15`, border: `1px solid ${achievement.color}40` }}
-                      >
-                        <Icon style={{ color: iconColor }} size={18} />
-                      </div>
-                      <div className="min-w-0">
-                        <span
-                          className="text-[10px] font-black uppercase tracking-widest"
-                          style={{ color: achievement.color }}
-                        >
-                          {achievement.type}
-                        </span>
-                        <h3 className="text-silver-100 text-sm font-bold leading-tight mt-0.5 line-clamp-2">
-                          {achievement.title}
-                        </h3>
-                      </div>
+                    {/* Header line */}
+                    <div className="flex items-center justify-between gap-2 mb-2 font-mono">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-black bg-white px-1.5 py-0.2">
+                        {achievement.type}
+                      </span>
+                      <span className="text-[10px] text-zinc-500">{achievement.date}</span>
                     </div>
 
-                    <div className="flex items-center justify-between gap-2">
-                      <div>
-                        <p className="text-silver-500 text-xs">{achievement.issuer}</p>
-                        <p className="text-silver-600 text-xs">{achievement.date}</p>
-                      </div>
-                      {achievement.type === "Champion" && (
-                        <FiAward className="text-amber-400" size={18} />
-                      )}
-                    </div>
+                    <h3 className="text-white text-sm sm:text-base font-bold font-sans leading-tight mt-1 line-clamp-2 group-hover:text-zinc-200">
+                      {achievement.title}
+                    </h3>
 
-                    <div className="mt-3 pt-3 border-t border-white/5">
-                      <span className="text-crimson-300 text-xs font-semibold">View Details →</span>
-                    </div>
+                    <p className="text-zinc-500 text-xs mt-2 font-mono">{achievement.issuer}</p>
+
+                    <p className="text-zinc-400 text-xs leading-relaxed mt-2 line-clamp-2">
+                      {achievement.description}
+                    </p>
                   </div>
+                </div>
 
-                  {/* Glow on hover */}
-                  <div
-                    className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-                    style={{
-                      boxShadow: `inset 0 0 30px ${achievement.color}10`,
-                    }}
-                  />
-                </motion.div>
-              );
-            })}
+                <div className="px-5 pb-4 pt-2 border-t border-white/5 flex items-center justify-between font-mono text-[11px]">
+                  <span className="text-zinc-500">Details</span>
+                  <span className="text-white font-semibold group-hover:translate-x-1 transition-transform">
+                    View →
+                  </span>
+                </div>
+              </motion.div>
+            ))}
           </AnimatePresence>
         </div>
 
-        {/* Toggle Button */}
+        {/* Show all toggle */}
         {ACHIEVEMENTS.length > 6 && (
           <div className="mt-8 flex justify-center">
             <button
               onClick={() => setShowAll(!showAll)}
-              className="btn-secondary w-full sm:w-auto px-12 justify-center"
+              className="btn-secondary w-full sm:w-auto px-10 justify-center text-xs"
             >
-              {showAll ? "Show Less" : `View All ${ACHIEVEMENTS.length} Achievements`}
+              {showAll ? "Show Less" : "View All Awards"}
             </button>
           </div>
         )}
@@ -156,46 +109,61 @@ export default function AchievementsSection() {
             onClick={() => setSelected(null)}
           >
             <motion.div
-              initial={{ scale: 0.95, y: 20 }}
+              initial={{ scale: 0.95, y: 15 }}
               animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 20 }}
-              className="modal-box"
+              exit={{ scale: 0.95, y: 15 }}
+              transition={{ duration: 0.2 }}
+              className="modal-box bg-[#0a0a0a] border border-white/20 p-6 relative"
               onClick={(e) => e.stopPropagation()}
             >
               {selected.image && (
-                <div className="relative h-48 overflow-hidden rounded-t-xl">
-                  <Image src={selected.image} alt={selected.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px" className="object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent" />
+                <div className="relative h-44 sm:h-52 overflow-hidden border border-white/10 grayscale contrast-110 mb-4">
+                  <Image
+                    src={selected.image}
+                    alt={selected.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 600px"
+                    className="object-cover"
+                  />
                 </div>
               )}
-              <div className="p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <span className="text-xs font-black uppercase tracking-widest" style={{ color: selected.color }}>
-                      {selected.type}
-                    </span>
-                    <h3 className="text-white font-black text-lg mt-1">{selected.title}</h3>
-                    <p className="text-silver-400 text-sm">{selected.issuer} · {selected.date}</p>
-                  </div>
-                  <button onClick={() => setSelected(null)} className="text-silver-500 hover:text-white p-1 flex-shrink-0" aria-label="Close">
-                    <FiX size={20} />
-                  </button>
+
+              <div className="flex items-start justify-between gap-4 pb-3 border-b border-white/10 font-mono">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-black bg-white px-2 py-0.5">
+                    {selected.type}
+                  </span>
+                  <h3 className="text-white font-bold text-lg font-sans mt-2">{selected.title}</h3>
+                  <p className="text-zinc-400 text-xs mt-1">
+                    {selected.issuer} · {selected.date}
+                  </p>
                 </div>
-                <p className="text-silver-400 text-sm leading-relaxed mt-4">{selected.description}</p>
-                {selected.link && (
-                  <div className="mt-5 pt-4 border-t border-white/5">
-                    <a
-                      href={selected.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-primary text-sm inline-flex items-center gap-2 no-underline"
-                    >
-                      <FiExternalLink size={14} />
-                      <span>View Source</span>
-                    </a>
-                  </div>
-                )}
+                <button
+                  onClick={() => setSelected(null)}
+                  className="text-zinc-500 hover:text-white p-1 border border-white/10 hover:border-white transition-colors"
+                  aria-label="Close"
+                >
+                  <FiX size={18} />
+                </button>
               </div>
+
+              <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed mt-4 font-sans">
+                {selected.description}
+              </p>
+
+              {selected.link && (
+                <div className="mt-6 pt-4 border-t border-white/10">
+                  <a
+                    href={selected.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary text-xs inline-flex items-center gap-2"
+                  >
+                    <FiExternalLink size={13} />
+                    <span>View Article</span>
+                  </a>
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}

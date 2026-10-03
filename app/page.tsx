@@ -13,37 +13,44 @@ import PublicationsSection from "@/components/sections/PublicationsSection";
 import LeadershipSection from "@/components/sections/LeadershipSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import ContactSection from "@/components/sections/ContactSection";
+import MotionProvider from "@/components/motion/MotionProvider";
+import VelocityMarquee from "@/components/motion/VelocityMarquee";
 
-// Dynamically import canvas-heavy components (only on client)
+// Dynamically import pointer/canvas effects (client only)
 const CinematicBackground = dynamic(() => import("@/components/effects/CinematicBackground"), {
   ssr: false,
 });
-const CursorGlow = dynamic(() => import("@/components/effects/CursorGlow"), {
+const FlashlightCursor = dynamic(() => import("@/components/effects/FlashlightCursor"), {
   ssr: false,
 });
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen">
-      {/* Background effects */}
-      <CinematicBackground />
-      <CursorGlow />
+    <MotionProvider>
+      <main className="relative min-h-screen">
+        {/* Background effects */}
+        <CinematicBackground />
 
-      {/* Navigation */}
-      <Navbar />
+        {/* Navigation */}
+        <Navbar />
 
-      {/* Sections */}
-      <HeroSection />
-      <AboutSection />
-      <StatsSection />
-      <ExperienceSection />
-      <ProjectsSection />
-      <AchievementsSection />
-      <CertificationsSection />
-      <PublicationsSection />
-      <LeadershipSection />
-      <TestimonialsSection />
-      <ContactSection />
-    </main>
+        {/* Sections */}
+        <HeroSection />
+        <VelocityMarquee />
+        <AboutSection />
+        <StatsSection />
+        <ExperienceSection />
+        <ProjectsSection />
+        <AchievementsSection />
+        <CertificationsSection />
+        <PublicationsSection />
+        <LeadershipSection />
+        <TestimonialsSection />
+        <ContactSection />
+      </main>
+
+      {/* Spotlight cursor sits above everything, including modals */}
+      <FlashlightCursor />
+    </MotionProvider>
   );
 }

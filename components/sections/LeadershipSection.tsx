@@ -1,170 +1,163 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import { LEADERSHIP_JOURNEY } from "@/data/misc";
-import { FiChevronRight, FiZap } from "react-icons/fi";
+import { FiArrowUpRight, FiLayers } from "react-icons/fi";
+import SectionHeading from "@/components/motion/SectionHeading";
+
+const ORGS = [
+  {
+    org: "Google Developer Groups on Campus HAU",
+    role: "Consultant & Former Chapter Lead",
+    period: "2024 — Present",
+    desc: "Executive leadership of Holy Angel University's premier developer community, directing 1,000+ student engineers across technical domains.",
+    link: "https://gdg.community.dev/chapters/google-developer-groups-on-campus-holy-angel-university-angeles-philippines/",
+  },
+  {
+    org: "DEVCON Pampanga",
+    role: "Technical Operations Staff",
+    period: "2024 — Present",
+    desc: "Managing infrastructure, developer meetups, and open technical operations for tech communities in Pampanga.",
+    link: "https://devcon.ph",
+  },
+  {
+    org: "League of Outstanding Programmers",
+    role: "Technical Consultant",
+    period: "2024 — 2025",
+    desc: "Provided technical guidance, algorithm review, and competitive programming mentorship for university cohorts.",
+    link: "#",
+  },
+];
 
 export default function LeadershipSection() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const progressionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: progressionRef,
+    offset: ["start 80%", "end 60%"],
+  });
 
   return (
-    <section id="leadership" ref={ref} className="section-base relative z-10">
-      {/* Background */}
-      <div className="absolute inset-0 opacity-15 pointer-events-none" style={{
-        background: "radial-gradient(ellipse at 0% 50%, rgba(120,0,0,0.6) 0%, transparent 60%)",
-      }} />
+    <section id="leadership" className="section-base relative z-10">
+      <div className="container-site">
+        <SectionHeading
+          eyebrow="Leadership & Community"
+          title="Leadership Progression"
+          description="From student engineer to GDG Chapter Lead — technical leadership grounded in developer mentorship and community impact."
+        />
 
-      <div className="container-site relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="mb-12"
-        >
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-px bg-crimson-400" />
-            <span className="text-crimson-200 text-xs font-bold uppercase tracking-[0.2em]">Leadership</span>
-            <div className="flex-1 h-px bg-white/5" />
-          </div>
-          <h2 className="text-headline text-white font-black">Leadership Journey</h2>
-          <p className="text-silver-400 text-sm mt-2 max-w-xl">
-            From member to CEO — a progression built on technical excellence, execution, and community impact.
-          </p>
-        </motion.div>
-
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* LEFT — Progression path */}
-          <div className="space-y-0">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* LEFT: Progression Path (6 cols) with self-drawing line */}
+          <div ref={progressionRef} className="lg:col-span-6 relative ml-3 space-y-6">
+            {/* Base line */}
+            <div className="absolute left-0 top-0 bottom-0 w-px bg-white/10" aria-hidden="true" />
+            {/* Animated draw line */}
+            <motion.div
+              style={{ scaleY: scrollYProgress }}
+              className="absolute left-0 top-0 bottom-0 w-px bg-white origin-top"
+              aria-hidden="true"
+            />
             {LEADERSHIP_JOURNEY.map((milestone, i) => (
               <motion.div
                 key={milestone.level}
-                initial={{ opacity: 0, x: -30 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: i * 0.12 }}
-                className="leadership-node pb-6"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ delay: i * 0.08 }}
+                className="relative pl-8 sm:pl-10"
               >
-                {/* Node circle */}
-                <div className={`flex-shrink-0 w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-black z-10 relative ${
-                  i === LEADERSHIP_JOURNEY.length - 1
-                    ? "border-crimson-400 bg-crimson-600/20 text-crimson-200 glow-red-md"
-                    : "border-crimson-700/50 bg-[#111] text-silver-400"
-                }`}>
-                  {milestone.level}
-                </div>
+                {/* Node Box */}
+                <div
+                  className={`absolute left-[-5px] top-1.5 w-2.5 h-2.5 rounded-none z-10 ${
+                    i === LEADERSHIP_JOURNEY.length - 1
+                      ? "bg-white border-2 border-white"
+                      : "bg-black border-2 border-zinc-400"
+                  }`}
+                />
 
-                {/* Content */}
-                <div className="flex-1 min-w-0 pt-1.5">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h3 className={`font-black text-sm ${
-                      i === LEADERSHIP_JOURNEY.length - 1 ? "text-white" : "text-silver-200"
-                    }`}>
-                      {milestone.role}
-                    </h3>
-                    {i === LEADERSHIP_JOURNEY.length - 1 && (
-                      <span className="text-[9px] font-black uppercase tracking-widest text-crimson-200 bg-crimson-600/15 border border-crimson-600/25 px-2 py-0.5 rounded-sm">
-                        Current
-                      </span>
-                    )}
+                <div className="bg-[#0b0b0b] border border-white/10 rounded-sm p-4 hover:border-white/30 transition-colors">
+                  <div className="flex items-center justify-between gap-2 font-mono text-xs">
+                    <span className="text-white font-bold">{milestone.role}</span>
+                    <span className="text-zinc-500">{milestone.period}</span>
                   </div>
-                  <p className="text-crimson-300 text-xs font-semibold">{milestone.org}</p>
-                  <p className="text-silver-600 text-xs">{milestone.period}</p>
-                  <p className="text-silver-400 text-xs leading-relaxed mt-2">{milestone.description}</p>
+
+                  <p className="font-mono text-[11px] text-zinc-400 mt-0.5">{milestone.org}</p>
+
+                  <p className="text-zinc-400 text-xs leading-relaxed mt-2 font-sans">
+                    {milestone.description}
+                  </p>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          {/* RIGHT — Community Impact */}
+          {/* RIGHT: Community Ecosystem & DevHirang (6 cols) */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.4 }}
-            className="space-y-6"
+            initial={{ opacity: 0, x: 25 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ delay: 0.2 }}
+            className="lg:col-span-6 space-y-6"
           >
-            <h3 className="text-subheadline text-white font-bold">Community Organizations</h3>
+            <div className="flex items-center justify-between border-b border-white/10 pb-2">
+              <h3 className="font-mono text-xs uppercase tracking-widest text-zinc-400">
+                Affiliated Organizations
+              </h3>
+            </div>
 
-            {[
-              {
-                org: "Google Developer Groups on Campus HAU",
-                role: "CEO / Chapter Lead",
-                period: "Apr 2025 — Present",
-                desc: "Leading one of the most active developer student communities in the Philippines — 1000+ community members impacted.",
-                link: "https://gdg.community.dev/chapters/google-developer-groups-on-campus-holy-angel-university-angeles-philippines/",
-                color: "#4285F4",
-              },
-              {
-                org: "DEVCON Pampanga",
-                role: "Tech Staff",
-                period: "May 2024 — Present",
-                desc: "Managing technical setup, event operations, and supporting developer community initiatives for DEVCON Pampanga.",
-                link: "#",
-                color: "#FF6B35",
-              },
-              {
-                org: "League of Outstanding Programmers",
-                role: "Tech Consultant",
-                period: "2024 — 2025",
-                desc: "Provide a technical guidance for the organization such as workshop and projects.",
-                link: "#",
-                color: "#FFD700",
-              },
-              {
-                org: "AMA University",
-                role: "Former STEM Student",
-                period: "2021 — 2022",
-                desc: "Completed STEM track at AMA Colleges before transitioning to BS Computer Science at Holy Angel University.",
-                link: "#",
-                color: "#05E3D4",
-              },
-            ].map((org, i) => (
-              <motion.div
-                key={org.org}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.5 + i * 0.1 }}
-                className="cert-card p-5 group relative"
-              >
-                <div className="absolute left-0 top-0 bottom-0 w-0.5 rounded-l-lg transition-all duration-300 group-hover:w-1"
-                  style={{ background: org.color }} />
-                <div className="pl-3">
-                  <h4 className="text-silver-100 font-bold text-sm">{org.org}</h4>
-                  <p className="text-xs font-semibold mt-0.5" style={{ color: org.color }}>{org.role}</p>
-                  <p className="text-silver-600 text-xs">{org.period}</p>
-                  <p className="text-silver-400 text-xs leading-relaxed mt-2">{org.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-
-            {/* DevHirang startup */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.9 }}
-              className="glass-crimson border border-crimson-600/20 rounded-lg p-5"
-            >
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 border border-crimson-600/30 rounded-sm flex items-center justify-center bg-crimson-600/5 flex-shrink-0">
-                  <FiZap size={16} className="text-crimson-300" />
-                </div>
-                <div>
-                  <h4 className="text-white font-black text-sm">Founder — DevHirang</h4>
-                  <p className="text-crimson-300 text-xs font-semibold">Community Startup · 2025</p>
-                  <p className="text-silver-400 text-xs leading-relaxed mt-2">
-                    Founded DevHirang — a community-driven platform to bring together developers, innovators, and students 
-                    across Pampanga and the Philippines. Building the future of tech collaboration.
+            <div className="space-y-3">
+              {ORGS.map((org) => (
+                <div
+                  key={org.org}
+                  className="bg-[#0b0b0b] border border-white/10 p-4 rounded-sm hover:border-white/30 transition-colors"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h4 className="text-white font-bold text-sm font-sans">{org.org}</h4>
+                      <p className="font-mono text-xs text-zinc-400 mt-0.5">{org.role}</p>
+                    </div>
+                    <span className="font-mono text-[10px] text-zinc-500">{org.period}</span>
+                  </div>
+                  <p className="text-zinc-400 text-xs leading-relaxed mt-2 font-sans">
+                    {org.desc}
                   </p>
-                  <a
-                    href="https://dev-hirang.vercel.app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-crimson-200 text-xs font-semibold mt-3 hover:gap-2 transition-all"
-                  >
-                    Visit DevHirang <FiChevronRight size={12} />
-                  </a>
+                  {org.link !== "#" && (
+                    <a
+                      href={org.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono text-[11px] text-white hover:underline mt-2 inline-flex items-center gap-1"
+                    >
+                      <span>Visit Chapter</span>
+                      <FiArrowUpRight size={11} />
+                    </a>
+                  )}
                 </div>
+              ))}
+            </div>
+
+            {/* DevHirang Initiative Spotlight */}
+            <div className="bg-black border border-white/20 p-5 rounded-sm space-y-3">
+              <div className="flex items-center gap-2 font-mono text-xs text-white">
+                <FiLayers size={14} className="text-zinc-400" />
+                <span className="font-bold">Initiative: DevHirang</span>
               </div>
-            </motion.div>
+              <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed font-sans">
+                Founded <strong>DevHirang</strong> as an open community platform to showcase rising developers,
+                gamify technical milestones, and bridge Central Luzon talent with industry hackathons and internships.
+              </p>
+              <div className="pt-1">
+                <a
+                  href="https://dev-hirang.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-secondary text-xs py-2 px-4 inline-flex items-center gap-1.5"
+                >
+                  <span>Visit DevHirang</span>
+                  <FiArrowUpRight size={12} />
+                </a>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>

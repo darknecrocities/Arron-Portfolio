@@ -1,22 +1,30 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { FEATURED_PROJECTS, ALL_PROJECTS, Project } from "@/data/projects";
-import { FiGithub, FiExternalLink, FiStar, FiX, FiTarget } from "react-icons/fi";
+import {
+  FEATURED_PROJECTS,
+  GITHUB_REPOS,
+  REPO_CATEGORIES,
+  type Project,
+  type RepoCategory,
+} from "@/data/projects";
+import { FiGithub, FiExternalLink, FiX, FiArrowUpRight } from "react-icons/fi";
+import SectionHeading, { EASE_OUT } from "@/components/motion/SectionHeading";
+import TiltCard from "@/components/motion/TiltCard";
+import Reveal from "@/components/motion/Reveal";
 
-const LANG_COLORS: Record<string, string> = {
-  Python: "#3776AB",
-  TypeScript: "#3178C6",
-  "Jupyter Notebook": "#DA5B0B",
-  Dart: "#0175C2",
-  JavaScript: "#F7DF1E",
-  "C++": "#00599C",
-  PHP: "#777BB4",
-};
+const INITIAL_REPOS = 9;
 
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -26,249 +34,280 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
       onClick={onClose}
     >
       <motion.div
-        initial={{ scale: 0.95, y: 20 }}
+        role="dialog"
+        aria-modal="true"
+        aria-label={project.name}
+        initial={{ scale: 0.95, y: 15 }}
         animate={{ scale: 1, y: 0 }}
-        exit={{ scale: 0.95, y: 20 }}
-        className="modal-box w-full"
+        exit={{ scale: 0.95, y: 15 }}
+        transition={{ duration: 0.25, ease: EASE_OUT }}
+        className="modal-box w-full bg-[#0a0a0a] border border-white/20 p-6 relative"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
+        <div className="flex items-start justify-between gap-4 pb-4 border-b border-white/10">
+          <div>
+            <h3 className="text-white text-xl font-bold font-sans">{project.name}</h3>
+            {project.role && <p className="text-xs text-zinc-400 mt-1 font-mono">{project.role}</p>}
+          </div>
+          <button
+            onClick={onClose}
+            className="text-zinc-500 hover:text-white p-1 border border-white/10 hover:border-white transition-colors cursor-pointer"
+            aria-label="Close project details"
+          >
+            <FiX size={18} />
+          </button>
+        </div>
+
         {project.image && (
-          <div className="relative h-48 overflow-hidden rounded-t-xl">
-            <Image src={project.image} alt={project.name} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px" className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent" />
+          <div className="relative h-52 sm:h-64 mt-4 overflow-hidden border border-white/10 bg-black">
+            <Image
+              src={project.image}
+              alt={`${project.name} screenshot`}
+              fill
+              sizes="(max-width: 640px) 100vw, 600px"
+              className="object-cover object-top"
+            />
           </div>
         )}
-        <div className="p-6">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h3 className="text-white text-xl font-black">{project.name}</h3>
-              {project.role && <p className="text-crimson-300 text-sm mt-0.5">{project.role}</p>}
-            </div>
-            <button onClick={onClose} className="text-silver-500 hover:text-white p-1" aria-label="Close modal">
-              <FiX size={20} />
-            </button>
-          </div>
 
-          {project.impact && (
-            <div className="mt-3 px-3 py-2 bg-crimson-600/10 border border-crimson-600/20 rounded-sm flex items-center gap-1.5">
-              <FiTarget className="text-crimson-200 flex-shrink-0" size={14} />
-              <span className="text-crimson-200 text-xs font-bold">Impact: </span>
-              <span className="text-silver-300 text-xs">{project.impact}</span>
-            </div>
-          )}
+        {project.impact && (
+          <p className="mt-4 p-3 bg-white/5 border border-white/10 text-xs font-mono text-zinc-300">
+            {project.impact}
+          </p>
+        )}
 
-          <p className="text-silver-400 text-sm leading-relaxed mt-4">{project.description}</p>
+        <p className="text-zinc-300 text-sm leading-relaxed mt-4 font-sans">{project.description}</p>
 
-          <div className="flex flex-wrap gap-1.5 mt-4">
-            {project.tags.map((tag) => (
-              <span key={tag} className="text-[11px] text-silver-400 bg-white/5 border border-white/8 px-2 py-0.5 rounded-sm">
-                {tag}
-              </span>
-            ))}
-          </div>
+        <div className="flex flex-wrap gap-1.5 mt-4">
+          {project.tags.map((tag) => (
+            <span key={tag} className="text-xs text-zinc-300 bg-white/5 border border-white/10 px-2 py-0.5">
+              {tag}
+            </span>
+          ))}
+        </div>
 
-          <div className="flex items-center gap-4 mt-6 pt-4 border-t border-white/5">
+        <div className="flex flex-wrap items-center gap-3 mt-6 pt-4 border-t border-white/10">
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary text-xs flex items-center gap-1.5"
+          >
+            <FiGithub size={13} />
+            <span>View Code</span>
+          </a>
+          {project.homepage && (
             <a
-              href={project.url}
+              href={project.homepage}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-secondary text-sm flex items-center gap-2 no-underline"
+              className="btn-primary text-xs flex items-center gap-1.5"
             >
-              <FiGithub size={14} />
-              View on GitHub
+              <FiExternalLink size={13} />
+              <span>Live Site</span>
             </a>
-            {project.homepage && (
-              <a
-                href={project.homepage}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary text-sm flex items-center gap-2 no-underline"
-              >
-                <FiExternalLink size={14} />
-                <span>Live Demo</span>
-              </a>
-            )}
-          </div>
+          )}
         </div>
       </motion.div>
     </motion.div>
   );
 }
 
-function FeaturedCard({ project, index }: { project: Project; index: number }) {
-  const [modal, setModal] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  const isFirst = index === 0;
-
+function FeaturedCard({ project, index, onOpen }: { project: Project; index: number; onOpen: () => void }) {
   return (
-    <>
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ delay: index * 0.1 }}
-        className={`trophy-card cursor-pointer ${isFirst ? "lg:col-span-2" : ""}`}
-        onClick={() => setModal(true)}
-        role="button"
-        aria-label={`View ${project.name} details`}
-      >
-        <div className={`relative ${isFirst ? "lg:flex" : ""} overflow-hidden`}>
-          {/* Image */}
-          {project.image && (
-            <div className={`relative ${isFirst ? "lg:w-1/2" : ""} h-48 overflow-hidden`}>
-              <Image
-                src={project.image}
-                alt={project.name}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent" />
-              {isFirst && (
-                <div className="absolute top-3 left-3 bg-crimson-600 text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-sm">
-                  Flagship Project
-                </div>
-              )}
-            </div>
-          )}
-          {/* Content */}
-          <div className={`p-5 ${isFirst ? "lg:flex-1" : ""}`}>
-            <div className="flex items-start justify-between gap-2">
-              <h3 className="text-silver-100 font-black text-base">{project.name}</h3>
-              <div className="flex items-center gap-1 text-amber-400 text-xs">
-                <FiStar size={12} />
-                {project.stars}
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.8, ease: EASE_OUT, delay: (index % 3) * 0.1 }}
+    >
+      <TiltCard>
+        <button
+          type="button"
+          onClick={onOpen}
+          className="trophy-card group w-full h-full text-left flex flex-col justify-between cursor-pointer"
+          aria-label={`Open ${project.name} details`}
+        >
+          <div>
+            {project.image && (
+              <div className="relative h-48 sm:h-52 overflow-hidden border-b border-white/10 bg-black">
+                <Image
+                  src={project.image}
+                  alt={`${project.name} screenshot`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px"
+                  className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+                {/* Curtain that wipes away when the card scrolls into view */}
+                <motion.div
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-[#0d0d0d] origin-top"
+                  initial={{ scaleY: 1 }}
+                  whileInView={{ scaleY: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.15 + (index % 3) * 0.1 }}
+                />
               </div>
+            )}
+
+            <div className="p-5">
+              <div className="flex items-baseline justify-between gap-2 mb-1.5">
+                <h3 className="text-white font-bold text-base sm:text-lg font-sans">{project.name}</h3>
+                <span className="font-mono text-[11px] text-zinc-500 shrink-0">{project.language}</span>
+              </div>
+              <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed line-clamp-3">{project.description}</p>
             </div>
-            {project.role && (
-              <p className="text-crimson-300 text-xs font-semibold mt-0.5">{project.role}</p>
-            )}
-            <p className="text-silver-400 text-xs leading-relaxed mt-2 line-clamp-3">{project.description}</p>
-            {project.impact && (
-              <p className="text-crimson-200 text-xs font-semibold mt-2 flex items-center gap-1">
-                <FiTarget size={12} />
-                <span>Impact: {project.impact}</span>
-              </p>
-            )}
-            <div className="flex flex-wrap gap-1 mt-3">
-              {project.tags.slice(0, 3).map((tag) => (
-                <span key={tag} className="text-[10px] text-silver-500 bg-white/5 px-1.5 py-0.5 rounded-sm border border-white/5">
-                  {tag}
+          </div>
+
+          <div className="px-5 pb-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs">
+            <div className="flex flex-wrap gap-1.5 font-mono text-[10px]">
+              {project.tags.slice(0, 2).map((t) => (
+                <span key={t} className="text-zinc-400 bg-white/5 px-2 py-0.5">
+                  {t}
                 </span>
               ))}
             </div>
-            <div className="flex items-center gap-3 mt-4 pt-3 border-t border-white/5">
-              {project.language && (
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full" style={{ background: LANG_COLORS[project.language] || "#777" }} />
-                  <span className="text-silver-500 text-xs">{project.language}</span>
-                </div>
-              )}
-              <span className="text-crimson-300 text-xs font-medium ml-auto">View Details →</span>
-            </div>
+            <span className="font-mono text-white font-semibold transition-transform duration-300 group-hover:translate-x-1">
+              Details →
+            </span>
           </div>
-        </div>
-      </motion.div>
-
-      <AnimatePresence>
-        {modal && <ProjectModal project={project} onClose={() => setModal(false)} />}
-      </AnimatePresence>
-    </>
+        </button>
+      </TiltCard>
+    </motion.div>
   );
 }
 
 export default function ProjectsSection() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const [selected, setSelected] = useState<Project | null>(null);
+  const [category, setCategory] = useState<"All" | RepoCategory>("All");
   const [showAll, setShowAll] = useState(false);
 
-  return (
-    <section id="projects" ref={ref} className="section-base relative z-10">
-      <div className="container-site">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="mb-12"
-        >
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-px bg-crimson-400" />
-            <span className="text-crimson-200 text-xs font-bold uppercase tracking-[0.2em]">Projects</span>
-            <div className="flex-1 h-px bg-white/5" />
-          </div>
-          <h2 className="text-headline text-white font-black">Flagship Showcase</h2>
-          <p className="text-silver-400 text-sm mt-2 max-w-xl">
-            From AI research to full-stack platforms — projects that solve real-world problems.
-          </p>
-        </motion.div>
+  const filtered = useMemo(
+    () => (category === "All" ? GITHUB_REPOS : GITHUB_REPOS.filter((r) => r.category === category)),
+    [category],
+  );
+  const visible = showAll ? filtered : filtered.slice(0, INITIAL_REPOS);
 
-        {/* Featured grid */}
-        <div className="grid lg:grid-cols-2 gap-4 mb-8">
+  return (
+    <section id="projects" className="section-base relative z-10">
+      <div className="container-site">
+        <SectionHeading
+          eyebrow="Featured Projects"
+          title="Selected Work"
+          description="Private, offline-first AI tools, computer vision research and mobile apps. Tap a card for the details."
+        />
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {FEATURED_PROJECTS.map((project, i) => (
-            <FeaturedCard key={project.id} project={project} index={i} />
+            <FeaturedCard key={project.id} project={project} index={i} onOpen={() => setSelected(project)} />
           ))}
         </div>
 
-        {/* All projects toggle */}
-        <div className="mt-8">
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="btn-secondary w-full justify-center"
-          >
-            {showAll ? "Show Less" : `View All ${ALL_PROJECTS.length + FEATURED_PROJECTS.length}+ Projects`}
-          </button>
-        </div>
-
-        <AnimatePresence>
-          {showAll && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden mt-6"
+        {/* More from GitHub */}
+        <Reveal className="mt-20">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+            <div>
+              <h3 className="text-subheadline text-white">More from GitHub</h3>
+              <p className="text-zinc-400 text-sm mt-1 font-sans">
+                {GITHUB_REPOS.length} public repositories, from research models to client systems.
+              </p>
+            </div>
+            <a
+              href="https://github.com/darknecrocities"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-xs text-zinc-300 hover:text-white inline-flex items-center gap-1.5 underline-offset-4 hover:underline"
             >
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {ALL_PROJECTS.map((project, i) => (
-                  <motion.a
-                    key={project.id}
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="cert-card p-4 no-underline block"
-                    aria-label={`View ${project.name} on GitHub`}
-                  >
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <h4 className="text-silver-200 text-sm font-bold">{project.name}</h4>
-                      <div className="flex items-center gap-1 text-amber-400 text-xs flex-shrink-0">
-                        <FiStar size={11} />
-                        {project.stars}
-                      </div>
-                    </div>
-                    <p className="text-silver-500 text-xs leading-relaxed line-clamp-2">{project.description}</p>
-                    <div className="flex flex-wrap gap-1 mt-2">
-                      {project.tags.slice(0, 2).map((tag) => (
-                        <span key={tag} className="text-[10px] text-silver-600 bg-white/4 px-1.5 py-0.5 rounded-sm">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    {project.language && (
-                      <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-white/5">
-                        <div className="w-2 h-2 rounded-full" style={{ background: LANG_COLORS[project.language] || "#777" }} />
-                        <span className="text-silver-600 text-[10px]">{project.language}</span>
-                      </div>
-                    )}
-                  </motion.a>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              <FiGithub size={13} />
+              <span>github.com/darknecrocities</span>
+            </a>
+          </div>
+
+          {/* Filter tabs with a sliding active pill */}
+          <div className="flex flex-wrap gap-1.5 mb-6" role="tablist" aria-label="Filter repositories">
+            {REPO_CATEGORIES.map((cat) => {
+              const active = category === cat;
+              return (
+                <button
+                  key={cat}
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => {
+                    setCategory(cat);
+                    setShowAll(false);
+                  }}
+                  className={`relative px-3.5 py-1.5 font-mono text-xs uppercase tracking-wider border rounded-[2px] transition-colors cursor-pointer ${
+                    active ? "text-black border-white" : "text-zinc-400 border-white/10 hover:text-white hover:border-white/30"
+                  }`}
+                >
+                  {active && (
+                    <motion.span
+                      layoutId="repo-filter-pill"
+                      className="absolute inset-0 bg-white rounded-[1px]"
+                      transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                    />
+                  )}
+                  <span className="relative">{cat}</span>
+                </button>
+              );
+            })}
+          </div>
+        </Reveal>
+
+        <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <AnimatePresence mode="popLayout">
+            {visible.map((repo, i) => (
+              <motion.a
+                layout
+                key={repo.id}
+                href={repo.homepage ?? repo.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.97 }}
+                transition={{ duration: 0.45, ease: EASE_OUT, delay: Math.min(i, 8) * 0.035 }}
+                className="group bg-[#0c0c0c] border border-white/10 p-5 hover:border-white/35 hover:bg-[#111] transition-colors flex flex-col justify-between no-underline"
+                aria-label={`${repo.name}: ${repo.homepage ? "open live site" : "open repository"}`}
+              >
+                <div>
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <h4 className="text-white text-sm font-bold font-sans">{repo.name}</h4>
+                    <FiArrowUpRight
+                      size={15}
+                      className="text-zinc-500 shrink-0 transition-transform duration-300 group-hover:text-white group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    />
+                  </div>
+                  <p className="text-zinc-400 text-xs leading-relaxed line-clamp-3">{repo.description}</p>
+                </div>
+                <div className="flex items-center justify-between gap-2 mt-4 pt-3 border-t border-white/5 font-mono text-[10px] text-zinc-500">
+                  <span>
+                    {repo.language} · {repo.year}
+                  </span>
+                  <span className="uppercase tracking-wider">{repo.homepage ? "Live" : "Code"}</span>
+                </div>
+              </motion.a>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {filtered.length > INITIAL_REPOS && (
+          <div className="mt-8 flex justify-center">
+            <button
+              onClick={() => setShowAll((v) => !v)}
+              className="btn-secondary w-full sm:w-auto px-10 text-xs py-3"
+            >
+              {showAll ? "Show Less" : `Show All ${filtered.length}`}
+            </button>
+          </div>
+        )}
       </div>
+
+      <AnimatePresence>
+        {selected && <ProjectModal project={selected} onClose={() => setSelected(null)} />}
+      </AnimatePresence>
+
       <div className="section-divider mt-20" />
     </section>
   );
