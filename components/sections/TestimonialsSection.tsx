@@ -1,8 +1,39 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { TESTIMONIALS_COLUMNS, Testimonial } from "@/data/misc";
 import SectionHeading from "@/components/motion/SectionHeading";
+
+const FLIP_WORDS = ["Mentors", "Teammates", "Collaborators", "Developers", "Peers"];
+
+function FlippingWord() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % FLIP_WORDS.length);
+    }, 2400);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <span className="inline-flex items-center justify-center relative overflow-hidden align-baseline border-b-2 sm:border-b-4 border-white px-2 sm:px-4 mx-1 sm:mx-2 min-w-[5.5ch] sm:min-w-[6.5ch] h-[1.18em] bg-white/5">
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.span
+          key={FLIP_WORDS[index]}
+          initial={{ y: "100%", opacity: 0, rotateX: -60 }}
+          animate={{ y: "0%", opacity: 1, rotateX: 0 }}
+          exit={{ y: "-100%", opacity: 0, rotateX: 60 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="inline-block text-white font-black"
+        >
+          {FLIP_WORDS[index]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
 
 function TestimonialCard({ item }: { item: Testimonial }) {
   return (
@@ -87,7 +118,13 @@ export default function TestimonialsSection() {
       <div className="container-site">
         <SectionHeading
           eyebrow="Endorsements & Testimonies"
-          title="What Collaborators Say"
+          title={
+            <span className="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+              <span>What</span>
+              <FlippingWord />
+              <span>Say</span>
+            </span>
+          }
           description="Perspectives from faculty mentors, hackathon teammates, and student developers."
           align="center"
         />

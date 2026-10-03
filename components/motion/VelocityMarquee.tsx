@@ -78,8 +78,30 @@ function MarqueeRow({ items, baseVelocity, outlined = false }: RowProps) {
   );
 }
 
-const ROW_A = ["Computer Vision", "Local AI", "Machine Learning", "Flutter", "Next.js", "Python"];
-const ROW_B = ["TypeScript", "PyTorch", "React", "Reinforcement Learning", "Supabase", "UI / UX"];
+const ROW_A = [
+  "Computer Vision",
+  "Local AI",
+  "Machine Learning",
+  "Flutter",
+  "Next.js",
+  "Python",
+  "Firebase",
+  "Cybersecurity",
+  "Docker",
+  "FastAPI",
+];
+const ROW_B = [
+  "TypeScript",
+  "PyTorch",
+  "React",
+  "Reinforcement Learning",
+  "Supabase",
+  "Security & Auth",
+  "Cloud Architecture",
+  "PostgreSQL",
+  "Node.js",
+  "Tailwind CSS",
+];
 
 /**
  * Two skill rows that drift in opposite directions. Scrolling speeds them up,

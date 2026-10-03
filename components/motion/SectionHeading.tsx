@@ -26,7 +26,7 @@ const word: Variants = {
 
 interface SectionHeadingProps {
   eyebrow: string;
-  title: string;
+  title: string | React.ReactNode;
   description?: string;
   align?: "left" | "center";
   className?: string;
@@ -63,18 +63,25 @@ export default function SectionHeading({
         <span>{eyebrow}</span>
       </motion.div>
 
-      <h2 className="text-headline text-white font-black" aria-label={title}>
-        {title.split(" ").map((w, i) => (
-          <span
-            key={`${w}-${i}`}
-            className="inline-block overflow-hidden align-bottom pb-[0.1em] -mb-[0.1em] mr-[0.22em] last:mr-0"
-            aria-hidden="true"
-          >
-            <motion.span variants={word} className="inline-block">
-              {w}
-            </motion.span>
-          </span>
-        ))}
+      <h2
+        className="text-headline text-white font-black"
+        aria-label={typeof title === "string" ? title : undefined}
+      >
+        {typeof title === "string" ? (
+          title.split(" ").map((w, i) => (
+            <span
+              key={`${w}-${i}`}
+              className="inline-block overflow-hidden align-bottom pb-[0.1em] -mb-[0.1em] mr-[0.22em] last:mr-0"
+              aria-hidden="true"
+            >
+              <motion.span variants={word} className="inline-block">
+                {w}
+              </motion.span>
+            </span>
+          ))
+        ) : (
+          title
+        )}
       </h2>
 
       {description && (
