@@ -122,17 +122,6 @@ export const ACHIEVEMENTS: Achievement[] = [
       "Recognized on the prestigious Dean's List at Holy Angel University for achieving outstanding academic performance throughout the 2023-2024 academic year. This honor reflects Arron's dedication to mastering complex subjects like Data Structures, Algorithms, and Software Engineering.",
   },
   {
-    id: "best-project",
-    title: "Best Project Award — HAU Tech Fest",
-    issuer: "HAU College Tech Fest",
-    date: "October 2023",
-    type: "Award",
-    color: "#FFD700",
-    icon: "star",
-    description:
-      "Recipient of the 'Best Project Award' for the development of an innovative AI-powered career counseling platform. The project uses machine learning to match students' skills and interests with real-time job market trends and personalized learning roadmaps.",
-  },
-  {
     id: "datacamp-top",
     title: "Top 1 DataCamp Scholar — GDG HAU",
     issuer: "DataCamp / GDG on Campus HAU",
