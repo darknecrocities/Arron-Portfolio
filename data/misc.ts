@@ -47,7 +47,7 @@ export const TESTIMONIALS_COLUMNS: Testimonial[][] = [
     {
       id: "t1",
       author: "Prof. Ronilyn M. Telan",
-      role: "Faculty & CS Instructor",
+      role: "Faculty & CS Instructor (HAU)",
       quote:
         "Arron exemplifies clear structure and discipline. His diligence drives academic success, while his problem-solving reflects optimized thinking. His positive energy fosters a collaborative classroom where everyone learns together.",
       highlight: "Excellence in OOP & Data Structures",
@@ -55,115 +55,115 @@ export const TESTIMONIALS_COLUMNS: Testimonial[][] = [
     },
     {
       id: "t2",
-      author: "Hackathon Teammate",
-      role: "AI & Vision Prototyping",
+      author: "SkyDev 2025 Teammate",
+      role: "Accessibility Vision Project",
       quote:
         "During 24-hour hackathons, Arron is the person you want handling the AI pipeline. He stays calm under pressure, designs the models cleanly, and makes sure our project actually works on stage.",
       highlight: "Rapid AI Prototyping Under Pressure",
-      initials: "HT",
+      initials: "SD",
     },
     {
       id: "t3",
-      author: "Mobile Collaborator",
-      role: "Flutter & Architecture",
+      author: "Lakbay PH Collaborator",
+      role: "Flutter & Mobile Systems",
       quote:
         "Arron doesn't just write backend and Flutter code—he genuinely cares about how an app feels in the hands of everyday users. He built our mobile apps with incredible speed and polish.",
       highlight: "Clean Mobile & Flutter Architecture",
-      initials: "MC",
+      initials: "LP",
     },
     {
       id: "t4",
-      author: "Student Developer",
-      role: "Mentee & Workshop Attendee",
+      author: "DevSync Workshop Mentee",
+      role: "GDG Technical Bootcamp",
       quote:
         "His workshops on Git, APIs, and AI changed how I approach coding. Arron breaks down complex concepts into simple, practical steps anyone can build with.",
       highlight: "Impactful Technical Mentorship",
-      initials: "SD",
+      initials: "DS",
     },
   ],
   // Column 2
   [
     {
       id: "t5",
-      author: "Thesis Co-Researcher",
+      author: "EasyLense Thesis Partner",
       role: "Assistive Vision & Hardware",
       quote:
         "Building smart camera glasses for the visually impaired required both hardware patience and computer vision accuracy. Arron fine-tuned our object detection model so it runs in real-time without lagging.",
       highlight: "Real-Time Computer Vision for Good",
-      initials: "TC",
+      initials: "EL",
     },
     {
       id: "t6",
-      author: "Student Leadership Peer",
-      role: "Community Operations",
+      author: "GDG Executive Board Peer",
+      role: "Chapter Operations & Events",
       quote:
         "As Chapter Lead, Arron united hundreds of student programmers, organized regional bootcamps, and always led by example. His work ethic is inspiring.",
       highlight: "Inclusive Community Leadership",
-      initials: "SL",
+      initials: "GD",
     },
     {
       id: "t7",
-      author: "Open Source User",
-      role: "Local-First Tools",
+      author: "DomoDomo Community User",
+      role: "Local-First AI Tools",
       quote:
         "DomoDomo is easily one of the slickest browser tools I've used. Having offline PDF tools and local AI running completely on-device without telemetry is a game changer.",
       highlight: "Local-First & Privacy-Focused Tools",
-      initials: "OS",
+      initials: "DD",
     },
     {
       id: "t8",
-      author: "Hackathon Partner",
-      role: "Product Execution",
+      author: "GDG UP Manila Teammate",
+      role: "Build with AI Hackathon",
       quote:
         "Arron can take an abstract problem and turn it into a working software demonstration before the weekend ends. He brings both sharp vision and relentless execution.",
       highlight: "Turning Ideas Into Working Products",
-      initials: "HP",
+      initials: "UP",
     },
   ],
   // Column 3
   [
     {
       id: "t9",
-      author: "Peer Developer",
-      role: "Full-Stack Engineering",
+      author: "EcoCycle Teammate",
+      role: "Caffeine AI Manila Hackathon",
       quote:
-        "Whenever we run into tough algorithmic bugs or deployment issues, Arron is the first person to diagnose the problem accurately. He understands the entire stack from UI to data models.",
-      highlight: "Comprehensive Full-Stack Understanding",
-      initials: "PD",
+        "Competing alongside Arron pushed all of us to raise our standards. His ability to build the waste classification AI under tight deadlines helped us bring home the championship.",
+      highlight: "Competitive Hackathon Execution",
+      initials: "EC",
     },
     {
       id: "t10",
-      author: "Community Collaborator",
-      role: "Tech Events & Meetups",
+      author: "DEVCON Pampanga Volunteer",
+      role: "Regional Tech Meetups",
       quote:
         "Arron is dependable, proactive, and always ready to support developer community initiatives. He brings passion and technical reliability to every tech gathering.",
       highlight: "Reliable Community Operations",
-      initials: "CC",
+      initials: "DC",
     },
     {
       id: "t11",
-      author: "Hackathon Teammate",
-      role: "Competitive AI Hackathons",
+      author: "Bitpyre Teammate",
+      role: "AppCon 2024 National Finalist",
       quote:
-        "Competing alongside Arron pushed all of us to raise our standards. His ability to explain complex AI models clearly to the judging panel helped us bring home the championship.",
-      highlight: "Articulate Technical Communication",
-      initials: "HT",
+        "Developing EmberWatch for Appcon required combining thermal feeds with OpenCV. Arron's dedication to optimizing our vision models was pivotal in reaching the national finals.",
+      highlight: "Thermal Computer Vision Pipeline",
+      initials: "BP",
     },
     {
       id: "t12",
-      author: "Frontend Collaborator",
-      role: "Design Systems & Web",
+      author: "GDSC HAU Tech Lead Peer",
+      role: "Web & Internal Platforms",
       quote:
-        "Working with Arron on web projects is effortless because his APIs and components are consistently clean, self-documented, and ready for production.",
+        "Working with Arron on chapter web projects was effortless because his APIs and components are consistently clean, self-documented, and ready for production.",
       highlight: "Clean & Maintainable Code",
-      initials: "FC",
+      initials: "GH",
     },
   ],
   // Column 4
   [
     {
       id: "t13",
-      author: "AI Collaborator",
+      author: "AI Con HAU Co-Organizer",
       role: "Applied LLMs & Runtimes",
       quote:
         "Arron has an exceptional eye for practical AI applications. He doesn't just follow tutorials; he experiments with local runtimes, agents, and edge devices to solve tangible human challenges.",
@@ -172,30 +172,30 @@ export const TESTIMONIALS_COLUMNS: Testimonial[][] = [
     },
     {
       id: "t14",
-      author: "Community Member",
-      role: "Developer Culture",
+      author: "GDG HAU Member",
+      role: "Student Developer",
       quote:
         "Arron's leadership at GDG created a welcoming space where beginners felt encouraged to code and experienced students pushed their limits. That community spirit is rare.",
       highlight: "Fostering Student Growth & Collaboration",
-      initials: "CM",
+      initials: "GM",
     },
     {
       id: "t15",
-      author: "Hackathon Teammate",
-      role: "Geospatial & Real-Time Data",
+      author: "GuardianNet Teammate",
+      role: "UNity 2025 Hackathon",
       quote:
-        "Arron built our real-time geospatial disaster response dashboard in hours. He connects disparate libraries and APIs effortlessly into a cohesive product.",
+        "Arron built our real-time disaster response system's model pipeline under tight competition hours. He connects disparate libraries and APIs effortlessly into a cohesive product.",
       highlight: "Speed, Focus & Integration",
-      initials: "HT",
+      initials: "GN",
     },
     {
       id: "t16",
-      author: "Open Source Contributor",
+      author: "DomoScope Contributor",
       role: "Developer Tooling",
       quote:
         "His code visualizer tools make navigating huge repositories so much faster. Arron has a gift for building tools that other programmers actually love using.",
       highlight: "High Developer Experience Focus",
-      initials: "OS",
+      initials: "DS",
     },
   ],
 ];

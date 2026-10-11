@@ -59,7 +59,6 @@ export const ACHIEVEMENTS: Achievement[] = [
     type: "Champion",
     color: "#2E7D32",
     icon: "trophy",
-    image: "/project-1.jpg",
     description:
       "Secured the top spot at the UNity 2025 Hackathon, an event focused on leveraging technology for global humanitarian goals. The team developed 'GuardianNet,' an advanced AI-driven disaster management and response system designed to optimize resource allocation during natural calamities. By processing real-time satellite imagery and social media sentiment analysis, the system identifies high-risk zones and predicts evacuation paths.",
   },
@@ -71,7 +70,6 @@ export const ACHIEVEMENTS: Achievement[] = [
     type: "Champion",
     color: "#FF4081",
     icon: "trophy",
-    image: "/project-2.png",
     description:
       "Achieved the Champion place in the SparkHub international online hackathon hosted on Devpost. The project focused on a decentralized waste management platform that utilizes AI-powered image recognition to verify recycling efforts and reward users with blockchain-backed incentives. This cross-border competition required collaboration with global developers and mentors, showcasing Arron's ability to work effectively in a remote, high-stakes environment.",
   },
@@ -83,7 +81,6 @@ export const ACHIEVEMENTS: Achievement[] = [
     type: "Champion",
     color: "#FFD700",
     icon: "trophy",
-    image: "/project-3.jpg",
     description:
       "Participated in and won at the G Hackathon 2025 hosted by GIT, a prestigious competition focused on cultivating the next generation of technology innovators. Demonstrated strong problem-solving abilities by designing and prototyping a technology-driven solution under strict time constraints.",
   },

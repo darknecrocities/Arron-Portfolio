@@ -11,6 +11,16 @@ export interface Experience {
 
 export const EXPERIENCE: Experience[] = [
   {
+    id: "flyrank-ai",
+    role: "Machine Learning Engineer",
+    company: "Flyrank.ai",
+    period: "2025 — Present",
+    description:
+      "Architecting machine learning pipelines, fine-tuning language models, and developing intelligent automation systems.",
+    tags: ["Machine Learning", "Python", "LLMs", "AI Systems"],
+    highlight: true,
+  },
+  {
     id: "gdg-consultant",
     role: "Consultant & Former Chapter Lead",
     company: "Google Developer Groups on Campus (HAU)",

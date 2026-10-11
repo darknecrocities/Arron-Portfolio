@@ -53,8 +53,8 @@ export default function AboutSection() {
             {/* Story */}
             <div className="space-y-4 text-zinc-300 text-sm sm:text-base leading-relaxed font-sans border-l-2 border-white/20 pl-4">
               <p>
-                I am a Computer Science student at <strong className="text-white">Holy Angel University</strong> (Dean&apos;s List Awardee) 
-                who enjoys turning creative ideas into useful, everyday software.
+                I am an ML Engineer at <strong className="text-white">Flyrank.ai</strong> and Computer Science student at{" "}
+                <strong className="text-white">Holy Angel University</strong> who enjoys turning creative ideas into useful, everyday software.
               </p>
               <p>
                 Whether I&apos;m developing offline-first local AI tools, building smart camera glasses for my undergraduate thesis, 
