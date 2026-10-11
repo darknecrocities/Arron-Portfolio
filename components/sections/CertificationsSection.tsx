@@ -7,6 +7,7 @@ import SectionHeading from "@/components/motion/SectionHeading";
 
 const CERTS_DATA = [
   // HACKATHONS & HONORS
+  { title: "Shipathon 'Ship-a-Little' Trophy — Winner", issuer: "App Builders PH × Huawei Cloud", date: "September 2026", category: "Championships", description: "Awarded on stage at Huawei Showroom BGC during Show & Tell Meetup 2 for shipping impactful applications (DomoDomo)." },
   { title: "Google UP: Build with AI — Champion", issuer: "GDG UP Manila", date: "March 2025", category: "Championships", description: "First Place in 'Build with AI' hackathon. Architected legal NLP document analysis framework using LLMs." },
   { title: "SkyDev 2025 Hackathon — Champion", issuer: "SkyDev Community", date: "October 2025", category: "Championships", description: "First Place with mobile computer vision assistant for visually impaired users. Low-latency edge vision pipeline." },
   { title: "Caffeine.ai Hackathon — Champion (Technical Track)", issuer: "Caffeine AI / ICP Philippines", date: "November 2025", category: "Championships", description: "Champion in inaugural Caffeine AI Manila hackathon. EcoCycle AI waste classification + blockchain rewards." },

@@ -13,6 +13,19 @@ export interface Achievement {
 
 export const ACHIEVEMENTS: Achievement[] = [
   {
+    id: "shipathon-appbuilders",
+    title: "Shipathon 'Ship-a-Little' Trophy — App Builders PH × Huawei Cloud",
+    issuer: "App Builders PH × Huawei Cloud Philippines",
+    date: "September 2026",
+    type: "Award",
+    color: "#FFB300",
+    icon: "trophy",
+    image: "/shipathon-trophy.png",
+    link: "https://www.facebook.com/groups/980298767865372/",
+    description:
+      "Awarded the prestigious 'Ship-a-Little' Trophy at the 2nd Show & Tell Meetup hosted by App Builders PH and Huawei Cloud Developer Group Philippines at the Huawei Showroom, BGC. Recognized on stage among standout Filipino builders for shipping practical, impactful software (including DomoDomo) and inspiring the local builder community to create and ship software to the world.",
+  },
+  {
     id: "up-genai",
     title: "Google UP: Build with AI Hackathon — Champion",
     issuer: "GDG University of the Philippines Manila",

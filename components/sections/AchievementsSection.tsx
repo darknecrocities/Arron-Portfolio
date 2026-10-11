@@ -38,7 +38,7 @@ export default function AchievementsSection() {
       <div>
         {/* Image if available */}
         {achievement.image && (
-          <div className="relative h-36 overflow-hidden border-b border-white/10 grayscale contrast-110 group-hover:contrast-125 transition-all">
+          <div className="relative h-40 overflow-hidden border-b border-white/10 grayscale contrast-110 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-500">
             <Image
               src={achievement.image}
               alt={achievement.title}
@@ -178,12 +178,12 @@ export default function AchievementsSection() {
               onClick={(e) => e.stopPropagation()}
             >
               {selected.image && (
-                <div className="relative h-44 sm:h-52 overflow-hidden border border-white/10 grayscale contrast-110 mb-4">
+                <div className="relative w-full aspect-video sm:h-72 overflow-hidden border border-white/10 mb-4 bg-black">
                   <Image
                     src={selected.image}
                     alt={selected.title}
                     fill
-                    sizes="(max-width: 640px) 100vw, 600px"
+                    sizes="(max-width: 640px) 100vw, 750px"
                     className="object-cover"
                   />
                 </div>
