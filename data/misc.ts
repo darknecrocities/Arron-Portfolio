@@ -26,7 +26,7 @@ export const SKILL_GROUPS: SkillGroup[] = [
     category: "Leadership & Community",
     items: [
       { name: "Executive Community Leadership", level: 92, tags: ["GDG Chapter Lead", "1,000+ Members"] },
-      { name: "Hackathon Strategy & Sprints", level: 94, tags: ["6x Champion", "Rapid MVP Delivery"] },
+      { name: "Hackathon Strategy & Sprints", level: 94, tags: ["17x Champion", "Rapid MVP Delivery"] },
       { name: "Technical Mentorship", level: 90, tags: ["Workshops", "Student Bootcamps"] },
     ],
   },
@@ -201,7 +201,7 @@ export const TESTIMONIALS_COLUMNS: Testimonial[][] = [
 ];
 
 export const STATS = [
-  { label: "Hackathon Titles", value: 6, suffix: "+", description: "National & Global Championships" },
+  { label: "Hackathon Titles", value: 17, suffix: "+", description: "National & Global Championships" },
   { label: "Credentials Earned", value: 40, suffix: "+", description: "Verified Professional Certifications" },
   { label: "GitHub PH Ranking", value: 11, prefix: "#", description: "Top Contributor in the Philippines" },
   { label: "Developers Impacted", value: 1000, suffix: "+", description: "Mentored Across Regional Chapters" },

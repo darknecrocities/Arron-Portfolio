@@ -8,7 +8,7 @@ import Magnetic from "@/components/motion/Magnetic";
 import { EASE_OUT } from "@/components/motion/SectionHeading";
 
 const METRICS = [
-  { value: "6+", label: "Hackathon Wins" },
+  { value: "17x", label: "Hackathon Wins" },
   { value: "40+", label: "Certifications" },
   { value: "#11", label: "GitHub PH" },
   { value: "1,000+", label: "Community Members" },

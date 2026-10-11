@@ -20,7 +20,7 @@ const PILLARS = [
   {
     icon: FiAward,
     title: "Hackathon Winning Speed",
-    desc: "6+ national and global championships. Skilled at rapidly transforming ideas into working, judge-ready prototypes.",
+    desc: "17+ national and global championships. Skilled at rapidly transforming ideas into working, judge-ready prototypes.",
   },
   {
     icon: FiUsers,
@@ -94,7 +94,7 @@ export default function AboutSection() {
               </div>
               <div className="flex items-center gap-2">
                 <FiAward size={14} className="text-white" />
-                <span>6x Hackathon Champion</span>
+                <span>17x Hackathon Champion</span>
               </div>
             </div>
           </motion.div>

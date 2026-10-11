@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://arronparejas.dev"),
   title: "Arron Kian Parejas | AI Engineer · Systems · Community Leader",
   description:
-    "Portfolio of Arron Kian Parejas — AI Engineer, ML Researcher, 6x Hackathon Champion, Consultant & former Chapter Lead at GDG on Campus HAU.",
+    "Portfolio of Arron Kian Parejas — AI Engineer, ML Researcher, 17x Hackathon Champion, Consultant & former Chapter Lead at GDG on Campus HAU.",
   keywords: [
     "Arron Parejas",
     "AI Engineer Philippines",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     url: "https://arronparejas.dev",
     title: "Arron Kian Parejas | AI Engineer · Hackathon Champion",
     description:
-      "AI Engineer, Researcher, and 6x Hackathon Champion from the Philippines.",
+      "AI Engineer, Researcher, and 17x Hackathon Champion from the Philippines.",
     siteName: "Arron Kian Parejas",
     images: [
       {
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Arron Kian Parejas | AI Engineer · Hackathon Champion",
-    description: "AI Engineer, 6x Hackathon Champion, Former Chapter Lead at GDG on Campus HAU.",
+    description: "AI Engineer, 17x Hackathon Champion, Former Chapter Lead at GDG on Campus HAU.",
     images: ["/new_pfp.png"],
   },
   robots: {
