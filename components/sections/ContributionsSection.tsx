@@ -187,7 +187,7 @@ export default function ContributionsSection() {
             filter: graphFilter,
             pointerEvents: graphPointerEvents,
           }}
-          className="absolute inset-0 flex flex-col items-center justify-center pt-14 sm:pt-16 pb-3 sm:pb-5 px-2 sm:px-6 z-20 will-change-[transform,opacity,filter] transform-gpu"
+          className="absolute top-16 bottom-0 left-0 right-0 flex flex-col items-center justify-center px-2 sm:px-6 pb-2 z-20 will-change-[transform,opacity,filter] transform-gpu"
         >
           {/* Animated Background Typography: SHIPPED (Letter-Spacing Expansion + Parallax) */}
           <motion.div
@@ -303,7 +303,7 @@ export default function ContributionsSection() {
             pointerEvents: domoPointerEvents,
             zIndex: domoZIndex,
           }}
-          className="absolute inset-0 flex flex-col items-center justify-center pt-14 sm:pt-16 pb-3 sm:pb-5 px-2 sm:px-6 will-change-[transform,opacity] transform-gpu"
+          className="absolute top-16 bottom-0 left-0 right-0 flex flex-col items-center justify-center px-2 sm:px-6 pb-2 will-change-[transform,opacity] transform-gpu"
         >
           {/* Animated Background Typography: ECOSYSTEM (Letter-Spacing Expansion + Parallax) */}
           <motion.div
