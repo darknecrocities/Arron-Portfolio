@@ -131,14 +131,14 @@ export default function DomoEcosystemGrid({ className = "" }: DomoEcosystemGridP
       </div>
 
       {/* HEADER: Clean & prominent (Matches Image 3) */}
-      <div className="text-center mb-2.5 sm:mb-4 px-3">
+      <div className="text-center mb-2 sm:mb-4 px-2 sm:px-3">
         {/* Title */}
-        <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white font-sans leading-tight">
+        <h3 className="text-xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white font-sans leading-tight">
           Connected Platforms &amp; Autonomous Tools
         </h3>
 
         {/* Subtitle */}
-        <p className="text-zinc-400 text-xs sm:text-sm max-w-2xl mx-auto mt-1.5 font-sans leading-relaxed">
+        <p className="text-zinc-400 text-[11px] sm:text-sm max-w-2xl mx-auto mt-1 sm:mt-1.5 font-sans leading-relaxed">
           Integrated, privacy-first companion applications engineered for modern developers, security
           analysts, and AI agents. Click any application below to view technical architecture.
         </p>
@@ -160,7 +160,7 @@ export default function DomoEcosystemGrid({ className = "" }: DomoEcosystemGridP
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
               whileHover={{ y: -4, scale: 1.015 }}
-              className={`group relative flex flex-col justify-between rounded-2xl border bg-[#141417]/95 backdrop-blur-2xl p-4 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.9)] transition-all duration-300 text-left min-w-[270px] max-w-[300px] sm:min-w-0 sm:max-w-none flex-shrink-0 sm:flex-shrink snap-center ${
+              className={`group relative flex flex-col justify-between rounded-2xl border bg-[#141417]/95 backdrop-blur-2xl p-4 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.9)] transition-all duration-300 text-left min-w-[260px] max-w-[290px] sm:min-w-0 sm:max-w-none flex-shrink-0 sm:flex-shrink snap-center ${
                 isHighlighted
                   ? "border-white shadow-[0_0_30px_rgba(255,255,255,0.25)] ring-1 ring-white/50"
                   : "border-white/15 hover:border-white/30 hover:shadow-[0_16px_45px_rgba(0,0,0,0.95)]"

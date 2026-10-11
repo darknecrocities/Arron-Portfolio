@@ -329,15 +329,15 @@ export default function GithubContributionGraph({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3 px-1"
+          className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 mb-2.5 sm:mb-3 px-1"
         >
-          <div className="flex items-center gap-3">
-            <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white font-sans">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <h3 className="text-lg sm:text-2xl font-bold tracking-tight text-white font-sans">
               {totalCount.toLocaleString()} contributions in the last year
             </h3>
             {/* Monochrome live sync badge */}
             <span
-              className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono border border-white/20 bg-white/5 text-zinc-300"
+              className="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-mono border border-white/20 bg-white/5 text-zinc-300"
               title="Daily dynamic synchronization via GitHub API"
             >
               <span className="relative flex h-2 w-2">
@@ -423,7 +423,7 @@ export default function GithubContributionGraph({
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-          className="relative rounded-xl border border-zinc-800 bg-[#0c0c0e] p-4 sm:p-6 shadow-2xl overflow-hidden"
+          className="relative rounded-xl border border-zinc-800 bg-[#0c0c0e] p-3.5 sm:p-6 shadow-2xl overflow-hidden"
         >
           {/* Subtle silver top sheen */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
@@ -481,7 +481,7 @@ export default function GithubContributionGraph({
               </div>
 
               {/* CARD FOOTER: Monochrome "Learn how we count contributions" + Legend */}
-              <div className="flex items-center justify-between text-[11px] text-zinc-400 mt-4 pt-3 border-t border-zinc-800/80">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] sm:text-[11px] text-zinc-400 mt-3.5 sm:mt-4 pt-3 border-t border-zinc-800/80">
                 <a
                   href="https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile/why-are-my-contributions-not-showing-up-on-my-profile"
                   target="_blank"
@@ -497,7 +497,7 @@ export default function GithubContributionGraph({
                   {LEVEL_COLORS.map((col, idx) => (
                     <span
                       key={`legend-${idx}`}
-                      className="w-[11px] h-[11px] rounded-[2px] inline-block border border-white/10"
+                      className="w-[10px] h-[10px] sm:w-[11px] sm:h-[11px] rounded-[2px] inline-block border border-white/10"
                       style={{ backgroundColor: col }}
                       title={`Level ${idx}`}
                     />
@@ -507,6 +507,10 @@ export default function GithubContributionGraph({
               </div>
             </div>
           </div>
+          {/* Mobile swipe hint */}
+          <p className="text-[10px] font-mono text-zinc-500 text-right mt-1 sm:hidden select-none">
+            ← Scroll horizontally to view full year →
+          </p>
         </motion.div>
 
         {/* FLOATING TOOLTIP ON HOVER (Monochrome) */}

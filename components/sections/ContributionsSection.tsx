@@ -166,7 +166,7 @@ export default function ContributionsSection() {
       {/* ===================================================================
           STICKY PINNED VIEWPORT (STAYS LOCKED ON SCREEN WHILE SCROLLING)
           =================================================================== */}
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden px-3 sm:px-6">
+      <div className="sticky top-0 h-screen h-[100dvh] min-h-[580px] w-full flex flex-col items-center justify-center overflow-hidden px-2 sm:px-6">
         {/* Soft edge blend gradients for seamless entry & exit */}
         <div className="pointer-events-none absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-black via-black/80 to-transparent z-40" />
         <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-black via-black/80 to-transparent z-40" />
@@ -187,7 +187,7 @@ export default function ContributionsSection() {
             filter: graphFilter,
             pointerEvents: graphPointerEvents,
           }}
-          className="absolute inset-0 flex flex-col items-center justify-center pt-16 sm:pt-20 pb-6 px-4 sm:px-6 z-20 will-change-[transform,opacity,filter] transform-gpu"
+          className="absolute inset-0 flex flex-col items-center justify-center pt-10 sm:pt-20 pb-4 sm:pb-6 px-2 sm:px-6 z-20 will-change-[transform,opacity,filter] transform-gpu"
         >
           {/* Animated Background Typography: SHIPPED (Letter-Spacing Expansion + Parallax) */}
           <motion.div
@@ -208,14 +208,14 @@ export default function ContributionsSection() {
           </motion.div>
 
           {/* Section Heading */}
-          <div className="text-center mb-4 sm:mb-6 select-none max-w-2xl mx-auto z-20">
-            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full border border-white/10 bg-white/5 text-zinc-300 text-xs font-mono uppercase tracking-wider mb-2">
+          <div className="text-center mb-2.5 sm:mb-6 select-none max-w-2xl mx-auto z-20 px-2">
+            <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 rounded-full border border-white/10 bg-white/5 text-zinc-300 text-[11px] sm:text-xs font-mono uppercase tracking-wider mb-1 sm:mb-2">
               <span>11,109 Shipped Commits</span>
             </div>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white font-sans leading-tight">
+            <h2 className="text-xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white font-sans leading-tight">
               GitHub Activity &amp; Daily Commits
             </h2>
-            <p className="text-zinc-400 text-xs sm:text-sm max-w-xl mx-auto mt-1.5 font-sans leading-relaxed">
+            <p className="text-zinc-400 text-[11px] sm:text-sm max-w-xl mx-auto mt-1 sm:mt-1.5 font-sans leading-relaxed">
               Ranked #11 Top Contributor in the Philippines with 11,109 verified commits across 70+ shipped applications.
             </p>
           </div>
@@ -243,14 +243,14 @@ export default function ContributionsSection() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 w-[42vw] sm:w-[36vw] md:w-[32vw] max-w-[500px] h-[32vh] max-h-[350px] z-30 select-none will-change-[transform,opacity] transform-gpu"
+          className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 w-[22vw] sm:w-[36vw] md:w-[32vw] max-w-[500px] h-[18vh] sm:h-[32vh] max-h-[160px] sm:max-h-[350px] z-30 select-none will-change-[transform,opacity] transform-gpu"
         >
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full opacity-35 sm:opacity-100">
             <Image
               src="/creation_of_adam_left.png"
               alt="Adam Hand (Left Edge)"
               fill
-              sizes="(max-width: 768px) 42vw, 500px"
+              sizes="(max-width: 640px) 22vw, (max-width: 768px) 36vw, 500px"
               className="object-contain object-left filter drop-shadow-[0_12px_35px_rgba(255,255,255,0.18)]"
               priority
             />
@@ -272,14 +272,14 @@ export default function ContributionsSection() {
             ease: "easeInOut",
             delay: 0.3,
           }}
-          className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 w-[42vw] sm:w-[36vw] md:w-[32vw] max-w-[500px] h-[32vh] max-h-[350px] z-30 select-none will-change-[transform,opacity] transform-gpu"
+          className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 w-[22vw] sm:w-[36vw] md:w-[32vw] max-w-[500px] h-[18vh] sm:h-[32vh] max-h-[160px] sm:max-h-[350px] z-30 select-none will-change-[transform,opacity] transform-gpu"
         >
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full opacity-35 sm:opacity-100">
             <Image
               src="/creation_of_adam_right.png"
               alt="Creation Hand (Right Edge)"
               fill
-              sizes="(max-width: 768px) 42vw, 500px"
+              sizes="(max-width: 640px) 22vw, (max-width: 768px) 36vw, 500px"
               className="object-contain object-right filter drop-shadow-[0_12px_35px_rgba(255,255,255,0.18)]"
               priority
             />
@@ -303,7 +303,7 @@ export default function ContributionsSection() {
             pointerEvents: domoPointerEvents,
             zIndex: domoZIndex,
           }}
-          className="absolute inset-0 flex flex-col items-center justify-center pt-16 sm:pt-20 pb-6 px-3 sm:px-6 will-change-[transform,opacity] transform-gpu"
+          className="absolute inset-0 flex flex-col items-center justify-center pt-10 sm:pt-20 pb-4 sm:pb-6 px-2 sm:px-6 will-change-[transform,opacity] transform-gpu"
         >
           {/* Animated Background Typography: ECOSYSTEM (Letter-Spacing Expansion + Parallax) */}
           <motion.div
