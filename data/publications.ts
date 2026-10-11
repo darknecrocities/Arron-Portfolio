@@ -12,6 +12,32 @@ export interface Publication {
 
 export const PUBLICATIONS: Publication[] = [
   {
+    id: "appbuilders-domo",
+    title: "The Builder's Table 5 — Featuring DomoDomo (Top 1, App Builders PH)",
+    category: "Founder Feature / Live Talk",
+    date: "2026",
+    image: "/the-builders-table.png",
+    description:
+      "Featured on The Builder's Table 5 as Founder of DomoDomo and Top 1 on App Builders PH, diving into client-side software architecture, UX, and tech startup growth.",
+    link: "https://www.facebook.com/share/p/18wsCYVbpW/",
+    content:
+      "\"From idea to Top 1 in App Builders PH!\" The mastermind behind DomoDomo joined The Builder's Table 5 for an in-depth conversation. Featuring Arron Parejas (Founder of DomoDomo & Top 1, App Builders PH), the session explored the practical realities of mobile and client-side software development, intuitive user experience design, and the authentic grind of building an independent software ecosystem that stands out in the industry.",
+    featured: true,
+  },
+  {
+    id: "bettergov-domo",
+    title: "BetterGov.ph — Subscriptions Are Outdated. Your Data Belongs to You.",
+    category: "Media Spotlight",
+    date: "2026",
+    image: "/bettergov-domo.png",
+    description:
+      "BetterGov.ph spotlight on DomoDomo: reclaiming digital sovereignty with a 100% open-source, client-side productivity suite running in your browser with zero data leaks.",
+    link: "https://www.facebook.com/share/p/1C5GDuZ8b1/",
+    content:
+      "Subscriptions are outdated. Your data belongs to you. It's time to reclaim your digital sovereignty with Domo. Domo is a 100% open-source, client-side productivity suite that runs entirely in your browser — no cloud, no accounts, and absolutely no data leaks. Just pure, local-first performance. At BetterGov.ph, they spotlight tools prioritizing transparency, security, and digital sovereignty over profit models.",
+    featured: true,
+  },
+  {
     id: "up-genai",
     title: "UP GenAI Hackathon — National Champion",
     category: "Hackathon Winner",
