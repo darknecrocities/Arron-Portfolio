@@ -51,6 +51,19 @@ export const ACHIEVEMENTS: Achievement[] = [
       "Recipient of Holy Angel University's most prestigious student distinction, the Sinag Awards. Conferred for outstanding persistence, external competition victories, and technological innovation across 30+ hackathons and national championships—proving that true growth and capability are defined by passion, relentless execution, showing up, and building for the community.",
   },
   {
+    id: "gdg-lead-certificate",
+    title: "Certificate of Acknowledgement — GDG on Campus Lead Organizer",
+    issuer: "Google / GDG on Campus Holy Angel University",
+    date: "A.Y. 2025–2026",
+    type: "Honor",
+    color: "#4285F4",
+    icon: "ribbon",
+    image: "/gdg-lead-certificate.png",
+    link: "https://www.facebook.com/gdsc.hau",
+    description:
+      "Awarded Certificate of Acknowledgement by Google for successfully serving as Google Developer Groups on Campus Lead Organizer for the 2025–2026 academic year at Holy Angel University. Conferred by Google Developer Relations Program Manager Justyna Politanska-Pyszko and Regional Lead Saad Hamid.\n\nOfficially signing off after a transformative year of leadership, student mentorship, and community innovation: 'Behind every event, workshop, hackathon, and achievement were people who gave their time, energy, and hearts to make things happen. The best part of being Chapter Lead wasn’t the title or accomplishments—it was the people I met, the friendships I built, and the memories we created together. Leaving this role with a full heart, immense gratitude, and so much pride in what we built together.'",
+  },
+  {
     id: "skydev",
     title: "SkyDev 2025 Hackathon — Champion",
     issuer: "SkyDev Community",

@@ -178,13 +178,13 @@ export default function AchievementsSection() {
               onClick={(e) => e.stopPropagation()}
             >
               {selected.image && (
-                <div className="relative w-full aspect-video sm:h-72 overflow-hidden border border-white/10 mb-4 bg-black">
+                <div className="relative w-full aspect-video sm:h-72 overflow-hidden border border-white/10 mb-4 bg-black flex items-center justify-center">
                   <Image
                     src={selected.image}
                     alt={selected.title}
                     fill
                     sizes="(max-width: 640px) 100vw, 750px"
-                    className="object-cover"
+                    className="object-contain"
                   />
                 </div>
               )}
@@ -208,7 +208,7 @@ export default function AchievementsSection() {
                 </button>
               </div>
 
-              <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed mt-4 font-sans">
+              <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed mt-4 font-sans whitespace-pre-line">
                 {selected.description}
               </p>
 
@@ -221,7 +221,7 @@ export default function AchievementsSection() {
                     className="btn-primary text-xs inline-flex items-center gap-2"
                   >
                     <FiExternalLink size={13} />
-                    <span>View Article</span>
+                    <span>View Official Reference</span>
                   </a>
                 </div>
               )}
