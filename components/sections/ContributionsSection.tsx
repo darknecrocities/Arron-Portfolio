@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import GithubContributionGraph from "@/components/sections/GithubContributionGraph";
 import DomoEcosystemGrid from "@/components/sections/DomoEcosystemGrid";
@@ -10,113 +10,123 @@ export default function ContributionsSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
   // Track scroll starting just as the section enters the viewport
-  // Runway is 550vh so user enjoys an ultra-smooth, long, stately pinned scroll!
+  // Runway is 650vh for an ultra-smooth, long, stately pinned scroll!
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start 80%", "end end"],
   });
 
+  // Inertial smooth spring on scroll: eliminates jitter and creates liquid, slow cinematic pacing
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 45,
+    damping: 24,
+    restDelta: 0.001,
+  });
+
   // =========================================================================
   // STAGE 1: GITHUB CONTRIBUTION GRAPH (LONG, SLOW, STATELY SCROLL)
   // =========================================================================
-  // Total runway is 550vh (~530vh scroll distance).
-  // 0.00 -> 0.08: Smooth fade-in & scale as section enters and locks to top-0
-  // 0.08 -> 0.42: EXTENDED LOCKED HOLD (~180vh of locked scroll!)
-  // 0.42 -> 0.46: Completely dissolves out BEFORE Stage 2 enters (zero overlap!)
+  // Total runway is 650vh (~630vh scroll distance).
+  // 0.00 -> 0.15: Long, slow, graceful entrance with depth scaling and optical blur clear
+  // 0.15 -> 0.44: EXTENDED LOCKED HOLD (~190vh) with continuous subtle depth parallax
+  // 0.44 -> 0.54: Long, slow crossfade dissolving into Stage 2 (zero abrupt cut!)
   const graphScale = useTransform(
-    scrollYProgress,
-    [0, 0.08, 0.42, 0.46],
-    [0.88, 1.0, 1.0, 0.94]
+    smoothProgress,
+    [0, 0.15, 0.44, 0.54],
+    [0.86, 1.0, 1.02, 0.92]
   );
   const graphOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.08, 0.42, 0.46],
+    smoothProgress,
+    [0, 0.14, 0.44, 0.54],
     [0, 1.0, 1.0, 0]
   );
   const graphY = useTransform(
-    scrollYProgress,
-    [0, 0.08, 0.42, 0.46],
-    [35, 0, 0, -25]
+    smoothProgress,
+    [0, 0.15, 0.44, 0.54],
+    [70, 0, -16, -55]
+  );
+  const graphFilter = useTransform(
+    smoothProgress,
+    [0, 0.13, 0.44, 0.54],
+    ["blur(12px)", "blur(0px)", "blur(0px)", "blur(12px)"]
   );
   const graphPointerEvents = useTransform(
     scrollYProgress,
-    (val) => (val < 0.45 ? "auto" : "none")
+    (val) => (val >= 0.02 && val < 0.50 ? "auto" : "none")
   );
 
   // =========================================================================
   // ANIMATED TAGLINE: SHIPPED (DYNAMIC LETTER-SPACING TRACKING + PARALLAX)
   // =========================================================================
   const shippedOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.08, 0.40, 0.45],
-    [0, 0.08, 0.08, 0]
+    smoothProgress,
+    [0, 0.14, 0.44, 0.54],
+    [0, 0.09, 0.09, 0]
   );
   const shippedTracking = useTransform(
-    scrollYProgress,
-    [0, 0.16, 0.42],
-    ["-0.04em", "0.02em", "0.08em"]
+    smoothProgress,
+    [0, 0.20, 0.46],
+    ["-0.05em", "0.02em", "0.10em"]
   );
-  const shippedY = useTransform(scrollYProgress, [0, 0.42], [-30, 30]);
+  const shippedY = useTransform(smoothProgress, [0, 0.46], [-40, 40]);
   const shippedScale = useTransform(
-    scrollYProgress,
-    [0, 0.16, 0.42],
-    [0.94, 1.01, 1.06]
+    smoothProgress,
+    [0, 0.20, 0.46],
+    [0.93, 1.01, 1.08]
   );
 
   // =========================================================================
   // CREATION OF ADAM HANDS (FRAMING SCREEN EDGES IN STAGE 1 ONLY)
   // =========================================================================
-  // Reaches in during Stage 1, then gracefully slides back and fades out before Stage 2
+  // Reaches in slowly during Stage 1, holds to frame the GitHub calendar,
+  // then gracefully parts and dissolves before Stage 2
   const leftHandX = useTransform(
-    scrollYProgress,
-    [0, 0.08, 0.40, 0.45],
-    [-120, 0, 0, -130]
+    smoothProgress,
+    [0, 0.15, 0.44, 0.54],
+    [-140, 0, 0, -150]
   );
   const rightHandX = useTransform(
-    scrollYProgress,
-    [0, 0.08, 0.40, 0.45],
-    [120, 0, 0, 130]
+    smoothProgress,
+    [0, 0.15, 0.44, 0.54],
+    [140, 0, 0, 150]
   );
   const adamOpacity = useTransform(
-    scrollYProgress,
-    [0.01, 0.08, 0.40, 0.45],
+    smoothProgress,
+    [0.01, 0.15, 0.44, 0.54],
     [0, 0.95, 0.95, 0]
   );
 
   // =========================================================================
   // STAGE 2: DOMO ECOSYSTEM & APP ICONS (BLURRED BACKDROP + ELEVATED FOREGROUND)
   // =========================================================================
-  // 0.47 -> 0.52: Enters cleanly with blurred backdrop, scaling into view
-  // 0.52 -> 0.92: EXTENDED LOCKED HOLD (~200vh of locked scroll!)
-  // 0.92 -> 1.00: Gentle exit transition into Stats section (~42vh)
   const domoScale = useTransform(
     scrollYProgress,
-    [0.47, 0.52, 0.92, 1.0],
-    [0.92, 1.0, 1.0, 0.95]
+    [0.48, 0.56, 0.92, 1.0],
+    [0.91, 1.0, 1.0, 0.95]
   );
   const domoOpacity = useTransform(
     scrollYProgress,
-    [0.47, 0.52, 0.92, 1.0],
+    [0.48, 0.56, 0.92, 1.0],
     [0, 1.0, 1.0, 0.2]
   );
   const domoY = useTransform(
     scrollYProgress,
-    [0.47, 0.52, 0.92, 1.0],
-    [25, 0, 0, -20]
+    [0.48, 0.56, 0.92, 1.0],
+    [35, 0, 0, -20]
   );
   const domoPointerEvents = useTransform(
     scrollYProgress,
-    (val) => (val >= 0.47 ? "auto" : "none")
+    (val) => (val >= 0.48 ? "auto" : "none")
   );
   const domoZIndex = useTransform(
     scrollYProgress,
-    (val) => (val >= 0.46 ? 35 : 10)
+    (val) => (val >= 0.47 ? 35 : 10)
   );
 
   // Blurred Backdrop for Ecosystem Section
   const ecosystemBackdropOpacity = useTransform(
     scrollYProgress,
-    [0.45, 0.51, 0.92, 1.0],
+    [0.46, 0.54, 0.92, 1.0],
     [0, 1.0, 1.0, 0]
   );
 
@@ -125,18 +135,18 @@ export default function ContributionsSection() {
   // =========================================================================
   const ecosystemOpacity = useTransform(
     scrollYProgress,
-    [0.47, 0.53, 0.92, 1.0],
+    [0.48, 0.56, 0.92, 1.0],
     [0, 0.08, 0.08, 0.01]
   );
   const ecosystemTracking = useTransform(
     scrollYProgress,
-    [0.47, 0.65, 0.92],
+    [0.48, 0.65, 0.92],
     ["-0.04em", "0.02em", "0.08em"]
   );
-  const ecosystemY = useTransform(scrollYProgress, [0.47, 0.92], [-30, 30]);
+  const ecosystemY = useTransform(scrollYProgress, [0.48, 0.92], [-30, 30]);
   const ecosystemScale = useTransform(
     scrollYProgress,
-    [0.47, 0.65, 0.92],
+    [0.48, 0.65, 0.92],
     [0.94, 1.01, 1.06]
   );
 
@@ -151,7 +161,7 @@ export default function ContributionsSection() {
       id="contributions"
       ref={sectionRef}
       className="relative bg-black text-white w-full"
-      style={{ height: "550vh" }}
+      style={{ height: "650vh" }}
     >
       {/* ===================================================================
           STICKY PINNED VIEWPORT (STAYS LOCKED ON SCREEN WHILE SCROLLING)
@@ -174,9 +184,10 @@ export default function ContributionsSection() {
             scale: graphScale,
             opacity: graphOpacity,
             y: graphY,
+            filter: graphFilter,
             pointerEvents: graphPointerEvents,
           }}
-          className="absolute inset-0 flex flex-col items-center justify-center pt-16 sm:pt-20 pb-6 px-4 sm:px-6 z-20 will-change-[transform,opacity] transform-gpu"
+          className="absolute inset-0 flex flex-col items-center justify-center pt-16 sm:pt-20 pb-6 px-4 sm:px-6 z-20 will-change-[transform,opacity,filter] transform-gpu"
         >
           {/* Animated Background Typography: SHIPPED (Letter-Spacing Expansion + Parallax) */}
           <motion.div
@@ -211,7 +222,7 @@ export default function ContributionsSection() {
 
           {/* The GitHub Contribution Graph Card */}
           <div className="w-full max-w-4xl sm:max-w-5xl mx-auto z-20">
-            <GithubContributionGraph isFloating={true} />
+            <GithubContributionGraph isFloating={true} scrollProgress={smoothProgress} />
           </div>
         </motion.div>
 

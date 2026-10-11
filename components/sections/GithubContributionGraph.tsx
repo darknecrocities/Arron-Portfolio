@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useTransform,
+  useMotionValue,
+  type MotionValue,
+} from "framer-motion";
 import { FiGithub, FiExternalLink, FiChevronDown, FiCheck, FiInfo } from "react-icons/fi";
 import fallbackData from "@/data/contributions-fallback.json";
 
@@ -21,6 +27,7 @@ interface ContributionsData {
 interface GithubContributionGraphProps {
   className?: string;
   isFloating?: boolean;
+  scrollProgress?: MotionValue<number>;
 }
 
 // Pure Black and White (Monochrome) levels - Authentic GitHub Calendar
@@ -32,9 +39,153 @@ const LEVEL_COLORS = [
   "#ffffff", // Level 4: Pure bright white
 ];
 
+function MonthLabel({
+  name,
+  leftPx,
+  colIndex,
+  waveProgress,
+  isScrollDriven,
+}: {
+  name: string;
+  leftPx: number;
+  colIndex: number;
+  waveProgress: MotionValue<number>;
+  isScrollDriven: boolean;
+}) {
+  const labelOpacity = useTransform(waveProgress, (curWave: number) => {
+    if (!isScrollDriven) return 1;
+    return curWave >= colIndex ? 1 : 0.35;
+  });
+
+  const labelColor = useTransform(waveProgress, (curWave: number) => {
+    if (!isScrollDriven) return "#a1a1aa";
+    return curWave >= colIndex ? "#ffffff" : "#71717a";
+  });
+
+  return (
+    <motion.span
+      className="absolute top-0 font-medium transition-colors"
+      style={{
+        left: `${leftPx + 32}px`,
+        opacity: labelOpacity,
+        color: labelColor,
+      }}
+    >
+      {name}
+    </motion.span>
+  );
+}
+
+function WeekColumn({
+  week,
+  wIdx,
+  waveProgress,
+  isScrollDriven,
+  onHoverDay,
+  onLeaveDay,
+}: {
+  week: (ContributionDay | null)[];
+  wIdx: number;
+  waveProgress: MotionValue<number>;
+  isScrollDriven: boolean;
+  onHoverDay: (day: ContributionDay, x: number, y: number) => void;
+  onLeaveDay: () => void;
+}) {
+  const colOpacity = useTransform(waveProgress, (curWave: number) => {
+    if (!isScrollDriven) return 1;
+    if (curWave >= wIdx) return 1;
+    const dist = wIdx - curWave;
+    if (dist <= 3) return 0.28 + (1 - dist / 3) * 0.72;
+    return 0.22;
+  });
+
+  const colScale = useTransform(waveProgress, (curWave: number) => {
+    if (!isScrollDriven) return 1;
+    if (curWave >= wIdx) return 1;
+    const dist = wIdx - curWave;
+    if (dist <= 2) return 0.92 + (1 - dist / 2) * 0.08;
+    return 0.88;
+  });
+
+  const colY = useTransform(waveProgress, (curWave: number) => {
+    if (!isScrollDriven) return 0;
+    if (curWave >= wIdx) return 0;
+    const dist = wIdx - curWave;
+    if (dist <= 3) return (dist / 3) * 5;
+    return 5;
+  });
+
+  return (
+    <motion.div
+      style={
+        isScrollDriven
+          ? {
+              opacity: colOpacity,
+              scale: colScale,
+              y: colY,
+            }
+          : undefined
+      }
+      initial={!isScrollDriven ? { opacity: 0, y: 8 } : undefined}
+      whileInView={!isScrollDriven ? { opacity: 1, y: 0 } : undefined}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: Math.min(wIdx * 0.012, 0.5) }}
+      className="flex flex-col gap-[3px] will-change-[transform,opacity]"
+    >
+      {week.map((day, dIdx) => {
+        if (!day) {
+          return (
+            <div
+              key={`empty-${wIdx}-${dIdx}`}
+              className="w-[11px] h-[11px] rounded-[2px] bg-transparent"
+            />
+          );
+        }
+
+        const color = LEVEL_COLORS[Math.min(day.level, 4)] || LEVEL_COLORS[0];
+
+        return (
+          <div
+            key={day.date}
+            className="relative group/cell cursor-pointer"
+            onMouseEnter={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              onHoverDay(day, rect.left + rect.width / 2, rect.top);
+            }}
+            onMouseLeave={onLeaveDay}
+          >
+            <div
+              className="w-[11px] h-[11px] rounded-[2px] transition-transform duration-100 hover:scale-125 hover:z-20 hover:ring-1 hover:ring-white"
+              style={{
+                backgroundColor: color,
+              }}
+            />
+          </div>
+        );
+      })}
+    </motion.div>
+  );
+}
+
+function ScanningBeam({ waveProgress }: { waveProgress: MotionValue<number> }) {
+  const beamX = useTransform(waveProgress, (w) => `${w * 14 + 32}px`);
+  const beamOpacity = useTransform(waveProgress, [0, 1.5, 51, 54], [0, 0.65, 0.65, 0]);
+
+  return (
+    <motion.div
+      style={{
+        x: beamX,
+        opacity: beamOpacity,
+      }}
+      className="pointer-events-none absolute top-7 bottom-4 w-10 -ml-5 bg-gradient-to-r from-transparent via-white/20 to-transparent blur-[2px] z-10"
+    />
+  );
+}
+
 export default function GithubContributionGraph({
   className = "",
   isFloating = true,
+  scrollProgress,
 }: GithubContributionGraphProps) {
   const [data, setData] = useState<ContributionsData>(fallbackData as ContributionsData);
   const [isLive, setIsLive] = useState(false);
@@ -120,6 +271,21 @@ export default function GithubContributionGraph({
 
   const totalCount = data.total?.lastYear || 11109;
 
+  // Map scroll progress (active stage: ~0.10 -> 0.38) across all 53 weeks (0 -> 54)
+  const fallbackWave = useMotionValue(54);
+  const waveProgress = useTransform(
+    scrollProgress ?? fallbackWave,
+    (p: number) => {
+      if (!scrollProgress) return 54;
+      const start = 0.10;
+      const end = 0.38;
+      const clamped = Math.min(Math.max((p - start) / (end - start), 0), 1);
+      return clamped * 54;
+    }
+  );
+  const isScrollDriven = !!scrollProgress;
+  const activeWave = isScrollDriven ? waveProgress : fallbackWave;
+
   return (
     <div className={`w-full max-w-5xl mx-auto ${className}`}>
       {/* CONTINUOUS NON-STOP BREATHING WRAPPER FOR THE WHOLE GRAPH */}
@@ -158,7 +324,13 @@ export default function GithubContributionGraph({
         />
 
         {/* HEADER: Title & Settings Dropdown (Pure Black & White) */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3 px-1">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3 px-1"
+        >
           <div className="flex items-center gap-3">
             <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white font-sans">
               {totalCount.toLocaleString()} contributions in the last year
@@ -243,28 +415,38 @@ export default function GithubContributionGraph({
               )}
             </AnimatePresence>
           </div>
-        </div>
+        </motion.div>
 
         {/* MAIN CARD: Monochrome GitHub Card */}
-        <div className="relative rounded-xl border border-zinc-800 bg-[#0c0c0e] p-4 sm:p-6 shadow-2xl overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 25, scale: 0.97 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+          className="relative rounded-xl border border-zinc-800 bg-[#0c0c0e] p-4 sm:p-6 shadow-2xl overflow-hidden"
+        >
           {/* Subtle silver top sheen */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
           {/* Horizontal scroll container for the grid */}
           <div className="overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
-            <div className="min-w-[760px] select-none">
+            <div className="min-w-[760px] select-none relative">
+              {/* SCANNING BEAM / LIGHT SHIMMER (GLIDES ACROSS WEEKS AS YOU SCROLL) */}
+              {isScrollDriven && <ScanningBeam waveProgress={activeWave} />}
+
               {/* MONTH LABELS ROW */}
               <div className="relative h-5 mb-1 pl-8 text-[11px] font-sans text-zinc-400">
                 {monthLabels.map((m, idx) => {
                   const leftPx = m.colIndex * 14;
                   return (
-                    <span
+                    <MonthLabel
                       key={`${m.name}-${m.colIndex}-${idx}`}
-                      className="absolute top-0 font-medium"
-                      style={{ left: `${leftPx + 32}px` }}
-                    >
-                      {m.name}
-                    </span>
+                      name={m.name}
+                      leftPx={leftPx}
+                      colIndex={m.colIndex}
+                      waveProgress={activeWave}
+                      isScrollDriven={isScrollDriven}
+                    />
                   );
                 })}
               </div>
@@ -285,43 +467,15 @@ export default function GithubContributionGraph({
                 {/* 53 Columns of 7 Squares (Monochrome) */}
                 <div className="flex gap-[3px]">
                   {weeks.map((week, wIdx) => (
-                    <div key={`week-${wIdx}`} className="flex flex-col gap-[3px]">
-                      {week.map((day, dIdx) => {
-                        if (!day) {
-                          return (
-                            <div
-                              key={`empty-${wIdx}-${dIdx}`}
-                              className="w-[11px] h-[11px] rounded-[2px] bg-transparent"
-                            />
-                          );
-                        }
-
-                        const color = LEVEL_COLORS[Math.min(day.level, 4)] || LEVEL_COLORS[0];
-
-                        return (
-                          <div
-                            key={day.date}
-                            className="relative group/cell cursor-pointer"
-                            onMouseEnter={(e) => {
-                              const rect = e.currentTarget.getBoundingClientRect();
-                              setHoveredDay({
-                                day,
-                                x: rect.left + rect.width / 2,
-                                y: rect.top,
-                              });
-                            }}
-                            onMouseLeave={() => setHoveredDay(null)}
-                          >
-                            <div
-                              className="w-[11px] h-[11px] rounded-[2px] transition-transform duration-100 hover:scale-125 hover:z-20 hover:ring-1 hover:ring-white"
-                              style={{
-                                backgroundColor: color,
-                              }}
-                            />
-                          </div>
-                        );
-                      })}
-                    </div>
+                    <WeekColumn
+                      key={`week-${wIdx}`}
+                      week={week}
+                      wIdx={wIdx}
+                      waveProgress={activeWave}
+                      isScrollDriven={isScrollDriven}
+                      onHoverDay={(day, x, y) => setHoveredDay({ day, x, y })}
+                      onLeaveDay={() => setHoveredDay(null)}
+                    />
                   ))}
                 </div>
               </div>
@@ -353,7 +507,7 @@ export default function GithubContributionGraph({
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* FLOATING TOOLTIP ON HOVER (Monochrome) */}
         <AnimatePresence>
