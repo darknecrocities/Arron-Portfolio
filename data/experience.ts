@@ -117,7 +117,7 @@ export const EDUCATION = [
     degree: "Bachelor of Science in Computer Science",
     school: "Holy Angel University",
     period: "2022 — Present",
-    note: "Dean's List Academic Excellence Awardee (AY 2023–2024)",
+    note: "Sinag Awardee · Dean's List (AY 2023–2024)",
     highlights: [
       "Concentration in Artificial Intelligence, Algorithms, and Distributed Systems",
       "Executive Chapter Leader for Google Developer Groups on Campus HAU",

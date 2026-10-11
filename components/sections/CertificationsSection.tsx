@@ -15,6 +15,7 @@ const CERTS_DATA = [
   { title: "SparkHub Online Hackathon — Champion", issuer: "Devpost / SparkHub", date: "November 2025", category: "Championships", description: "Global champion in international Devpost hackathon. Decentralized AI waste verification platform." },
   { title: "GHackathon — Champion", issuer: "Devpost", date: "March 2026", category: "Championships", description: "First Place at GHackathon 2026." },
   { title: "Appcon 2024 — National Finalist", issuer: "Appcon Philippines", date: "November 2024", category: "Championships", description: "National Finalist for EmberWatch AI-powered fire detection with thermal computer vision." },
+  { title: "Sinag Award — University Distinction", issuer: "Holy Angel University", date: "2026", category: "Championships", description: "Holy Angel University's most prestigious recognition for external competition victories, technological innovation, and passion." },
   { title: "Dean's List Academic Excellence Award", issuer: "Holy Angel University", date: "AY 2023-2024", category: "Championships", description: "Recognized on Dean's List at Holy Angel University for outstanding academic performance in Computer Science." },
   { title: "Open Source Contributor — 500+ Commits", issuer: "GitHub Community", date: "2022–Present", category: "Championships", description: "Active open-source contributor with 500+ contributions across AI repositories, bug fixes, and tools." },
   

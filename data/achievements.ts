@@ -39,6 +39,18 @@ export const ACHIEVEMENTS: Achievement[] = [
       "Secured the Champion title in the highly competitive 'Build with AI' hackathon organized by Google Developer Group (GDG) at the University of the Philippines Manila. The project involved architecting an innovative AI-driven framework designed to automate the analysis of complex legal documents, Terms of Service, and contracts. By leveraging Large Language Models and natural language processing, the solution provided users with instant, simplified summaries of legal obligations and hidden clauses, significantly improving transparency and user awareness. This victory demonstrated a deep understanding of AI integration, user-centric design, and the ability to solve real-world problems through cutting-edge technology.",
   },
   {
+    id: "sinag-award",
+    title: "Sinag Award — University Distinction",
+    issuer: "Holy Angel University",
+    date: "2026",
+    type: "Honor",
+    color: "#E5A93C",
+    icon: "ribbon",
+    image: "/sinag-award.png",
+    description:
+      "Recipient of Holy Angel University's most prestigious student distinction, the Sinag Awards. Conferred for outstanding persistence, external competition victories, and technological innovation across 30+ hackathons and national championships—proving that true growth and capability are defined by passion, relentless execution, showing up, and building for the community.",
+  },
+  {
     id: "skydev",
     title: "SkyDev 2025 Hackathon — Champion",
     issuer: "SkyDev Community",
@@ -63,6 +75,19 @@ export const ACHIEVEMENTS: Achievement[] = [
     link: "https://philstartech.com/news/2025/11/10/15733/hackathon-winners-highlight-ais-potential-in-community-solutions/",
     description:
       "Awarded as the Champion in the Technical Track of the inaugural Caffeine AI Manila hackathon. The winning project, EcoCycle, introduced a revolutionary approach to urban waste management by combining AI with blockchain technology. The system features a real-time AI classification engine for waste sorting, which rewards users with redeemable crypto tokens for correct disposal. Featured in PhilStar Tech.",
+  },
+  {
+    id: "github-rank",
+    title: "Top GitHub Philippines — Rank #11",
+    issuer: "committers.top",
+    date: "2025",
+    type: "Award",
+    color: "#FFFFFF",
+    icon: "github",
+    image: "/github-top.png",
+    link: "https://committers.top/philippines_public#darknecrocities",
+    description:
+      "Recognized as one of the Top GitHub Users in the Philippines, achieving an impressive rank of #11 among a highly competitive community of developers. This distinction reflects consistent contributions to open-source projects, active collaboration with other developers, and a strong commitment to building impactful solutions.",
   },
   {
     id: "unity-2025",
@@ -109,19 +134,6 @@ export const ACHIEVEMENTS: Achievement[] = [
     link: "https://philstartech.com/news/2025/11/10/15733/hackathon-winners-highlight-ais-potential-in-community-solutions/",
     description:
       "Recognized as a National Finalist at Appcon 2024 for the 'EmberWatch' project, a groundbreaking AI-powered fire detection and early warning system. EmberWatch utilizes real-time thermal camera feeds and computer vision to identify fire hazards before they escalate into full-scale emergencies. Being a finalist in such a prestigious competition among hundreds of entries highlighted the project's technical merit.",
-  },
-  {
-    id: "github-rank",
-    title: "Top GitHub Philippines — Rank #11",
-    issuer: "committers.top",
-    date: "2025",
-    type: "Award",
-    color: "#FFFFFF",
-    icon: "github",
-    image: "/github-top.png",
-    link: "https://committers.top/philippines_public#darknecrocities",
-    description:
-      "Recognized as one of the Top GitHub Users in the Philippines, achieving an impressive rank of #11 among a highly competitive community of developers. This distinction reflects consistent contributions to open-source projects, active collaboration with other developers, and a strong commitment to building impactful solutions.",
   },
   {
     id: "deans-list",
