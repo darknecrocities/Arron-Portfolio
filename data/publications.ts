@@ -155,6 +155,19 @@ export const PUBLICATIONS: Publication[] = [
     featured: false,
   },
   {
+    id: "pixels-to-principles",
+    title: "Pixels to Principles: UI/UX Design Workshop — Resource Speaker",
+    category: "Speaker / Workshop",
+    date: "2026",
+    image: "/speaker-pixels-to-principles.jpg",
+    description:
+      "Invited by Code Geeks (School of Computing) as the Resource Speaker to deliver an in-depth workshop on UI/UX design, design thinking, and intuitive interfaces.",
+    link: "https://noaislop-six.vercel.app",
+    content:
+      "Presenting our Resource Speaker for 'Pixels to Principles: UI/UX Design Workshop' — Mr. Arron Parejas, Founder of DomoDomo. Arron shared practical insights on UI/UX design architecture, design thinking, layout hierarchy, and building intuitive user experiences. Hosted by Code Geeks under Holy Angel University's School of Computing, participants engaged in real-world design critiques and hands-on interface design exercises.\n\nInteractive Workshop Platform: https://noaislop-six.vercel.app",
+    featured: false,
+  },
+  {
     id: "ai-con-website",
     title: "AI Con HAU Official Website Launch",
     category: "Website Launch",

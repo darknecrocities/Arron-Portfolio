@@ -19,7 +19,7 @@ export default function PublicationsSection() {
         <SectionHeading
           eyebrow="Publications & Press"
           title="Publications & Press"
-          description="Technical papers, national media features (PhilStar Tech), and developer stories."
+          description="Technical papers, speaking keynotes, media features (PhilStar Tech), and developer stories."
         />
 
         {/* Featured Grid */}
@@ -120,13 +120,13 @@ export default function PublicationsSection() {
               className="modal-box bg-[#0a0a0a] border border-white/20 p-6 relative"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative h-44 sm:h-52 overflow-hidden border border-white/10 grayscale contrast-110 mb-4">
+              <div className="relative w-full aspect-video sm:h-72 overflow-hidden border border-white/10 mb-4 bg-black flex items-center justify-center">
                 <Image
                   src={selected.image}
                   alt={selected.title}
                   fill
                   sizes="(max-width: 640px) 100vw, 600px"
-                  className="object-cover"
+                  className="object-contain"
                 />
               </div>
 
@@ -149,7 +149,7 @@ export default function PublicationsSection() {
                 </button>
               </div>
 
-              <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed mt-4 font-sans">
+              <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed mt-4 font-sans whitespace-pre-line">
                 {selected.content}
               </p>
 
@@ -161,7 +161,12 @@ export default function PublicationsSection() {
                   className="btn-primary text-xs inline-flex items-center gap-2"
                 >
                   <FiExternalLink size={13} />
-                  <span>Read Article</span>
+                  <span>
+                    {selected.category.toLowerCase().includes("workshop") ||
+                    selected.category.toLowerCase().includes("speaker")
+                      ? "View Workshop / Site"
+                      : "Read Article"}
+                  </span>
                 </a>
               </div>
             </motion.div>

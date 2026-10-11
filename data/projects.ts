@@ -319,8 +319,8 @@ export const GITHUB_REPOS: Repo[] = [
   },
   {
     id: "noaislop",
-    name: "No AI Slop Workshop",
-    description: "The presentation site for my UI/UX workshop with Code Geeks.",
+    name: "Pixels to Principles — Workshop Platform",
+    description: "The interactive slide presentation and activity site for my 'Pixels to Principles: UI/UX Design Workshop' with Code Geeks (School of Computing).",
     url: `${GH}/UI-UX-Workshop-CodeGeeks-`,
     homepage: "https://noaislop-six.vercel.app",
     language: "TypeScript",
