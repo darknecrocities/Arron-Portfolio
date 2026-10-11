@@ -14,6 +14,7 @@ const PRIMARY_NAV = [
 ];
 
 const ARCHIVE_NAV = [
+  { label: "Domo & GitHub", href: "#contributions" },
   { label: "Achievements", href: "#achievements" },
   { label: "Certifications", href: "#certifications" },
   { label: "Leadership", href: "#leadership" },
@@ -290,6 +291,7 @@ export default function Navbar() {
               <a
                 href="/projects/ArronKian_Parejas_Resume.pdf"
                 download
+                onClick={() => setMobileOpen(false)}
                 className="btn-primary w-full py-3 text-center no-underline block font-mono text-xs"
               >
                 Download Resume

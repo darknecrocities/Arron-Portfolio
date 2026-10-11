@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Navbar from "@/components/layout/Navbar";
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
+import ContributionsSection from "@/components/sections/ContributionsSection";
 import StatsSection from "@/components/sections/StatsSection";
 import ExperienceSection from "@/components/sections/ExperienceSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
@@ -23,6 +24,9 @@ const CinematicBackground = dynamic(() => import("@/components/effects/Cinematic
 const FlashlightCursor = dynamic(() => import("@/components/effects/FlashlightCursor"), {
   ssr: false,
 });
+const SpiderResumeCrawler = dynamic(() => import("@/components/effects/SpiderResumeCrawler"), {
+  ssr: false,
+});
 
 export default function Home() {
   return (
@@ -38,6 +42,7 @@ export default function Home() {
         <HeroSection />
         <VelocityMarquee />
         <AboutSection />
+        <ContributionsSection />
         <StatsSection />
         <ExperienceSection />
         <ProjectsSection />
@@ -51,6 +56,9 @@ export default function Home() {
 
       {/* Spotlight cursor sits above everything, including modals */}
       <FlashlightCursor />
+
+      {/* Resume click → spider web-crawls the page → confetti → download */}
+      <SpiderResumeCrawler />
     </MotionProvider>
   );
 }

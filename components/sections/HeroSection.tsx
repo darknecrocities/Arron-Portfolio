@@ -73,14 +73,14 @@ export default function HeroSection() {
             {/* Description - Simple, human, skill-focused */}
             <p className="text-zinc-200 text-sm sm:text-base leading-relaxed max-w-xl font-sans">
               I design and build intelligent software—from local-first AI tools and computer vision pipelines 
-              to modern web and mobile apps. Computer Science student at <strong className="text-white font-semibold">Holy Angel University</strong> (Dean&apos;s List Awardee) 
+              to modern web and mobile apps. ML Engineer @ <strong className="text-white font-semibold">Flyrank.ai</strong>, Computer Science student at <strong className="text-white font-semibold">Holy Angel University</strong>, 
               and former Chapter Lead at <strong className="text-white font-semibold">Google Developer Groups on Campus HAU</strong>.
             </p>
 
             {/* Core Skills Tags */}
             <div className="flex flex-wrap gap-2 pt-1 font-mono text-xs">
               {[
-                "AI Engineer",
+                "ML Engineer",
                 "AI & LLM",
                 "Software Engineer",
                 "Full-Stack Engineer",
