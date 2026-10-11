@@ -12,6 +12,19 @@ export interface Publication {
 
 export const PUBLICATIONS: Publication[] = [
   {
+    id: "appbuilders-blog-domo",
+    title: "App Builders PH — DomoDomo Brings Agentic AI Into One Everyday Workspace",
+    category: "Editorial / Review",
+    date: "August 6, 2026",
+    image: "/appbuilders-blog-domo.png",
+    description:
+      "DomoDomo gathers AI agents, productivity tools, coding help, research support, file utilities, and automation into one free, open-source workspace built for local-first work.",
+    link: "https://www.appbuildersph.com/blog/daily-top-apps-2026-08-06",
+    content:
+      "Featured on App Builders PH Daily Top Apps: 'DomoDomo has a clear idea at its center: everyday AI work should not require a pile of disconnected tools. Its listing describes an open-source, agentic AI platform that brings AI agents, smart utilities, and workflow support into a single modern workspace. DomoDomo is presented as an All in One Agentic Tool Hub covering software development, light code generation, debugging, code review, documentation, research, content creation, data analysis, file processing, PDF utilities, image processing, and automation. Instead of positioning AI as one general chat box, the app is built around specialized agents that understand goals, reason through problems, and assist with end-to-end workflows — all built for local-first, zero-subscription digital sovereignty.'",
+    featured: true,
+  },
+  {
     id: "appbuilders-domo",
     title: "The Builder's Table 5 — Featuring DomoDomo (Top 1, App Builders PH)",
     category: "Founder Feature / Live Talk",
@@ -100,7 +113,7 @@ export const PUBLICATIONS: Publication[] = [
     link: "https://www.linkedin.com/posts/arron-parejas-6711b6289_artificialintelligence-machinelearning-reinforcementlearning-activity-7439493801200721920-kFrN",
     content:
       "NeuroCare AI is a research-driven clinical decision support system that leverages reinforcement learning to model the real-world diagnostic process of breast cancer. Unlike traditional AI approaches that rely on single-step predictions, this system learns sequential decision-making. Trained in a simulated clinical environment, the model achieved 93% accuracy, with strong precision and recall across 200 clinical simulations.",
-    featured: true,
+    featured: false,
   },
   {
     id: "gdg-ceo",
