@@ -166,7 +166,7 @@ export default function ContributionsSection() {
       {/* ===================================================================
           STICKY PINNED VIEWPORT (STAYS LOCKED ON SCREEN WHILE SCROLLING)
           =================================================================== */}
-      <div className="sticky top-0 h-screen h-[100dvh] min-h-[580px] w-full flex flex-col items-center justify-center overflow-hidden px-2 sm:px-6">
+      <div className="sticky top-0 h-screen h-[100dvh] w-full flex flex-col items-center justify-center overflow-hidden px-2 sm:px-6">
         {/* Soft edge blend gradients for seamless entry & exit */}
         <div className="pointer-events-none absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-black via-black/80 to-transparent z-40" />
         <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-black via-black/80 to-transparent z-40" />
@@ -187,7 +187,7 @@ export default function ContributionsSection() {
             filter: graphFilter,
             pointerEvents: graphPointerEvents,
           }}
-          className="absolute inset-0 flex flex-col items-center justify-center pt-10 sm:pt-20 pb-4 sm:pb-6 px-2 sm:px-6 z-20 will-change-[transform,opacity,filter] transform-gpu"
+          className="absolute inset-0 flex flex-col items-center justify-center pt-14 sm:pt-16 pb-3 sm:pb-5 px-2 sm:px-6 z-20 will-change-[transform,opacity,filter] transform-gpu"
         >
           {/* Animated Background Typography: SHIPPED (Letter-Spacing Expansion + Parallax) */}
           <motion.div
@@ -208,14 +208,14 @@ export default function ContributionsSection() {
           </motion.div>
 
           {/* Section Heading */}
-          <div className="text-center mb-2.5 sm:mb-6 select-none max-w-2xl mx-auto z-20 px-2">
-            <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 rounded-full border border-white/10 bg-white/5 text-zinc-300 text-[11px] sm:text-xs font-mono uppercase tracking-wider mb-1 sm:mb-2">
+          <div className="text-center mb-2 sm:mb-4 select-none max-w-2xl mx-auto z-20 px-2">
+            <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 rounded-full border border-white/10 bg-white/5 text-zinc-300 text-[11px] sm:text-xs font-mono uppercase tracking-wider mb-1">
               <span>11,109 Shipped Commits</span>
             </div>
-            <h2 className="text-xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white font-sans leading-tight">
+            <h2 className="text-xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white font-sans leading-tight">
               GitHub Activity &amp; Daily Commits
             </h2>
-            <p className="text-zinc-400 text-[11px] sm:text-sm max-w-xl mx-auto mt-1 sm:mt-1.5 font-sans leading-relaxed">
+            <p className="text-zinc-400 text-[11px] sm:text-xs max-w-xl mx-auto mt-0.5 sm:mt-1 font-sans leading-relaxed">
               Ranked #11 Top Contributor in the Philippines with 11,109 verified commits across 70+ shipped applications.
             </p>
           </div>
@@ -303,7 +303,7 @@ export default function ContributionsSection() {
             pointerEvents: domoPointerEvents,
             zIndex: domoZIndex,
           }}
-          className="absolute inset-0 flex flex-col items-center justify-center pt-10 sm:pt-20 pb-4 sm:pb-6 px-2 sm:px-6 will-change-[transform,opacity] transform-gpu"
+          className="absolute inset-0 flex flex-col items-center justify-center pt-14 sm:pt-16 pb-3 sm:pb-5 px-2 sm:px-6 will-change-[transform,opacity] transform-gpu"
         >
           {/* Animated Background Typography: ECOSYSTEM (Letter-Spacing Expansion + Parallax) */}
           <motion.div
@@ -336,10 +336,10 @@ export default function ContributionsSection() {
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className="absolute top-20 left-4 sm:left-10 w-20 h-20 sm:w-26 sm:h-26 rounded-2xl border border-white/10 bg-[#121214]/80 backdrop-blur-md p-2 shadow-2xl opacity-40 hidden md:block will-change-transform"
+              className="absolute top-20 left-4 sm:left-10 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border border-white/10 bg-[#121214]/80 backdrop-blur-md p-2 shadow-2xl opacity-35 hidden xl:block will-change-transform"
             >
               <div className="relative w-full h-full rounded-xl overflow-hidden bg-black">
-                <Image src="/domo/domodomo_v2.png" alt="DomoDomo Panda Mascot" fill sizes="104px" className="object-cover" />
+                <Image src="/domo/domodomo_v2.png" alt="DomoDomo Panda Mascot" fill sizes="96px" className="object-cover" />
               </div>
             </motion.div>
 
@@ -355,10 +355,10 @@ export default function ContributionsSection() {
                 ease: "easeInOut",
                 delay: 0.5,
               }}
-              className="absolute top-20 right-4 sm:right-10 w-20 h-20 sm:w-26 sm:h-26 rounded-2xl border border-white/10 bg-[#121214]/80 backdrop-blur-md p-2 shadow-2xl opacity-40 hidden md:block will-change-transform"
+              className="absolute top-20 right-4 sm:right-10 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border border-white/10 bg-[#121214]/80 backdrop-blur-md p-2 shadow-2xl opacity-35 hidden xl:block will-change-transform"
             >
               <div className="relative w-full h-full rounded-xl overflow-hidden bg-black">
-                <Image src="/domo/domoscope.png" alt="DomoScope" fill sizes="104px" className="object-cover" />
+                <Image src="/domo/domoscope.png" alt="DomoScope" fill sizes="96px" className="object-cover" />
               </div>
             </motion.div>
 
@@ -374,10 +374,10 @@ export default function ContributionsSection() {
                 ease: "easeInOut",
                 delay: 1.0,
               }}
-              className="absolute bottom-14 left-4 sm:left-12 w-20 h-20 sm:w-26 sm:h-26 rounded-2xl border border-white/20 bg-[#121214]/90 backdrop-blur-xl p-2 shadow-2xl opacity-60 hidden md:block will-change-transform"
+              className="absolute bottom-14 left-4 sm:left-12 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border border-white/20 bg-[#121214]/90 backdrop-blur-xl p-2 shadow-2xl opacity-40 hidden xl:block will-change-transform"
             >
               <div className="relative w-full h-full rounded-xl overflow-hidden bg-black">
-                <Image src="/domo/domoskills.png" alt="DomoSkills" fill sizes="104px" className="object-cover" />
+                <Image src="/domo/domoskills.png" alt="DomoSkills" fill sizes="96px" className="object-cover" />
               </div>
             </motion.div>
 
@@ -393,10 +393,10 @@ export default function ContributionsSection() {
                 ease: "easeInOut",
                 delay: 1.5,
               }}
-              className="absolute bottom-14 right-4 sm:right-12 w-20 h-20 sm:w-26 sm:h-26 rounded-2xl border border-white/20 bg-[#121214]/90 backdrop-blur-xl p-2 shadow-2xl opacity-60 hidden md:block will-change-transform"
+              className="absolute bottom-14 right-4 sm:right-12 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border border-white/20 bg-[#121214]/90 backdrop-blur-xl p-2 shadow-2xl opacity-40 hidden xl:block will-change-transform"
             >
               <div className="relative w-full h-full rounded-xl overflow-hidden bg-black">
-                <Image src="/domo/domonote.png" alt="DomoNote" fill sizes="104px" className="object-cover" />
+                <Image src="/domo/domonote.png" alt="DomoNote" fill sizes="96px" className="object-cover" />
               </div>
             </motion.div>
           </div>

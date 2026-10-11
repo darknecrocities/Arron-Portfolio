@@ -33,12 +33,12 @@ const STACK_ICONS = [
 
 function AppIconStack({ onSelectProject, selectedId }: AppIconStackProps) {
   return (
-    <div className="relative w-full max-w-xl mx-auto my-3 sm:my-5 flex flex-col items-center select-none">
+    <div className="relative w-full max-w-xl mx-auto my-1 sm:my-2 flex flex-col items-center select-none">
       {/* Subtle silver glow behind stack */}
-      <div className="pointer-events-none absolute -inset-3 rounded-full bg-white/5 blur-2xl" />
+      <div className="pointer-events-none absolute -inset-2 rounded-full bg-white/5 blur-xl" />
 
       {/* Interactive Fanned App Icon Stack */}
-      <div className="relative flex items-center justify-center py-2 px-4 overflow-visible">
+      <div className="relative flex items-center justify-center py-1 px-4 overflow-visible">
         {STACK_ICONS.map((item, idx) => {
           const isSelected = selectedId === item.id;
           return (
@@ -46,9 +46,9 @@ function AppIconStack({ onSelectProject, selectedId }: AppIconStackProps) {
               key={item.id}
               onClick={() => onSelectProject?.(item.id)}
               animate={{
-                y: isSelected ? -14 : [0, -7, 0],
+                y: isSelected ? -10 : [0, -5, 0],
                 rotate: isSelected ? 0 : [item.rotate, item.rotate + (idx % 2 === 0 ? 2 : -2), item.rotate],
-                scale: isSelected ? 1.12 : [1, 1.04, 1],
+                scale: isSelected ? 1.08 : [1, 1.03, 1],
               }}
               transition={{
                 duration: 3.2 + (idx * 0.35),
@@ -57,19 +57,19 @@ function AppIconStack({ onSelectProject, selectedId }: AppIconStackProps) {
                 delay: idx * 0.2,
               }}
               whileHover={{
-                y: -16,
-                scale: 1.22,
+                y: -12,
+                scale: 1.15,
                 rotate: 0,
                 zIndex: 40,
                 transition: { type: "spring", stiffness: 350, damping: 20 },
               }}
               whileTap={{ scale: 0.95 }}
-              className={`relative -ml-4 sm:-ml-6 first:ml-0 rounded-[16px] sm:rounded-[20px] shadow-[0_12px_28px_rgba(0,0,0,0.85)] border border-white/20 overflow-hidden transition-all duration-300 focus:outline-none cursor-pointer ${
-                isSelected ? "ring-2 ring-white scale-110 z-30 -translate-y-3" : ""
+              className={`relative -ml-3 sm:-ml-4 first:ml-0 rounded-[12px] sm:rounded-[14px] shadow-[0_10px_24px_rgba(0,0,0,0.85)] border border-white/20 overflow-hidden transition-all duration-300 focus:outline-none cursor-pointer ${
+                isSelected ? "ring-2 ring-white scale-110 z-30 -translate-y-2" : ""
               }`}
               style={{
-                width: "clamp(52px, 6vw, 68px)",
-                height: "clamp(52px, 6vw, 68px)",
+                width: "clamp(38px, 4.2vw, 48px)",
+                height: "clamp(38px, 4.2vw, 48px)",
                 transform: `rotate(${item.rotate}deg)`,
                 zIndex: idx + 10,
                 backgroundColor: item.bg,
@@ -80,17 +80,17 @@ function AppIconStack({ onSelectProject, selectedId }: AppIconStackProps) {
                 src={item.src}
                 alt={item.alt}
                 fill
-                sizes="68px"
+                sizes="48px"
                 className="object-cover"
                 priority={idx < 3}
               />
-              <div className="pointer-events-none absolute inset-0 rounded-[16px] sm:rounded-[20px] ring-1 ring-inset ring-white/25" />
+              <div className="pointer-events-none absolute inset-0 rounded-[12px] sm:rounded-[14px] ring-1 ring-inset ring-white/25" />
             </motion.button>
           );
         })}
       </div>
 
-      <p className="text-[11px] font-mono text-zinc-500 mt-1">
+      <p className="text-[10px] sm:text-[11px] font-mono text-zinc-500 mt-0.5">
         ✦ Domo Ecosystem Suite · Click any app icon to inspect
       </p>
     </div>
@@ -130,25 +130,25 @@ export default function DomoEcosystemGrid({ className = "" }: DomoEcosystemGridP
         <div className="absolute bottom-1/4 left-1/3 w-2 h-2 rounded-full bg-white/20 blur-[2px]" />
       </div>
 
-      {/* HEADER: Clean & prominent (Matches Image 3) */}
-      <div className="text-center mb-2 sm:mb-4 px-2 sm:px-3">
+      {/* HEADER: Clean & prominent */}
+      <div className="text-center mb-1.5 sm:mb-2 px-2 sm:px-3">
         {/* Title */}
-        <h3 className="text-xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white font-sans leading-tight">
+        <h3 className="text-lg sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white font-sans leading-tight">
           Connected Platforms &amp; Autonomous Tools
         </h3>
 
         {/* Subtitle */}
-        <p className="text-zinc-400 text-[11px] sm:text-sm max-w-2xl mx-auto mt-1 sm:mt-1.5 font-sans leading-relaxed">
+        <p className="text-zinc-400 text-[11px] sm:text-xs max-w-xl mx-auto mt-0.5 sm:mt-1 font-sans leading-relaxed">
           Integrated, privacy-first companion applications engineered for modern developers, security
-          analysts, and AI agents. Click any application below to view technical architecture.
+          analysts, and AI agents.
         </p>
       </div>
 
-      {/* APP ICON STACK (Matches Image 4) */}
+      {/* APP ICON STACK */}
       <AppIconStack onSelectProject={handleSelectFromStack} selectedId={highlightedId} />
 
       {/* 6 CARDS (Responsive Carousel on mobile, 3x2 Grid on desktop) */}
-      <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 px-2 sm:px-3 mt-1 sm:mt-2 overflow-x-auto sm:overflow-visible pb-2 sm:pb-0 scrollbar-none snap-x">
+      <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 px-2 sm:px-3 mt-0.5 sm:mt-1 overflow-x-auto sm:overflow-visible pb-1 sm:pb-0 scrollbar-none snap-x">
         {DOMO_PROJECTS.map((project, index) => {
           const isHighlighted = highlightedId === project.id;
 
@@ -159,21 +159,21 @@ export default function DomoEcosystemGrid({ className = "" }: DomoEcosystemGridP
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
-              whileHover={{ y: -4, scale: 1.015 }}
-              className={`group relative flex flex-col justify-between rounded-2xl border bg-[#141417]/95 backdrop-blur-2xl p-4 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.9)] transition-all duration-300 text-left min-w-[260px] max-w-[290px] sm:min-w-0 sm:max-w-none flex-shrink-0 sm:flex-shrink snap-center ${
+              whileHover={{ y: -3, scale: 1.015 }}
+              className={`group relative flex flex-col justify-between rounded-xl sm:rounded-2xl border bg-[#141417]/95 backdrop-blur-2xl p-3 sm:p-3.5 lg:p-4 shadow-[0_12px_40px_rgba(0,0,0,0.9)] transition-all duration-300 text-left min-w-[250px] max-w-[280px] sm:min-w-0 sm:max-w-none flex-shrink-0 sm:flex-shrink snap-center ${
                 isHighlighted
                   ? "border-white shadow-[0_0_30px_rgba(255,255,255,0.25)] ring-1 ring-white/50"
                   : "border-white/15 hover:border-white/30 hover:shadow-[0_16px_45px_rgba(0,0,0,0.95)]"
               }`}
             >
               <div>
-                {/* TOP ROW: Squircle App Icon + Category Badge (Matches Image 3) */}
-                <div className="flex items-center justify-between gap-3 mb-3">
-                  {/* Real Squircle App Icon (Continuous Non-Stop Breathing - GPU accelerated) */}
+                {/* TOP ROW: Squircle App Icon + Category Badge */}
+                <div className="flex items-center justify-between gap-2.5 mb-2 sm:mb-2.5">
+                  {/* Real Squircle App Icon */}
                   <motion.div
                     animate={{
-                      y: [0, -3, 0],
-                      scale: [1, 1.05, 1],
+                      y: [0, -2, 0],
+                      scale: [1, 1.04, 1],
                     }}
                     transition={{
                       duration: 3.2,
@@ -181,50 +181,50 @@ export default function DomoEcosystemGrid({ className = "" }: DomoEcosystemGridP
                       ease: "easeInOut",
                       delay: index * 0.2,
                     }}
-                    className="relative w-11 h-11 rounded-[14px] overflow-hidden border border-white/20 bg-black shadow-md flex-shrink-0 group-hover:scale-110 transition-transform duration-300 will-change-transform"
+                    className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-[10px] sm:rounded-[12px] overflow-hidden border border-white/20 bg-black shadow-md flex-shrink-0 group-hover:scale-105 transition-transform duration-300 will-change-transform"
                   >
                     <Image
                       src={project.iconUrl}
                       alt={project.name}
                       fill
-                      sizes="44px"
+                      sizes="36px"
                       className="object-cover"
                     />
-                    <div className="pointer-events-none absolute inset-0 rounded-[14px] ring-1 ring-inset ring-white/25" />
+                    <div className="pointer-events-none absolute inset-0 rounded-[10px] sm:rounded-[12px] ring-1 ring-inset ring-white/25" />
                   </motion.div>
 
                   {/* Category Pill */}
-                  <span className="px-3 py-1 rounded-full text-[10px] font-mono text-zinc-400 bg-white/5 border border-white/10 select-none whitespace-nowrap">
+                  <span className="px-2 sm:px-2.5 py-0.5 rounded-full text-[9px] sm:text-[10px] font-mono text-zinc-400 bg-white/5 border border-white/10 select-none whitespace-nowrap">
                     {project.category}
                   </span>
                 </div>
 
-                {/* MIDDLE: App Title with Arrow ↗ (Matches Image 3) */}
+                {/* MIDDLE: App Title with Arrow ↗ */}
                 <div>
                   <a
                     href={project.demoUrl || project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group/title inline-flex items-center gap-1.5 text-base sm:text-lg font-bold text-white hover:text-zinc-200 transition-colors"
+                    className="group/title inline-flex items-center gap-1.5 text-sm sm:text-base font-bold text-white hover:text-zinc-200 transition-colors"
                   >
                     <span>{project.displayName}</span>
-                    <FiArrowUpRight className="text-sm text-zinc-400 group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5 transition-transform" />
+                    <FiArrowUpRight className="text-xs text-zinc-400 group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5 transition-transform" />
                   </a>
 
                   {/* 2-line Description */}
-                  <p className="text-xs text-zinc-400 leading-relaxed font-sans line-clamp-2 mt-1.5">
+                  <p className="text-[11px] sm:text-xs text-zinc-400 leading-relaxed font-sans line-clamp-2 mt-0.5 sm:mt-1">
                     {project.description}
                   </p>
                 </div>
               </div>
 
-              {/* CARD FOOTER: "⚡ Quick View" + "View >" (Matches Image 3) */}
-              <div className="flex items-center justify-between pt-3.5 mt-3.5 border-t border-white/5 text-xs text-zinc-400">
+              {/* CARD FOOTER: "⚡ Quick View" + "View >" */}
+              <div className="flex items-center justify-between pt-2 sm:pt-2.5 mt-2 sm:mt-2.5 border-t border-white/5 text-[11px] sm:text-xs text-zinc-400">
                 <button
                   onClick={() => setSelectedProject(project)}
-                  className="inline-flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer py-1"
+                  className="inline-flex items-center gap-1 hover:text-white transition-colors cursor-pointer py-0.5"
                 >
-                  <FiZap className="text-[11px] text-zinc-300" />
+                  <FiZap className="text-[10px] text-zinc-300" />
                   <span>Quick View</span>
                 </button>
 
@@ -232,7 +232,7 @@ export default function DomoEcosystemGrid({ className = "" }: DomoEcosystemGridP
                   href={project.demoUrl || project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-0.5 font-medium hover:text-white transition-colors py-1"
+                  className="inline-flex items-center gap-0.5 font-medium hover:text-white transition-colors py-0.5"
                 >
                   <span>View</span>
                   <FiChevronRight className="text-xs text-zinc-400 group-hover:translate-x-0.5 transition-transform" />
