@@ -17,67 +17,60 @@ import Reveal from "@/components/motion/Reveal";
 
 const INITIAL_REPOS = 9;
 
-const REVENUECAT_QUOTES = [
-  "RevenueCat Subscriptions Verified! 🛠️🐱",
-  "70+ Apps Shipped & Monetized! 🚀",
-  "In-App Purchases Integrated! ⚡",
-  "Shipathon Builder Award! 🐾",
-  "Purr-fect Architecture! ✨",
+const CAT_MASCOT_QUOTES = [
+  "Let's build something epic! 🐾",
+  "70+ Apps Shipped! ⚡",
+  "Shipathon Trophy Winner! 🏆",
+  "Clean code & local AI! ✨",
+  "Purr-fect Architecture! 🚀",
 ];
 
-function RevenueCatProjectBuddy() {
+function CatMascotBuddy() {
   const [speech, setSpeech] = useState<string | null>(null);
   const [wobble, setWobble] = useState(0);
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setWobble((w) => w + 1);
-    const q = REVENUECAT_QUOTES[Math.floor(Math.random() * REVENUECAT_QUOTES.length)];
+    const q = CAT_MASCOT_QUOTES[Math.floor(Math.random() * CAT_MASCOT_QUOTES.length)];
     setSpeech(q);
     setTimeout(() => setSpeech(null), 3200);
   };
 
   return (
     <motion.div
-      key={`rc-buddy-${wobble}`}
+      key={`cat-mascot-${wobble}`}
       onClick={handleClick}
-      whileHover={{ scale: 1.06, rotate: 2 }}
-      whileTap={{ scale: 0.92, rotate: -4 }}
-      className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full border border-amber-500/40 bg-[#140b07]/90 backdrop-blur-md shadow-lg cursor-pointer group relative"
-      title="Click RevenueCat Builder Mascot!"
+      whileHover={{ scale: 1.12, rotate: 3 }}
+      whileTap={{ scale: 0.9, rotate: -6 }}
+      className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 cursor-pointer group filter drop-shadow-[0_12px_30px_rgba(0,0,0,0.85)] flex-shrink-0"
+      title="Click Cat Mascot!"
       role="button"
       tabIndex={0}
-      aria-label="RevenueCat Builder Mascot"
+      aria-label="Interactive Cat Mascot"
     >
-      <div className="relative w-8 h-8 flex-shrink-0">
+      <div className="relative w-full h-full">
         <Image
-          src="/mascot/revenuecat_builder_animated.gif"
-          alt="RevenueCat Builder Cat"
+          src="/mascot/cat_mascot_animated.gif"
+          alt="Playful Animated Cat Mascot"
           fill
           unoptimized
           className="object-contain"
         />
       </div>
-      <div className="flex flex-col text-left font-mono">
-        <span className="text-[10px] text-amber-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
-          <span>RevenueCat Verified</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-        </span>
-        <span className="text-[9px] text-zinc-400">In-App Subscriptions &amp; Monetization</span>
-      </div>
 
-      {/* Speech Popover */}
+      {/* Speech Popover on Tap */}
       <AnimatePresence>
         {speech && (
           <motion.div
             initial={{ opacity: 0, scale: 0.7, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.7, y: 8 }}
-            transition={{ type: "spring", stiffness: 360, damping: 20 }}
-            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap px-3.5 py-1.5 rounded-xl border border-amber-400/80 bg-[#140b07]/98 backdrop-blur-md shadow-2xl text-xs font-mono text-amber-300 font-bold z-50 pointer-events-none"
+            transition={{ type: "spring", stiffness: 380, damping: 20 }}
+            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap px-3.5 py-1.5 rounded-xl border border-amber-400/80 bg-[#120a06]/98 backdrop-blur-md shadow-2xl text-xs font-mono text-amber-300 font-bold z-50 pointer-events-none"
           >
             {speech}
-            <div className="absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-3 h-3 bg-[#140b07] border-b border-r border-amber-400/80 rotate-45" />
+            <div className="absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-3 h-3 bg-[#120a06] border-b border-r border-amber-400/80 rotate-45" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -266,8 +259,8 @@ export default function ProjectsSection() {
             title="Selected Work"
             description="Private, offline-first AI tools, computer vision research and mobile apps. Tap a card for the details."
           />
-          <div className="sm:pb-8 flex-shrink-0">
-            <RevenueCatProjectBuddy />
+          <div className="sm:pb-4 flex-shrink-0">
+            <CatMascotBuddy />
           </div>
         </div>
 

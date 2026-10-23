@@ -78,23 +78,23 @@ function TrophyCardItem({ achievement, index, scrollProgress, onInspect }: Troph
                   <span>VERIFIED</span>
                 </div>
 
-                {/* RevenueCat Mascot Cameo on Shipathon Trophy Card */}
+                {/* Animated Cat Mascot Cameo on Shipathon Trophy Card */}
                 {achievement.id === "shipathon-appbuilders" && (
                   <motion.div
-                    key={`rc-trophy-${catWobble}`}
+                    key={`cat-trophy-${catWobble}`}
                     onClick={handleCatClick}
                     whileHover={{ scale: 1.15, rotate: 6 }}
                     whileTap={{ scale: 0.9, rotate: -8 }}
-                    className="absolute -top-3.5 right-12 z-30 cursor-pointer pointer-events-auto filter drop-shadow-[0_8px_18px_rgba(0,0,0,0.95)]"
-                    title="Click RevenueCat Shipathon Mascot!"
+                    className="absolute -top-5 right-10 z-30 cursor-pointer pointer-events-auto filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.95)]"
+                    title="Click Cat Mascot!"
                     role="button"
                     tabIndex={0}
-                    aria-label="RevenueCat Shipathon Winner Mascot"
+                    aria-label="Cat Mascot Shipathon Winner"
                   >
-                    <div className="relative w-11 h-11 sm:w-12 sm:h-12">
+                    <div className="relative w-14 h-14 sm:w-16 sm:h-16">
                       <Image
-                        src="/mascot/revenuecat_round_animated.gif"
-                        alt="RevenueCat Shipathon Mascot"
+                        src="/mascot/cat_mascot_animated.gif"
+                        alt="Animated Cat Mascot"
                         fill
                         unoptimized
                         className="object-contain"
