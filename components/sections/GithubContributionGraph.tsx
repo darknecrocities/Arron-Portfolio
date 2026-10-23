@@ -28,6 +28,7 @@ interface GithubContributionGraphProps {
   className?: string;
   isFloating?: boolean;
   scrollProgress?: MotionValue<number>;
+  onTotalChange?: (total: number) => void;
 }
 
 // Pure Black and White (Monochrome) levels - Authentic GitHub Calendar
@@ -65,11 +66,7 @@ function MonthLabel({
   return (
     <motion.span
       className="absolute top-0 font-medium transition-colors"
-      style={{
-        left: `${leftPx + 32}px`,
-        opacity: labelOpacity,
-        color: labelColor,
-      }}
+      style={{ left: `${leftPx + 32}px`, opacity: labelOpacity, color: labelColor }}
     >
       {name}
     </motion.span>
@@ -95,37 +92,26 @@ function WeekColumn({
     if (!isScrollDriven) return 1;
     if (curWave >= wIdx) return 1;
     const dist = wIdx - curWave;
-    if (dist <= 3) return 0.28 + (1 - dist / 3) * 0.72;
-    return 0.22;
+    return dist <= 3 ? 0.28 + (1 - dist / 3) * 0.72 : 0.22;
   });
 
   const colScale = useTransform(waveProgress, (curWave: number) => {
     if (!isScrollDriven) return 1;
     if (curWave >= wIdx) return 1;
     const dist = wIdx - curWave;
-    if (dist <= 2) return 0.92 + (1 - dist / 2) * 0.08;
-    return 0.88;
+    return dist <= 2 ? 0.92 + (1 - dist / 2) * 0.08 : 0.88;
   });
 
   const colY = useTransform(waveProgress, (curWave: number) => {
     if (!isScrollDriven) return 0;
     if (curWave >= wIdx) return 0;
     const dist = wIdx - curWave;
-    if (dist <= 3) return (dist / 3) * 5;
-    return 5;
+    return dist <= 3 ? (dist / 3) * 5 : 5;
   });
 
   return (
     <motion.div
-      style={
-        isScrollDriven
-          ? {
-              opacity: colOpacity,
-              scale: colScale,
-              y: colY,
-            }
-          : undefined
-      }
+      style={isScrollDriven ? { opacity: colOpacity, scale: colScale, y: colY } : undefined}
       initial={!isScrollDriven ? { opacity: 0, y: 8 } : undefined}
       whileInView={!isScrollDriven ? { opacity: 1, y: 0 } : undefined}
       viewport={{ once: true }}
@@ -143,7 +129,6 @@ function WeekColumn({
         }
 
         const color = LEVEL_COLORS[Math.min(day.level, 4)] || LEVEL_COLORS[0];
-
         return (
           <div
             key={day.date}
@@ -156,9 +141,7 @@ function WeekColumn({
           >
             <div
               className="w-[11px] h-[11px] rounded-[2px] transition-transform duration-100 hover:scale-125 hover:z-20 hover:ring-1 hover:ring-white"
-              style={{
-                backgroundColor: color,
-              }}
+              style={{ backgroundColor: color }}
             />
           </div>
         );
@@ -173,10 +156,7 @@ function ScanningBeam({ waveProgress }: { waveProgress: MotionValue<number> }) {
 
   return (
     <motion.div
-      style={{
-        x: beamX,
-        opacity: beamOpacity,
-      }}
+      style={{ x: beamX, opacity: beamOpacity }}
       className="pointer-events-none absolute top-7 bottom-4 w-10 -ml-5 bg-gradient-to-r from-transparent via-white/20 to-transparent blur-[2px] z-10"
     />
   );
@@ -186,9 +166,9 @@ export default function GithubContributionGraph({
   className = "",
   isFloating = true,
   scrollProgress,
+  onTotalChange,
 }: GithubContributionGraphProps) {
   const [data, setData] = useState<ContributionsData>(fallbackData as ContributionsData);
-  const [isLive, setIsLive] = useState(false);
   const [hoveredDay, setHoveredDay] = useState<{
     day: ContributionDay;
     x: number;
@@ -202,12 +182,12 @@ export default function GithubContributionGraph({
     let isMounted = true;
     async function fetchLiveContributions() {
       try {
-        const res = await fetch("/api/github-contributions?username=darknecrocities");
+        const res = await fetch(`/api/github-contributions?username=darknecrocities&t=${Date.now()}`);
         if (res.ok) {
           const freshData = await res.json();
-          if (isMounted && freshData && freshData.total && Array.isArray(freshData.contributions)) {
+          if (isMounted && freshData?.total?.lastYear && Array.isArray(freshData.contributions)) {
             setData(freshData);
-            setIsLive(true);
+            onTotalChange?.(freshData.total.lastYear);
           }
         }
       } catch (err) {
@@ -218,7 +198,7 @@ export default function GithubContributionGraph({
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [onTotalChange]);
 
   // Compute 53 weeks x 7 days calendar grid + month labels
   const { weeks, monthLabels } = useMemo(() => {
@@ -226,12 +206,11 @@ export default function GithubContributionGraph({
     if (days.length === 0) return { weeks: [], monthLabels: [] };
 
     const firstDate = new Date(days[0].date);
-    const firstDayOfWeek = firstDate.getUTCDay(); // 0 is Sunday
+    const firstDayOfWeek = firstDate.getUTCDay();
 
     const calculatedWeeks: (ContributionDay | null)[][] = [];
     let currentWeek: (ContributionDay | null)[] = [];
 
-    // Pad first week if needed
     for (let i = 0; i < firstDayOfWeek; i++) {
       currentWeek.push(null);
     }
@@ -269,61 +248,33 @@ export default function GithubContributionGraph({
     return { weeks: calculatedWeeks, monthLabels: labels };
   }, [data]);
 
-  const totalCount = data.total?.lastYear || 11109;
+  const totalCount = data.total?.lastYear || fallbackData.total?.lastYear || 11375;
 
-  // Map scroll progress (active stage: ~0.10 -> 0.38) across all 53 weeks (0 -> 54)
+  // Map scroll progress across weeks
   const fallbackWave = useMotionValue(54);
-  const waveProgress = useTransform(
-    scrollProgress ?? fallbackWave,
-    (p: number) => {
-      if (!scrollProgress) return 54;
-      const start = 0.10;
-      const end = 0.38;
-      const clamped = Math.min(Math.max((p - start) / (end - start), 0), 1);
-      return clamped * 54;
-    }
-  );
+  const waveProgress = useTransform(scrollProgress ?? fallbackWave, (p: number) => {
+    if (!scrollProgress) return 54;
+    const clamped = Math.min(Math.max((p - 0.1) / 0.28, 0), 1);
+    return clamped * 54;
+  });
   const isScrollDriven = !!scrollProgress;
   const activeWave = isScrollDriven ? waveProgress : fallbackWave;
 
   return (
     <div className={`w-full max-w-5xl mx-auto ${className}`}>
-      {/* CONTINUOUS NON-STOP BREATHING WRAPPER FOR THE WHOLE GRAPH */}
       <motion.div
-        animate={
-          isFloating
-            ? {
-                y: [0, -8, 0],
-                scale: [1, 1.014, 1],
-              }
-            : {}
-        }
-        transition={{
-          duration: 4.8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        animate={isFloating ? { y: [0, -8, 0], scale: [1, 1.014, 1] } : {}}
+        transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
         className="relative group"
       >
         {/* Subtle monochrome silver breathing backdrop aura */}
         <motion.div
-          animate={
-            isFloating
-              ? {
-                  opacity: [0.2, 0.5, 0.2],
-                  scale: [0.96, 1.04, 0.96],
-                }
-              : {}
-          }
-          transition={{
-            duration: 4.8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          animate={isFloating ? { opacity: [0.2, 0.5, 0.2], scale: [0.96, 1.04, 0.96] } : {}}
+          transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
           className="pointer-events-none absolute -inset-6 rounded-3xl bg-gradient-to-r from-white/12 via-zinc-400/8 to-white/12 blur-3xl -z-10"
         />
 
-        {/* HEADER: Title & Settings Dropdown (Pure Black & White) */}
+        {/* HEADER: Title & Settings Dropdown (Without Live Synced badge) */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -331,21 +282,10 @@ export default function GithubContributionGraph({
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 mb-2.5 sm:mb-3 px-1"
         >
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          <div className="flex items-center">
             <h3 className="text-lg sm:text-2xl font-bold tracking-tight text-white font-sans">
               {totalCount.toLocaleString()} contributions in the last year
             </h3>
-            {/* Monochrome live sync badge */}
-            <span
-              className="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-mono border border-white/20 bg-white/5 text-zinc-300"
-              title="Daily dynamic synchronization via GitHub API"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
-              </span>
-              {isLive ? "Live Synced" : "Daily Sync"}
-            </span>
           </div>
 
           {/* Right: Contribution settings dropdown */}
@@ -362,7 +302,6 @@ export default function GithubContributionGraph({
               />
             </button>
 
-            {/* Dropdown Menu */}
             <AnimatePresence>
               {settingsOpen && (
                 <motion.div
@@ -425,35 +364,29 @@ export default function GithubContributionGraph({
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
           className="relative rounded-xl border border-zinc-800 bg-[#0c0c0e] p-3.5 sm:p-6 shadow-2xl overflow-hidden"
         >
-          {/* Subtle silver top sheen */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
           {/* Horizontal scroll container for the grid */}
           <div className="overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
             <div className="min-w-[760px] select-none relative">
-              {/* SCANNING BEAM / LIGHT SHIMMER (GLIDES ACROSS WEEKS AS YOU SCROLL) */}
               {isScrollDriven && <ScanningBeam waveProgress={activeWave} />}
 
               {/* MONTH LABELS ROW */}
               <div className="relative h-5 mb-1 pl-8 text-[11px] font-sans text-zinc-400">
-                {monthLabels.map((m, idx) => {
-                  const leftPx = m.colIndex * 14;
-                  return (
-                    <MonthLabel
-                      key={`${m.name}-${m.colIndex}-${idx}`}
-                      name={m.name}
-                      leftPx={leftPx}
-                      colIndex={m.colIndex}
-                      waveProgress={activeWave}
-                      isScrollDriven={isScrollDriven}
-                    />
-                  );
-                })}
+                {monthLabels.map((m, idx) => (
+                  <MonthLabel
+                    key={`${m.name}-${m.colIndex}-${idx}`}
+                    name={m.name}
+                    leftPx={m.colIndex * 14}
+                    colIndex={m.colIndex}
+                    waveProgress={activeWave}
+                    isScrollDriven={isScrollDriven}
+                  />
+                ))}
               </div>
 
               {/* GRID CONTAINER: Left labels + 53 columns */}
               <div className="flex gap-2">
-                {/* Weekday labels */}
                 <div className="flex flex-col justify-between h-[95px] text-[10px] font-sans text-zinc-500 pr-1 select-none pt-[1px] pb-[1px] w-7">
                   <span className="h-[11px] leading-[11px] opacity-0">Sun</span>
                   <span className="h-[11px] leading-[11px]">Mon</span>
@@ -464,7 +397,6 @@ export default function GithubContributionGraph({
                   <span className="h-[11px] leading-[11px] opacity-0">Sat</span>
                 </div>
 
-                {/* 53 Columns of 7 Squares (Monochrome) */}
                 <div className="flex gap-[3px]">
                   {weeks.map((week, wIdx) => (
                     <WeekColumn
@@ -480,7 +412,7 @@ export default function GithubContributionGraph({
                 </div>
               </div>
 
-              {/* CARD FOOTER: Monochrome "Learn how we count contributions" + Legend */}
+              {/* CARD FOOTER */}
               <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] sm:text-[11px] text-zinc-400 mt-3.5 sm:mt-4 pt-3 border-t border-zinc-800/80">
                 <a
                   href="https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile/why-are-my-contributions-not-showing-up-on-my-profile"
@@ -507,7 +439,7 @@ export default function GithubContributionGraph({
               </div>
             </div>
           </div>
-          {/* Mobile swipe hint */}
+
           <p className="text-[10px] font-mono text-zinc-500 text-right mt-1 sm:hidden select-none">
             ← Scroll horizontally to view full year →
           </p>
@@ -522,10 +454,7 @@ export default function GithubContributionGraph({
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.12 }}
               className="fixed pointer-events-none z-50 px-2.5 py-1 rounded-md bg-[#18181b] border border-zinc-700 text-white text-[11px] font-sans shadow-xl transform -translate-x-1/2 whitespace-nowrap"
-              style={{
-                left: `${hoveredDay.x}px`,
-                top: `${hoveredDay.y}px`,
-              }}
+              style={{ left: `${hoveredDay.x}px`, top: `${hoveredDay.y}px` }}
             >
               <span className="font-semibold text-white">
                 {hoveredDay.day.count === 0

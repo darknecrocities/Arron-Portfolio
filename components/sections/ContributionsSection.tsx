@@ -1,13 +1,15 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import GithubContributionGraph from "@/components/sections/GithubContributionGraph";
 import DomoEcosystemGrid from "@/components/sections/DomoEcosystemGrid";
+import fallbackData from "@/data/contributions-fallback.json";
 
 export default function ContributionsSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [totalCommits, setTotalCommits] = useState(fallbackData?.total?.lastYear || 11375);
 
   // Track scroll starting just as the section enters the viewport
   // Runway is 650vh for an ultra-smooth, long, stately pinned scroll!
@@ -205,19 +207,23 @@ export default function ContributionsSection() {
           {/* Section Heading */}
           <div className="text-center mb-2 sm:mb-4 select-none max-w-2xl mx-auto z-20 px-2">
             <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 rounded-full border border-white/10 bg-white/5 text-zinc-300 text-[11px] sm:text-xs font-mono uppercase tracking-wider mb-1">
-              <span>11,109 Shipped Commits</span>
+              <span>{totalCommits.toLocaleString()} Shipped Commits</span>
             </div>
             <h2 className="text-xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white font-sans leading-tight">
               GitHub Activity &amp; Daily Commits
             </h2>
             <p className="text-zinc-400 text-[11px] sm:text-xs max-w-xl mx-auto mt-0.5 sm:mt-1 font-sans leading-relaxed">
-              Ranked #11 Top Contributor in the Philippines with 11,109 verified commits across 70+ shipped applications.
+              Ranked #11 Top Contributor in the Philippines with {totalCommits.toLocaleString()} verified commits across 70+ shipped applications.
             </p>
           </div>
 
           {/* The GitHub Contribution Graph Card */}
           <div className="w-full max-w-4xl sm:max-w-5xl mx-auto z-20">
-            <GithubContributionGraph isFloating={true} scrollProgress={smoothProgress} />
+            <GithubContributionGraph
+              isFloating={true}
+              scrollProgress={smoothProgress}
+              onTotalChange={setTotalCommits}
+            />
           </div>
         </motion.div>
 
