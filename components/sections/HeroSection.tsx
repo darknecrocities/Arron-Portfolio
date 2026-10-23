@@ -215,12 +215,12 @@ export default function HeroSection() {
               }}
               className="lg:col-span-5 flex justify-center lg:justify-end will-change-transform origin-center relative z-20"
             >
-              <div className="relative w-full max-w-[320px] sm:max-w-[380px] lg:max-w-[420px] aspect-[4/5] shadow-2xl">
+              <div className="relative w-full max-w-[320px] sm:max-w-[380px] lg:max-w-[420px] aspect-[4/5] p-2 shadow-2xl">
                 
-                {/* Frame border & backing that dissolves smoothly before massive zoom */}
+                {/* Frame border that dissolves smoothly before massive zoom */}
                 <motion.div
                   style={{ opacity: frameOpacity }}
-                  className="absolute inset-0 bg-[#0c0c0c] border border-white/20 pointer-events-none z-10"
+                  className="absolute inset-0 border border-white/20 pointer-events-none z-20"
                 />
 
                 {/* =============================================================
@@ -301,7 +301,7 @@ export default function HeroSection() {
                 {/* Clean bottom frame label (dissolves with frame) */}
                 <motion.div
                   style={{ opacity: frameOpacity }}
-                  className="absolute bottom-2 left-2 right-2 pt-2 px-1 flex items-center justify-between font-mono text-[10px] text-zinc-400 uppercase tracking-widest z-10"
+                  className="absolute bottom-2 left-3 right-3 pt-2 px-1 flex items-center justify-between font-mono text-[10px] text-zinc-400 uppercase tracking-widest z-20 bg-black/60 backdrop-blur-sm"
                 >
                   <span>ARRON KIAN PAREJAS</span>
                   <span className="text-zinc-500">PAMPANGA, PH</span>
