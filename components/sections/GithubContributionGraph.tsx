@@ -65,8 +65,8 @@ function MonthLabel({
 
   return (
     <motion.span
-      className="absolute top-0 font-medium transition-colors"
-      style={{ left: `${leftPx + 32}px`, opacity: labelOpacity, color: labelColor }}
+      className="absolute top-0 font-medium transition-colors pointer-events-none select-none text-[11px]"
+      style={{ left: `${leftPx + 36}px`, opacity: labelOpacity, color: labelColor }}
     >
       {name}
     </motion.span>
@@ -151,7 +151,7 @@ function WeekColumn({
 }
 
 function ScanningBeam({ waveProgress }: { waveProgress: MotionValue<number> }) {
-  const beamX = useTransform(waveProgress, (w) => `${w * 14 + 32}px`);
+  const beamX = useTransform(waveProgress, (w) => `${w * 14 + 36}px`);
   const beamOpacity = useTransform(waveProgress, [0, 1.5, 51, 54], [0, 0.65, 0.65, 0]);
 
   return (
@@ -202,8 +202,11 @@ export default function GithubContributionGraph({
 
   // Compute 53 weeks x 7 days calendar grid + month labels
   const { weeks, monthLabels } = useMemo(() => {
-    const days = data.contributions || [];
-    if (days.length === 0) return { weeks: [], monthLabels: [] };
+    const rawDays = data.contributions || [];
+    if (rawDays.length === 0) return { weeks: [], monthLabels: [] };
+
+    // Defensively sort by ISO date string (YYYY-MM-DD) to prevent multi-pass month jumping
+    const days = [...rawDays].sort((a, b) => a.date.localeCompare(b.date));
 
     const firstDate = new Date(days[0].date);
     const firstDayOfWeek = firstDate.getUTCDay();
@@ -225,7 +228,8 @@ export default function GithubContributionGraph({
       if (m !== lastMonth) {
         const colIndex = calculatedWeeks.length;
         const monthName = d.toLocaleString("en-US", { month: "short", timeZone: "UTC" });
-        if (!labels.length || labels[labels.length - 1].colIndex !== colIndex) {
+        // Enforce at least 3 columns (~42px) between month labels to guarantee zero overlap
+        if (!labels.length || colIndex - labels[labels.length - 1].colIndex >= 3) {
           labels.push({ name: monthName, colIndex });
         }
         lastMonth = m;
@@ -371,8 +375,8 @@ export default function GithubContributionGraph({
             <div className="min-w-[760px] select-none relative">
               {isScrollDriven && <ScanningBeam waveProgress={activeWave} />}
 
-              {/* MONTH LABELS ROW */}
-              <div className="relative h-5 mb-1 pl-8 text-[11px] font-sans text-zinc-400">
+              {/* MONTH LABELS ROW: Exactly aligned with 36px column offset */}
+              <div className="relative h-5 mb-1 text-[11px] font-sans text-zinc-400">
                 {monthLabels.map((m, idx) => (
                   <MonthLabel
                     key={`${m.name}-${m.colIndex}-${idx}`}

@@ -66,6 +66,10 @@ async function scrapeGitHubDirect(username: string) {
     throw new Error("Unable to parse HTML contributions");
   }
 
+  // GitHub HTML table rows are organized by weekday (Sun, Mon, Tue...),
+  // so days MUST be sorted chronologically by ISO date to prevent jumbled months.
+  days.sort((a, b) => a.date.localeCompare(b.date));
+
   return {
     total: { lastYear: total || days.reduce((sum, d) => sum + d.count, 0) },
     contributions: days,
