@@ -6,13 +6,99 @@ import Image from "next/image";
 
 type EdgePosition = "right" | "left" | "bottom";
 
-interface PeekLocation {
+interface BurrowHole {
+  id: string;
   edge: EdgePosition;
-  offsetPercent: number; // Vertical % for side edges (32-55), Horizontal % for bottom (28-72)
+  label: string;
+  containerStyle: React.CSSProperties;
+  transformOrigin: string;
   tilt: number;
-  quote: string;
-  id: number;
 }
+
+interface ActiveBurrow extends BurrowHole {
+  spawnId: number;
+}
+
+// 9 Distinct Burrow Holes scattered all around the screen perimeter (never repeats!)
+const BURROW_HOLES: BurrowHole[] = [
+  // Floor burrows (popping straight up like a rabbit from underground)
+  {
+    id: "floor-left",
+    edge: "bottom",
+    label: "Left Floor Burrow",
+    containerStyle: { position: "fixed", bottom: 0, left: "22%", transform: "translateX(-50%)", zIndex: 40 },
+    transformOrigin: "bottom center",
+    tilt: 2,
+  },
+  {
+    id: "floor-mid",
+    edge: "bottom",
+    label: "Center Floor Burrow",
+    containerStyle: { position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", zIndex: 40 },
+    transformOrigin: "bottom center",
+    tilt: 0,
+  },
+  {
+    id: "floor-right",
+    edge: "bottom",
+    label: "Right Floor Burrow",
+    containerStyle: { position: "fixed", bottom: 0, left: "78%", transform: "translateX(-50%)", zIndex: 40 },
+    transformOrigin: "bottom center",
+    tilt: -2,
+  },
+
+  // Left wall tunnels (peeking around the left screen bezel)
+  {
+    id: "wall-left-high",
+    edge: "left",
+    label: "Upper Left Tunnel",
+    containerStyle: { position: "fixed", left: 0, top: "30%", transform: "translateY(-50%)", zIndex: 40 },
+    transformOrigin: "bottom left",
+    tilt: 23,
+  },
+  {
+    id: "wall-left-mid",
+    edge: "left",
+    label: "Mid Left Tunnel",
+    containerStyle: { position: "fixed", left: 0, top: "50%", transform: "translateY(-50%)", zIndex: 40 },
+    transformOrigin: "bottom left",
+    tilt: 20,
+  },
+  {
+    id: "wall-left-low",
+    edge: "left",
+    label: "Lower Left Tunnel",
+    containerStyle: { position: "fixed", left: 0, top: "70%", transform: "translateY(-50%)", zIndex: 40 },
+    transformOrigin: "bottom left",
+    tilt: 17,
+  },
+
+  // Right wall tunnels (peeking around the right screen bezel)
+  {
+    id: "wall-right-high",
+    edge: "right",
+    label: "Upper Right Tunnel",
+    containerStyle: { position: "fixed", right: 0, top: "30%", transform: "translateY(-50%)", zIndex: 40 },
+    transformOrigin: "bottom right",
+    tilt: -23,
+  },
+  {
+    id: "wall-right-mid",
+    edge: "right",
+    label: "Mid Right Tunnel",
+    containerStyle: { position: "fixed", right: 0, top: "50%", transform: "translateY(-50%)", zIndex: 40 },
+    transformOrigin: "bottom right",
+    tilt: -20,
+  },
+  {
+    id: "wall-right-low",
+    edge: "right",
+    label: "Lower Right Tunnel",
+    containerStyle: { position: "fixed", right: 0, top: "70%", transform: "translateY(-50%)", zIndex: 40 },
+    transformOrigin: "bottom right",
+    tilt: -17,
+  },
+];
 
 const VALID_SECTIONS = [
   "about",
@@ -32,10 +118,11 @@ const MAX_PEEKS_PER_SECTION = 2;
 const MASCOT_QUOTES = [
   "Ship-a-little Winner 🏆",
   "Arron Built this 🚀",
+  "Found another burrow! 🕳️",
   "Meet Arron! 🐾",
   "500+ Commits Shipped! ⚡",
-  "Domo Ecosystem Alive! ✨",
-  "Peek-a-boo! 🐱",
+  "Boing! 🐰",
+  "Peek-a-boo! ✨",
 ];
 
 const emptySubscribe = () => () => {};
@@ -47,7 +134,7 @@ export default function PeekingMascot() {
     () => false
   );
 
-  const [peekState, setPeekState] = useState<PeekLocation | null>(null);
+  const [activeHole, setActiveHole] = useState<ActiveBurrow | null>(null);
   const [speechBubble, setSpeechBubble] = useState<string | null>(null);
   const [tapWobble, setTapWobble] = useState(0);
 
@@ -57,61 +144,50 @@ export default function PeekingMascot() {
   const lastPeekTimeRef = useRef(0);
   const peekCounterRef = useRef(0);
 
+  // History buffer to ensure it NEVER spawns in the same hole twice in a row
+  const recentHolesRef = useRef<string[]>([]);
+
   // Section-based rate limiter (strictly 1-2 peeks per section to prevent spam)
   const sectionPeekCountsRef = useRef<Record<string, number>>({});
   const lastSectionRef = useRef<string | null>(null);
   const sectionScrollDeltaRef = useRef<number>(0);
 
-  // Trigger a new randomized peek from any edge/offset with safe viewport clamping
+  // Trigger a new randomized peek from a fresh burrow hole
   const triggerRandomPeek = useCallback(() => {
     const now = Date.now();
-    // Throttle new spawns so it doesn't flicker
-    if (now - lastPeekTimeRef.current < 1500) return;
+    // Throttle new spawns
+    if (now - lastPeekTimeRef.current < 1600) return;
     lastPeekTimeRef.current = now;
 
-    // Pick random edge
-    const edges: EdgePosition[] = ["right", "left", "bottom"];
-    const randomEdge = edges[Math.floor(Math.random() * edges.length)];
+    // Pick from holes not used in the last 3 spawns
+    const candidateHoles = BURROW_HOLES.filter(
+      (h) => !recentHolesRef.current.includes(h.id)
+    );
+    const chosenHole =
+      candidateHoles.length > 0
+        ? candidateHoles[Math.floor(Math.random() * candidateHoles.length)]
+        : BURROW_HOLES[Math.floor(Math.random() * BURROW_HOLES.length)];
 
-    let offsetPercent = 45;
-    let tilt = 0;
-
-    if (randomEdge === "right") {
-      // Safe vertical offset clamped between 32% and 55% so it never cuts off at top or bottom
-      offsetPercent = Math.floor(Math.random() * 24) + 32;
-      // Natural leaning tilt into the viewport
-      tilt = -(Math.floor(Math.random() * 5) + 20); // -20deg to -24deg
-    } else if (randomEdge === "left") {
-      // Safe vertical offset clamped between 32% and 55%
-      offsetPercent = Math.floor(Math.random() * 24) + 32;
-      // Natural leaning tilt into the viewport
-      tilt = Math.floor(Math.random() * 5) + 20; // +20deg to +24deg
-    } else {
-      // Bottom edge: safe horizontal offset clamped between 28% and 72% away from corners
-      offsetPercent = Math.floor(Math.random() * 44) + 28;
-      // Upright posture for bottom pop-up
-      tilt = 0;
-    }
+    // Update history buffer
+    recentHolesRef.current = [...recentHolesRef.current.slice(-2), chosenHole.id];
 
     const randomQuote = MASCOT_QUOTES[Math.floor(Math.random() * MASCOT_QUOTES.length)];
     peekCounterRef.current += 1;
 
-    setPeekState({
-      edge: randomEdge,
-      offsetPercent,
-      tilt,
-      quote: randomQuote,
-      id: peekCounterRef.current,
+    setActiveHole({
+      ...chosenHole,
+      spawnId: peekCounterRef.current,
     });
+    setSpeechBubble(randomQuote);
     isPeekingRef.current = true;
 
-    // Reset hide timer: retreat into hole after 2.0s
+    // Auto-retract back into hole after 2.2s
     if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
     hideTimerRef.current = setTimeout(() => {
-      setPeekState(null);
+      setActiveHole(null);
       setSpeechBubble(null);
       isPeekingRef.current = false;
-    }, 2000);
+    }, 2200);
   }, []);
 
   // Listen to scroll events: strictly limit to 1-2 peeks per section
@@ -140,7 +216,7 @@ export default function PeekingMascot() {
       // If outside active sections (Hero or Contact footer), retract and hide
       if (!activeSectionId) {
         if (isPeekingRef.current) {
-          setPeekState(null);
+          setActiveHole(null);
           setSpeechBubble(null);
           isPeekingRef.current = false;
         }
@@ -162,9 +238,9 @@ export default function PeekingMascot() {
         return;
       }
 
-      // 1st peek triggers after entering section (scroll delta > 90px)
+      // 1st peek triggers after entering section (scroll delta > 80px)
       // 2nd peek triggers only after extensive scrolling within section (scroll delta > 420px)
-      const threshold = count === 0 ? 90 : 420;
+      const threshold = count === 0 ? 80 : 420;
 
       if (sectionScrollDeltaRef.current >= threshold && !isPeekingRef.current) {
         sectionPeekCountsRef.current[activeSectionId] = count + 1;
@@ -184,12 +260,13 @@ export default function PeekingMascot() {
   const handleMascotTap = useCallback(() => {
     setTapWobble((prev) => prev + 1);
     const quotes = [
-      peekState?.quote || "Ship-a-little Winner 🏆",
+      "Ship-a-little Winner 🏆",
       "Arron Built this 🚀",
+      "You found my burrow! 🕳️",
       "Meet Arron! 🐾",
       "500+ Commits Shipped! ⚡",
       "Domo Ecosystem Alive! ✨",
-      "Peek-a-boo! 🐱",
+      "Boing! 🐰",
     ];
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
     setSpeechBubble(randomQuote);
@@ -197,73 +274,47 @@ export default function PeekingMascot() {
     // Keep mascot visible longer when interacting
     if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
     hideTimerRef.current = setTimeout(() => {
-      setPeekState(null);
+      setActiveHole(null);
       setSpeechBubble(null);
       isPeekingRef.current = false;
     }, 2800);
-  }, [peekState]);
+  }, []);
 
   if (!isMounted) return null;
 
-  const isVisible = peekState !== null;
-  const edge = peekState?.edge || "right";
+  const isVisible = activeHole !== null;
+  const edge = activeHole?.edge || "bottom";
 
-  // Dynamic positioning and transforms: lower body anchored right on the edge
-  let containerStyle: React.CSSProperties = {};
+  // Dynamic animations tailored to each burrow type
   let initialVariant = {};
   let animateVariant = {};
   let exitVariant = {};
-  let transformOrigin = "center center";
 
   if (edge === "right") {
-    containerStyle = {
-      position: "fixed",
-      right: 0,
-      top: `${peekState?.offsetPercent || 45}%`,
-      transform: "translateY(-50%)",
-      zIndex: 40,
-    };
-    transformOrigin = "bottom right";
-    initialVariant = { x: "105%", opacity: 0, rotate: 0 };
+    initialVariant = { x: "110%", opacity: 0, rotate: 0 };
     animateVariant = {
       x: "28%",
       opacity: 1,
-      rotate: peekState?.tilt || -22,
+      rotate: activeHole?.tilt || -20,
     };
-    exitVariant = { x: "105%", opacity: 0, transition: { duration: 0.22 } };
+    exitVariant = { x: "110%", opacity: 0, transition: { duration: 0.22 } };
   } else if (edge === "left") {
-    containerStyle = {
-      position: "fixed",
-      left: 0,
-      top: `${peekState?.offsetPercent || 45}%`,
-      transform: "translateY(-50%)",
-      zIndex: 40,
-    };
-    transformOrigin = "bottom left";
-    initialVariant = { x: "-105%", opacity: 0, rotate: 0 };
+    initialVariant = { x: "-110%", opacity: 0, rotate: 0 };
     animateVariant = {
       x: "-28%",
       opacity: 1,
-      rotate: peekState?.tilt || 22,
+      rotate: activeHole?.tilt || 20,
     };
-    exitVariant = { x: "-105%", opacity: 0, transition: { duration: 0.22 } };
+    exitVariant = { x: "-110%", opacity: 0, transition: { duration: 0.22 } };
   } else {
-    // bottom edge
-    containerStyle = {
-      position: "fixed",
-      bottom: 0,
-      left: `${peekState?.offsetPercent || 50}%`,
-      transform: "translateX(-50%)",
-      zIndex: 40,
-    };
-    transformOrigin = "bottom center";
-    initialVariant = { y: "105%", opacity: 0, rotate: 0 };
+    // bottom edge burrow
+    initialVariant = { y: "110%", opacity: 0, rotate: 0 };
     animateVariant = {
       y: "28%",
       opacity: 1,
-      rotate: 0,
+      rotate: activeHole?.tilt || 0,
     };
-    exitVariant = { y: "105%", opacity: 0, transition: { duration: 0.22 } };
+    exitVariant = { y: "110%", opacity: 0, transition: { duration: 0.22 } };
   }
 
   return (
@@ -271,34 +322,36 @@ export default function PeekingMascot() {
       <AnimatePresence mode="wait">
         {isVisible && (
           <motion.div
-            key={`mascot-peek-${peekState.id}`}
-            style={{ ...containerStyle, transformOrigin }}
+            key={`burrow-${activeHole.id}-${activeHole.spawnId}`}
+            style={{ ...activeHole.containerStyle, transformOrigin: activeHole.transformOrigin }}
             className="pointer-events-auto cursor-pointer group will-change-transform"
             initial={initialVariant}
             animate={animateVariant}
             exit={exitVariant}
             transition={{
               type: "spring",
-              stiffness: 145,
-              damping: 14,
-              mass: 0.8,
+              stiffness: 200,
+              damping: 15,
+              mass: 0.75,
             }}
             onClick={handleMascotTap}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.94 }}
           >
-            {/* Edge Burrow Shadow ("The Hole") */}
-            {edge === "right" && (
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-56 bg-radial-gradient from-black/90 via-black/50 to-transparent blur-md pointer-events-none -z-10" />
+            {/* ===============================================================
+                AUTHENTIC 3D RABBIT BURROW HOLE RIM ("THE HOLE")
+                =============================================================== */}
+            {edge === "bottom" && (
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-52 sm:w-64 h-9 rounded-[100%] bg-[#080504] border-2 border-amber-500/40 shadow-[inset_0_6px_16px_rgba(0,0,0,1),0_0_24px_rgba(245,158,11,0.25)] -z-10" />
             )}
             {edge === "left" && (
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-56 bg-radial-gradient from-black/90 via-black/50 to-transparent blur-md pointer-events-none -z-10" />
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-9 sm:w-11 h-60 rounded-r-[100%] bg-[#080504] border-r-2 border-amber-500/40 shadow-[inset_-6px_0_16px_rgba(0,0,0,1),0_0_24px_rgba(245,158,11,0.25)] -z-10" />
             )}
-            {edge === "bottom" && (
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-56 h-10 bg-radial-gradient from-black/90 via-black/50 to-transparent blur-md pointer-events-none -z-10" />
+            {edge === "right" && (
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-9 sm:w-11 h-60 rounded-l-[100%] bg-[#080504] border-l-2 border-amber-500/40 shadow-[inset_6px_0_16px_rgba(0,0,0,1),0_0_24px_rgba(245,158,11,0.25)] -z-10" />
             )}
 
-            {/* Speech Bubble Tooltip */}
+            {/* Speech Bubble Popover */}
             <AnimatePresence>
               {speechBubble && (
                 <motion.div
@@ -328,7 +381,7 @@ export default function PeekingMascot() {
               )}
             </AnimatePresence>
 
-            {/* Responsive Mascot Character Image with Lower Body on Edge */}
+            {/* Mascot Character Image Popping out of the Burrow */}
             <motion.div
               key={tapWobble}
               animate={{
@@ -342,7 +395,7 @@ export default function PeekingMascot() {
             >
               <Image
                 src="/mascot/peeking_mascot.png"
-                alt="Playful Mascot Peeking"
+                alt="Playful Rabbit Mascot in a Hole"
                 fill
                 sizes="(max-width: 640px) 224px, (max-width: 1024px) 320px, 384px"
                 className="object-contain"
