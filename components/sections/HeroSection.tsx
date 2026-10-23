@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { FiGithub, FiLinkedin, FiInstagram, FiMail, FiArrowDown, FiDownload } from "react-icons/fi";
@@ -45,20 +45,34 @@ export default function HeroSection() {
   const ref = useRef<HTMLElement>(null);
   const [claudeWobble, setClaudeWobble] = useState(0);
   const [claudeSpeech, setClaudeSpeech] = useState<string | null>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   // Scroll camera shift & dramatic zoom into portrait
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
 
-  // Left text column fades and drifts left early in the scroll
-  const textOpacity = useTransform(scrollYProgress, [0, 0.22], [1, 0]);
-  const textX = useTransform(scrollYProgress, [0, 0.22], [0, -95]);
-  const textScale = useTransform(scrollYProgress, [0, 0.22], [1, 0.92]);
+  // 1. Left text column fades out early and swiftly
+  const textOpacity = useTransform(scrollYProgress, [0, 0.08], [1, 0]);
+  const textX = useTransform(scrollYProgress, [0, 0.08], [0, -60]);
+  const textScale = useTransform(scrollYProgress, [0, 0.08], [1, 0.95]);
+  const textPointerEvents = useTransform(scrollYProgress, (p) => (p > 0.06 ? "none" : "auto"));
 
-  // Camera shift and zoom on portrait: shifts from right column 5 directly to screen center
-  const photoScale = useTransform(scrollYProgress, [0.08, 0.52], [1.0, 2.35]);
-  const photoTranslateX = useTransform(scrollYProgress, [0.08, 0.46], ["0%", "-92%"]);
-  const photoTranslateY = useTransform(scrollYProgress, [0.08, 0.46], ["0%", "4%"]);
-  const photoOpacity = useTransform(scrollYProgress, [0.48, 0.76], [1, 0]);
+  // 2. Card frame elements (borders, caption, Claude mascot) fade out
+  const frameOpacity = useTransform(scrollYProgress, [0.03, 0.12], [1, 0]);
+
+  // 3. Camera shift and zoom on portrait: shifts to screen center & scales to 5.2x (full section coverage)
+  const photoScale = useTransform(scrollYProgress, [0.08, 0.58], [1.0, 5.2]);
+  const photoTranslateX = useTransform(scrollYProgress, [0.08, 0.48], ["0%", isDesktop ? "-92%" : "0%"]);
+  const photoTranslateY = useTransform(scrollYProgress, [0.08, 0.48], ["0%", "4%"]);
+
+  // 4. Portrait holds full coverage from 0.58 to 0.70, then dissolves into next section
+  const photoOpacity = useTransform(scrollYProgress, [0.70, 0.88], [1, 0]);
 
   const scrollToProjects = () => {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
@@ -77,7 +91,7 @@ export default function HeroSection() {
       id="home"
       ref={ref}
       className="relative w-full"
-      style={{ height: "175vh" }}
+      style={{ height: "220vh" }}
     >
       {/* ===================================================================
           STICKY CAMERA RIG: KEEPS HERO LOCKED AS SCROLL DRIVES THE ZOOM
@@ -88,7 +102,7 @@ export default function HeroSection() {
             
             {/* LEFT: Text & Skills Summary (7 cols) */}
             <motion.div
-              style={{ x: textX, opacity: textOpacity, scale: textScale }}
+              style={{ x: textX, opacity: textOpacity, scale: textScale, pointerEvents: textPointerEvents }}
               className="lg:col-span-7 flex flex-col gap-5 sm:gap-6 will-change-transform"
             >
               {/* Tagline */}
@@ -199,10 +213,16 @@ export default function HeroSection() {
                 y: photoTranslateY,
                 opacity: photoOpacity,
               }}
-              className="lg:col-span-5 flex justify-center lg:justify-end will-change-transform origin-center"
+              className="lg:col-span-5 flex justify-center lg:justify-end will-change-transform origin-center relative z-20"
             >
-              <div className="relative w-full max-w-[320px] sm:max-w-[380px] lg:max-w-[420px] aspect-[4/5] bg-[#0c0c0c] border border-white/20 p-2 shadow-2xl">
+              <div className="relative w-full max-w-[320px] sm:max-w-[380px] lg:max-w-[420px] aspect-[4/5] shadow-2xl">
                 
+                {/* Frame border & backing that dissolves smoothly before massive zoom */}
+                <motion.div
+                  style={{ opacity: frameOpacity }}
+                  className="absolute inset-0 bg-[#0c0c0c] border border-white/20 pointer-events-none z-10"
+                />
+
                 {/* =============================================================
                     INTERACTIVE CLAUDE MASCOT PERCHED ON TOP OF PORTRAIT FRAME
                     ============================================================= */}
@@ -220,6 +240,7 @@ export default function HeroSection() {
                     duration: 2.2,
                     ease: "easeInOut",
                   }}
+                  style={{ opacity: frameOpacity }}
                   className="absolute -top-12 -right-4 sm:-right-6 w-16 h-16 sm:w-20 sm:h-20 z-40 cursor-pointer pointer-events-auto filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.95)]"
                   title="Click Claude Mascot!"
                   role="button"
@@ -253,15 +274,15 @@ export default function HeroSection() {
                   </AnimatePresence>
                 </motion.div>
 
-                {/* Portrait Core */}
-                <div className="relative w-full h-full overflow-hidden border border-white/10 bg-black">
+                {/* Portrait Core (zooms edge-to-edge to cover entire viewport) */}
+                <div className="relative w-full h-full overflow-hidden bg-black">
                   <div className="absolute inset-0">
                     <Image
                       src="/new_pfp.png"
                       alt="Arron Kian Parejas"
                       fill
                       priority
-                      sizes="(max-width: 640px) 320px, (max-width: 1024px) 380px, 420px"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1920px"
                       className="object-cover object-center grayscale contrast-110 brightness-95 transition-[filter] duration-700 hover:contrast-125"
                     />
                   </div>
@@ -277,11 +298,14 @@ export default function HeroSection() {
                   />
                 </div>
 
-                {/* Clean bottom frame label */}
-                <div className="pt-2 px-1 flex items-center justify-between font-mono text-[10px] text-zinc-400 uppercase tracking-widest">
+                {/* Clean bottom frame label (dissolves with frame) */}
+                <motion.div
+                  style={{ opacity: frameOpacity }}
+                  className="absolute bottom-2 left-2 right-2 pt-2 px-1 flex items-center justify-between font-mono text-[10px] text-zinc-400 uppercase tracking-widest z-10"
+                >
                   <span>ARRON KIAN PAREJAS</span>
                   <span className="text-zinc-500">PAMPANGA, PH</span>
-                </div>
+                </motion.div>
               </div>
             </motion.div>
           </div>
