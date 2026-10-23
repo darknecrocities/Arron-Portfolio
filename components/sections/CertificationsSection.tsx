@@ -80,9 +80,15 @@ export default function CertificationsSection() {
     restDelta: 0.001,
   });
 
-  // Temple Parallax Depth & Opacity for Section Backdrop
-  const templeParallaxY = useTransform(smoothProgress, [0, 1], [-40, 50]);
-  const templeOpacity = useTransform(smoothProgress, [0, 0.15, 0.85, 1], [0.65, 0.85, 0.85, 0.45]);
+  // Temple Camera Pull-Back: Starts zoomed in (1.45) then zooms out to 1.0
+  const templeScale = useTransform(smoothProgress, [0.05, 0.35], [1.45, 1.0]);
+  const templeY = useTransform(smoothProgress, [0.05, 0.45], [-50, 15]);
+  const templeOpacity = useTransform(smoothProgress, [0.05, 0.2, 0.85, 1], [0.45, 0.85, 0.85, 0.45]);
+
+  // Foreground Elements Unveil: Fade in and scale up centered on the temple
+  const contentOpacity = useTransform(smoothProgress, [0.12, 0.30], [0, 1]);
+  const contentScale = useTransform(smoothProgress, [0.12, 0.32], [0.90, 1]);
+  const contentY = useTransform(smoothProgress, [0.12, 0.32], [50, 0]);
 
   // Dynamic 3D Velocity Pitch: cards tilt in 3D perspective as user scrolls
   const scrollVelocity = useVelocity(smoothProgress);
@@ -111,19 +117,19 @@ export default function CertificationsSection() {
       className="section-base relative z-10 overflow-hidden"
     >
       {/* =====================================================================
-          ATMOSPHERIC GREEK PANTHEON TEMPLE BACKDROP (HIGH VISIBILITY)
+          ATMOSPHERIC GREEK PANTHEON TEMPLE BACKDROP (ZOOM-OUT TRANSITION)
           ===================================================================== */}
-      <div className="pointer-events-none absolute inset-0 -z-10 flex items-start justify-center overflow-hidden select-none">
+      <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden select-none">
         <motion.div
-          style={{ y: templeParallaxY, opacity: templeOpacity }}
-          className="relative w-full max-w-6xl h-[650px] md:h-[880px] -mt-6 will-change-transform"
+          style={{ y: templeY, scale: templeScale, opacity: templeOpacity }}
+          className="relative w-full max-w-6xl h-[700px] md:h-[920px] will-change-transform"
         >
           <Image
             src="/greek/greek_temple.jpg"
             alt="Greek Pantheon Temple Facade"
             fill
             priority
-            className="object-contain object-top opacity-85 contrast-110 brightness-110 drop-shadow-[0_0_50px_rgba(245,158,11,0.2)]"
+            className="object-contain object-center opacity-85 contrast-110 brightness-110 drop-shadow-[0_0_60px_rgba(245,158,11,0.25)]"
           />
           {/* Subtle bottom fade to seamlessly integrate into card foundation while keeping facade bright */}
           <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/80 to-transparent pointer-events-none" />
@@ -142,7 +148,10 @@ export default function CertificationsSection() {
         />
       </div>
 
-      <div className="container-site relative z-10 pt-4">
+      <motion.div
+        style={{ opacity: contentOpacity, scale: contentScale, y: contentY }}
+        className="container-site relative z-10 pt-4 will-change-transform"
+      >
         <SectionHeading
           eyebrow="Certifications"
           title="Certifications & Credentials"
@@ -178,20 +187,27 @@ export default function CertificationsSection() {
             )}
           </div>
 
-          {/* Category Tabs */}
-          <div className="flex flex-wrap gap-1.5 font-mono text-xs">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => {
-                  setActiveCategory(cat);
-                  setShowAll(false);
-                }}
-                className={`filter-btn ${activeCategory === cat ? "active" : ""}`}
-              >
-                {cat}
-              </button>
-            ))}
+          {/* High-Contrast Category Filter Tabs */}
+          <div className="flex flex-wrap gap-2 font-mono text-xs p-1.5 rounded-2xl bg-black/85 backdrop-blur-xl border border-white/20 shadow-2xl w-fit">
+            {CATEGORIES.map((cat) => {
+              const isActive = activeCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setActiveCategory(cat);
+                    setShowAll(false);
+                  }}
+                  className={`px-3.5 py-1.5 rounded-xl font-semibold uppercase tracking-wider text-[11px] transition-all cursor-pointer ${
+                    isActive
+                      ? "bg-amber-400 text-black shadow-[0_0_20px_rgba(245,158,11,0.5)] border border-amber-300 font-bold"
+                      : "bg-[#14141c]/95 text-zinc-100 border border-white/15 hover:border-amber-400/60 hover:text-white hover:bg-[#1f1f2c]"
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -306,7 +322,7 @@ export default function CertificationsSection() {
             </button>
           </div>
         )}
-      </div>
+      </motion.div>
 
       <div className="section-divider mt-20" />
     </section>
