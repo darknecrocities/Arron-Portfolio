@@ -172,14 +172,13 @@ export default function PeekingMascot() {
     // Update history buffer
     recentHolesRef.current = [...recentHolesRef.current.slice(-2), chosenHole.id];
 
-    const randomQuote = MASCOT_QUOTES[Math.floor(Math.random() * MASCOT_QUOTES.length)];
     peekCounterRef.current += 1;
 
     setActiveHole({
       ...chosenHole,
       spawnId: peekCounterRef.current,
     });
-    setSpeechBubble(randomQuote);
+    setSpeechBubble(null); // Keep silent while peeking; speech bubble only pops on user click
     isPeekingRef.current = true;
 
     // Auto-retract back into hole after 2.2s
@@ -260,16 +259,7 @@ export default function PeekingMascot() {
   // Handle tap / click interaction
   const handleMascotTap = useCallback(() => {
     setTapWobble((prev) => prev + 1);
-    const quotes = [
-      "Ship-a-little Winner 🏆",
-      "Arron Built this 🚀",
-      "You found my burrow! 🕳️",
-      "Meet Arron! 🐾",
-      "500+ Commits Shipped! ⚡",
-      "Domo Ecosystem Alive! ✨",
-      "Boing! 🐰",
-    ];
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    const randomQuote = MASCOT_QUOTES[Math.floor(Math.random() * MASCOT_QUOTES.length)];
     setSpeechBubble(randomQuote);
 
     // Keep mascot visible longer when interacting
