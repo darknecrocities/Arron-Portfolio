@@ -15,10 +15,74 @@ interface TrophyCardItemProps {
   onInspect: (a: Achievement) => void;
 }
 
-function TrophyCardItem({ achievement, index, scrollProgress, onInspect }: TrophyCardItemProps) {
-  const [isFlipped, setIsFlipped] = useState(false);
+const TROPHY_MASCOT_QUOTES = [
+  "Ship-a-Little Trophy Winner! 🏆🐾",
+  "RevenueCat Community Builder! 🚀",
+  "Shipped & Awarded on Stage at Huawei! ⚡",
+  "Zero Cloud Lag, 100% Native! ✨",
+  "Purr-fect Execution! 🐾",
+];
+
+function TrophyMascotPerch() {
   const [catSpeech, setCatSpeech] = useState<string | null>(null);
   const [catWobble, setCatWobble] = useState(0);
+
+  const handleCatClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setCatWobble((c) => c + 1);
+    const q = TROPHY_MASCOT_QUOTES[Math.floor(Math.random() * TROPHY_MASCOT_QUOTES.length)];
+    setCatSpeech(q);
+    setTimeout(() => setCatSpeech(null), 3200);
+  };
+
+  return (
+    <motion.div
+      key={`cat-trophy-${catWobble}`}
+      onClick={handleCatClick}
+      whileHover={{ scale: 1.15, y: -4, rotate: 4 }}
+      whileTap={{ scale: 0.9, y: 2, rotate: -5 }}
+      style={{
+        transform: "translateZ(30px)",
+        backfaceVisibility: "hidden",
+      }}
+      className="absolute -top-12 sm:-top-14 right-3 sm:right-6 w-20 h-20 sm:w-24 sm:h-24 z-40 cursor-pointer pointer-events-auto filter drop-shadow-[0_12px_25px_rgba(0,0,0,0.95)]"
+      title="Click Cat Mascot!"
+      role="button"
+      tabIndex={0}
+      aria-label="Cat Mascot Shipathon Winner"
+    >
+      <div className="relative w-full h-full">
+        <Image
+          src="/mascot/cat_mascot_animated.gif"
+          alt="Animated Cat Mascot Trophy Companion"
+          fill
+          unoptimized
+          className="object-contain"
+        />
+      </div>
+
+      {/* Popover speech bubble */}
+      <AnimatePresence>
+        {catSpeech && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.7, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.7, y: 6 }}
+            transition={{ type: "spring", stiffness: 360, damping: 20 }}
+            className="absolute right-0 bottom-full mb-1.5 whitespace-nowrap px-3 py-1.5 rounded-xl border border-amber-400/80 bg-[#120a06]/98 backdrop-blur-md shadow-2xl text-[11px] font-mono text-amber-300 font-bold z-50 pointer-events-none"
+          >
+            {catSpeech}
+            <div className="absolute right-5 -bottom-1.5 w-3 h-3 bg-[#120a06] border-b border-r border-amber-400/80 rotate-45" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+function TrophyCardItem({ achievement, index, scrollProgress, onInspect }: TrophyCardItemProps) {
+  const [isFlipped, setIsFlipped] = useState(false);
 
   // Staggered 3D scroll flip entry per column
   const startP = 0.14 + (index % 3) * 0.04;
@@ -31,19 +95,6 @@ function TrophyCardItem({ achievement, index, scrollProgress, onInspect }: Troph
     setIsFlipped((f) => !f);
   };
 
-  const handleCatClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCatWobble((c) => c + 1);
-    const quotes = [
-      "Ship-a-Little Trophy Winner! 🏆🐱",
-      "RevenueCat Community Builder! 🚀",
-      "Shipped & Awarded on Stage! ✨",
-      "Purr-fect Execution! 🐾",
-    ];
-    setCatSpeech(quotes[Math.floor(Math.random() * quotes.length)]);
-    setTimeout(() => setCatSpeech(null), 3200);
-  };
-
   return (
     <div className="w-full [perspective:1200px]">
       <motion.div
@@ -53,9 +104,14 @@ function TrophyCardItem({ achievement, index, scrollProgress, onInspect }: Troph
           transformStyle: "preserve-3d",
         }}
         transition={{ duration: 0.55, type: "spring", stiffness: 220, damping: 20 }}
-        className="relative w-full min-h-[380px] rounded-2xl will-change-transform cursor-pointer group"
+        className={`relative w-full min-h-[380px] rounded-2xl will-change-transform cursor-pointer group ${
+          achievement.id === "shipathon-appbuilders" ? "mt-5 sm:mt-6" : ""
+        }`}
         onClick={() => onInspect(achievement)}
       >
+        {/* Creative Cat Mascot Perched atop Shipathon Trophy Card */}
+        {achievement.id === "shipathon-appbuilders" && <TrophyMascotPerch />}
+
         {/* =================================================================
             FRONT FACE: TROPHY PHOTOGRAPHY & RECOGNITION
             ================================================================= */}
@@ -77,47 +133,6 @@ function TrophyCardItem({ achievement, index, scrollProgress, onInspect }: Troph
                   <span>⬡</span>
                   <span>VERIFIED</span>
                 </div>
-
-                {/* Animated Cat Mascot Cameo on Shipathon Trophy Card */}
-                {achievement.id === "shipathon-appbuilders" && (
-                  <motion.div
-                    key={`cat-trophy-${catWobble}`}
-                    onClick={handleCatClick}
-                    whileHover={{ scale: 1.15, rotate: 6 }}
-                    whileTap={{ scale: 0.9, rotate: -8 }}
-                    className="absolute -top-5 right-10 z-30 cursor-pointer pointer-events-auto filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.95)]"
-                    title="Click Cat Mascot!"
-                    role="button"
-                    tabIndex={0}
-                    aria-label="Cat Mascot Shipathon Winner"
-                  >
-                    <div className="relative w-14 h-14 sm:w-16 sm:h-16">
-                      <Image
-                        src="/mascot/cat_mascot_animated.gif"
-                        alt="Animated Cat Mascot"
-                        fill
-                        unoptimized
-                        className="object-contain"
-                      />
-                    </div>
-
-                    {/* Popover speech bubble */}
-                    <AnimatePresence>
-                      {catSpeech && (
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.7, y: 10 }}
-                          animate={{ opacity: 1, scale: 1, y: 0 }}
-                          exit={{ opacity: 0, scale: 0.7, y: 8 }}
-                          transition={{ type: "spring", stiffness: 360, damping: 20 }}
-                          className="absolute right-0 bottom-full mb-1.5 whitespace-nowrap px-3 py-1.5 rounded-xl border border-amber-400/80 bg-[#120a06]/98 backdrop-blur-md shadow-2xl text-[11px] font-mono text-amber-300 font-bold z-50 pointer-events-none"
-                        >
-                          {catSpeech}
-                          <div className="absolute right-4 -bottom-1.5 w-3 h-3 bg-[#120a06] border-b border-r border-amber-400/80 rotate-45" />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                )}
 
                 {/* Quick 3D Flip Button */}
                 <button

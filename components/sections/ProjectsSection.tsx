@@ -17,37 +17,38 @@ import Reveal from "@/components/motion/Reveal";
 
 const INITIAL_REPOS = 9;
 
-const CAT_MASCOT_QUOTES = [
-  "Let's build something epic! 🐾",
-  "70+ Apps Shipped! ⚡",
-  "Shipathon Trophy Winner! 🏆",
-  "Clean code & local AI! ✨",
-  "Purr-fect Architecture! 🚀",
+const DOMODOMO_MASCOT_QUOTES = [
+  "DomoDomo runs 100% offline & private! 🐾",
+  "Arron shipped 70+ apps! ⚡",
+  "Zero subscriptions. Pure local AI. 🚀",
+  "Purr-fect code architecture! ✨",
+  "Hover me to tilt this card! 🎮",
 ];
 
-function CatMascotBuddy() {
+function CardPerchedMascot() {
   const [speech, setSpeech] = useState<string | null>(null);
   const [wobble, setWobble] = useState(0);
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    e.preventDefault();
     setWobble((w) => w + 1);
-    const q = CAT_MASCOT_QUOTES[Math.floor(Math.random() * CAT_MASCOT_QUOTES.length)];
+    const q = DOMODOMO_MASCOT_QUOTES[Math.floor(Math.random() * DOMODOMO_MASCOT_QUOTES.length)];
     setSpeech(q);
     setTimeout(() => setSpeech(null), 3200);
   };
 
   return (
     <motion.div
-      key={`cat-mascot-${wobble}`}
+      key={`domo-mascot-${wobble}`}
       onClick={handleClick}
-      whileHover={{ scale: 1.12, rotate: 3 }}
-      whileTap={{ scale: 0.9, rotate: -6 }}
-      className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 cursor-pointer group filter drop-shadow-[0_12px_30px_rgba(0,0,0,0.85)] flex-shrink-0"
+      whileHover={{ scale: 1.14, y: -4, rotate: 3 }}
+      whileTap={{ scale: 0.9, y: 2, rotate: -4 }}
+      className="absolute -top-14 sm:-top-16 left-4 sm:left-6 w-24 h-24 sm:w-28 sm:h-28 z-40 cursor-pointer pointer-events-auto filter drop-shadow-[0_14px_28px_rgba(0,0,0,0.95)]"
       title="Click Cat Mascot!"
       role="button"
       tabIndex={0}
-      aria-label="Interactive Cat Mascot"
+      aria-label="Cat mascot perched on DomoDomo"
     >
       <div className="relative w-full h-full">
         <Image
@@ -63,14 +64,14 @@ function CatMascotBuddy() {
       <AnimatePresence>
         {speech && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.7, y: 10 }}
+            initial={{ opacity: 0, scale: 0.7, y: 8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.7, y: 8 }}
+            exit={{ opacity: 0, scale: 0.7, y: 6 }}
             transition={{ type: "spring", stiffness: 380, damping: 20 }}
-            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap px-3.5 py-1.5 rounded-xl border border-amber-400/80 bg-[#120a06]/98 backdrop-blur-md shadow-2xl text-xs font-mono text-amber-300 font-bold z-50 pointer-events-none"
+            className="absolute bottom-full left-0 mb-2 whitespace-nowrap px-3.5 py-1.5 rounded-xl border border-amber-400/80 bg-[#120a06]/98 backdrop-blur-md shadow-2xl text-xs font-mono text-amber-300 font-bold z-50 pointer-events-none"
           >
             {speech}
-            <div className="absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-3 h-3 bg-[#120a06] border-b border-r border-amber-400/80 rotate-45" />
+            <div className="absolute left-6 -bottom-1.5 w-3 h-3 bg-[#120a06] border-b border-r border-amber-400/80 rotate-45" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -183,6 +184,7 @@ function FeaturedCard({ project, index, onOpen }: { project: Project; index: num
       transition={{ duration: 0.8, ease: EASE_OUT, delay: (index % 3) * 0.1 }}
     >
       <TiltCard>
+        {index === 0 && <CardPerchedMascot />}
         <button
           type="button"
           onClick={onOpen}
@@ -253,18 +255,15 @@ export default function ProjectsSection() {
   return (
     <section id="projects" className="section-base relative z-10">
       <div className="container-site">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div className="mb-8">
           <SectionHeading
             eyebrow="Featured Projects"
             title="Selected Work"
             description="Private, offline-first AI tools, computer vision research and mobile apps. Tap a card for the details."
           />
-          <div className="sm:pb-4 flex-shrink-0">
-            <CatMascotBuddy />
-          </div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4 sm:pt-6">
           {FEATURED_PROJECTS.map((project, i) => (
             <FeaturedCard key={project.id} project={project} index={i} onOpen={() => setSelected(project)} />
           ))}
