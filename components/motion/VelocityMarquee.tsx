@@ -92,10 +92,10 @@ const BRAND_LOGOS: BrandLogo[] = [
   {
     name: "Google DeepMind",
     src: "/brands/googledeepmind.png",
-    width: 756,
-    height: 181,
+    width: 731,
+    height: 162,
     alt: "Google DeepMind",
-    className: "h-6 sm:h-7 md:h-8 w-auto",
+    className: "h-10 sm:h-12 md:h-14 lg:h-16 w-auto",
   },
   {
     name: "NVIDIA",
@@ -103,7 +103,7 @@ const BRAND_LOGOS: BrandLogo[] = [
     width: 3840,
     height: 2828,
     alt: "NVIDIA",
-    className: "h-8 sm:h-9 md:h-10 w-auto",
+    className: "h-12 sm:h-14 md:h-16 lg:h-18 w-auto",
   },
   {
     name: "Anthropic Claude",
@@ -111,47 +111,47 @@ const BRAND_LOGOS: BrandLogo[] = [
     width: 1280,
     height: 275,
     alt: "Anthropic Claude",
-    className: "h-6 sm:h-7 md:h-8 w-auto",
+    className: "h-10 sm:h-12 md:h-14 lg:h-16 w-auto",
   },
   {
     name: "OpenAI",
     src: "/brands/openai.webp",
-    width: 1280,
+    width: 1261,
     height: 348,
     alt: "OpenAI",
-    className: "h-6 sm:h-7 md:h-8 w-auto",
+    className: "h-10 sm:h-12 md:h-14 lg:h-16 w-auto",
   },
   {
     name: "Google Antigravity",
     src: "/brands/googleantigravity.webp",
-    width: 256,
-    height: 256,
+    width: 255,
+    height: 33,
     alt: "Google Antigravity",
-    className: "h-8 sm:h-9 md:h-10 w-auto",
+    className: "h-8 sm:h-9 md:h-11 lg:h-12 w-auto",
   },
   {
     name: "Meta LLaMA",
     src: "/brands/llama.png",
-    width: 2000,
-    height: 2000,
+    width: 1999,
+    height: 425,
     alt: "Meta LLaMA",
-    className: "h-8 sm:h-9 md:h-10 w-auto",
+    className: "h-10 sm:h-12 md:h-14 lg:h-16 w-auto",
   },
   {
     name: "Ollama",
     src: "/brands/olllama.webp",
-    width: 500,
-    height: 500,
+    width: 469,
+    height: 160,
     alt: "Ollama",
-    className: "h-8 sm:h-9 md:h-10 w-auto",
+    className: "h-10 sm:h-12 md:h-14 lg:h-15 w-auto",
   },
   {
     name: "Cursor",
     src: "/brands/cursor.webp",
     width: 3840,
-    height: 935,
+    height: 917,
     alt: "Cursor",
-    className: "h-6 sm:h-7 md:h-8 w-auto",
+    className: "h-10 sm:h-12 md:h-14 lg:h-16 w-auto",
   },
 ];
 
@@ -180,23 +180,23 @@ function BrandLogoBelt() {
   });
 
   const logoGroup = (
-    <div className="flex shrink-0 items-center gap-12 sm:gap-16 md:gap-20 px-6 sm:px-8 md:px-10">
+    <div className="flex shrink-0 items-center gap-16 sm:gap-20 md:gap-28 px-8 sm:px-10 md:px-14">
       {BRAND_LOGOS.map((logo, idx) => (
         <div
           key={`${logo.name}-${idx}`}
-          className="group relative flex items-center justify-center cursor-pointer select-none py-1.5"
+          className="group relative flex items-center justify-center cursor-pointer select-none py-2"
           title={logo.name}
         >
-          <div className="relative flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+          <div className="relative flex items-center justify-center transition-transform duration-300 group-hover:scale-108">
             <Image
               src={logo.src}
               alt={logo.alt}
               width={logo.width}
               height={logo.height}
-              className={`${logo.className} brightness-0 invert opacity-70 group-hover:opacity-100 group-hover:drop-shadow-[0_0_16px_rgba(255,255,255,0.45)] transition-all duration-300`}
+              className={`${logo.className} brightness-0 invert opacity-75 group-hover:opacity-100 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)] transition-all duration-300`}
             />
           </div>
-          <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap font-mono text-[9px] uppercase tracking-widest text-zinc-400 bg-black/90 px-2 py-0.5 rounded border border-white/10 z-20">
+          <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap font-mono text-[10px] uppercase tracking-widest text-zinc-300 bg-black/95 px-2.5 py-0.5 rounded border border-white/20 z-20">
             {logo.name}
           </div>
         </div>
@@ -206,7 +206,7 @@ function BrandLogoBelt() {
 
   return (
     <div
-      className="py-3 sm:py-4 my-2 border-y border-white/10 bg-[#07070a]/90 backdrop-blur-md overflow-hidden relative select-none"
+      className="py-5 sm:py-7 my-3 border-y border-white/10 bg-[#07070a]/90 backdrop-blur-md overflow-hidden relative select-none"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

@@ -43,10 +43,10 @@ function TrophyMascotPerch() {
       whileHover={{ scale: 1.15, y: -4, rotate: 4 }}
       whileTap={{ scale: 0.9, y: 2, rotate: -5 }}
       style={{
-        transform: "translateZ(30px)",
+        transform: "translateZ(-8px)",
         backfaceVisibility: "hidden",
       }}
-      className="absolute -top-12 sm:-top-14 right-3 sm:right-6 w-20 h-20 sm:w-24 sm:h-24 z-40 cursor-pointer pointer-events-auto filter drop-shadow-[0_12px_25px_rgba(0,0,0,0.95)]"
+      className="absolute -top-16 sm:-top-20 md:-top-24 right-2 sm:right-5 w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 z-0 cursor-pointer pointer-events-auto filter drop-shadow-[0_16px_35px_rgba(0,0,0,0.95)]"
       title="Click Cat Mascot!"
       role="button"
       tabIndex={0}
@@ -105,17 +105,20 @@ function TrophyCardItem({ achievement, index, scrollProgress, onInspect }: Troph
         }}
         transition={{ duration: 0.55, type: "spring", stiffness: 220, damping: 20 }}
         className={`relative w-full min-h-[380px] rounded-2xl will-change-transform cursor-pointer group ${
-          achievement.id === "shipathon-appbuilders" ? "mt-5 sm:mt-6" : ""
+          achievement.id === "shipathon-appbuilders" ? "mt-8 sm:mt-12" : ""
         }`}
         onClick={() => onInspect(achievement)}
       >
-        {/* Creative Cat Mascot Perched atop Shipathon Trophy Card */}
+        {/* Creative Cat Mascot Overlaying from Behind the Shipathon Trophy Card */}
         {achievement.id === "shipathon-appbuilders" && <TrophyMascotPerch />}
 
         {/* =================================================================
             FRONT FACE: TROPHY PHOTOGRAPHY & RECOGNITION
             ================================================================= */}
-        <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] flex flex-col justify-between rounded-2xl border border-white/10 bg-[#0d0d12]/95 backdrop-blur-xl hover:border-amber-400/40 hover:shadow-[0_16px_45px_rgba(245,158,11,0.15)] transition-all overflow-hidden">
+        <div
+          style={{ transform: "translateZ(4px)" }}
+          className="absolute inset-0 w-full h-full [backface-visibility:hidden] z-10 flex flex-col justify-between rounded-2xl border border-white/10 bg-[#0d0d12]/95 backdrop-blur-xl hover:border-amber-400/40 hover:shadow-[0_16px_45px_rgba(245,158,11,0.15)] transition-all overflow-hidden"
+        >
           <div>
             {achievement.image && (
               <div className="relative h-44 overflow-hidden border-b border-white/10 bg-black/60 group-hover:bg-black/20 transition-all duration-500">
