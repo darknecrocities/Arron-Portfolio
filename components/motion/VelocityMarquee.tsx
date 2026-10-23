@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import Image from "next/image";
 import {
   motion,
   useAnimationFrame,
@@ -17,106 +18,157 @@ const wrap = (min: number, max: number, v: number) => {
   return ((((v - min) % range) + range) % range) + min;
 };
 
-interface RowProps {
-  items: string[];
-  /** Percent of one copy moved per second. Negative = leftward. */
-  baseVelocity: number;
-  outlined?: boolean;
+interface BrandLogo {
+  name: string;
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+  className: string;
 }
 
-function MarqueeRow({ items, baseVelocity, outlined = false }: RowProps) {
+const BRAND_LOGOS: BrandLogo[] = [
+  {
+    name: "Google DeepMind",
+    src: "/brands/googledeepmind.png",
+    width: 756,
+    height: 181,
+    alt: "Google DeepMind",
+    className: "h-7 sm:h-8 md:h-9 w-auto",
+  },
+  {
+    name: "NVIDIA",
+    src: "/brands/nvidia.webp",
+    width: 3840,
+    height: 2828,
+    alt: "NVIDIA",
+    className: "h-9 sm:h-10 md:h-11 w-auto",
+  },
+  {
+    name: "Anthropic Claude",
+    src: "/brands/claude.png",
+    width: 1280,
+    height: 275,
+    alt: "Anthropic Claude",
+    className: "h-6 sm:h-7 md:h-8 w-auto",
+  },
+  {
+    name: "OpenAI",
+    src: "/brands/openai.webp",
+    width: 1280,
+    height: 348,
+    alt: "OpenAI",
+    className: "h-7 sm:h-8 md:h-9 w-auto",
+  },
+  {
+    name: "Google Antigravity",
+    src: "/brands/googleantigravity.webp",
+    width: 256,
+    height: 256,
+    alt: "Google Antigravity",
+    className: "h-9 sm:h-10 md:h-11 w-auto",
+  },
+  {
+    name: "Meta LLaMA",
+    src: "/brands/llama.png",
+    width: 2000,
+    height: 2000,
+    alt: "Meta LLaMA",
+    className: "h-9 sm:h-10 md:h-11 w-auto",
+  },
+  {
+    name: "Ollama",
+    src: "/brands/olllama.webp",
+    width: 500,
+    height: 500,
+    alt: "Ollama",
+    className: "h-9 sm:h-10 md:h-11 w-auto",
+  },
+  {
+    name: "Cursor",
+    src: "/brands/cursor.webp",
+    width: 3840,
+    height: 935,
+    alt: "Cursor",
+    className: "h-7 sm:h-8 md:h-9 w-auto",
+  },
+];
+
+export default function VelocityMarquee() {
   const reduce = useReducedMotion();
   const baseX = useMotionValue(0);
+  const [isHovered, setIsHovered] = useState(false);
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);
   const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
-  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 4], { clamp: false });
-  const skewX = useTransform(smoothVelocity, [-2500, 2500], [10, -10]);
-  const direction = useRef(1);
+  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 3.5], { clamp: false });
+  const direction = useRef(-1); // Smooth leftward drift
 
-  // Content is rendered 4x, so wrapping between -25% and 0% loops seamlessly.
+  // Rendered 4x for continuous infinite looping (wrapping -25% to 0%)
   const x = useTransform(baseX, (v) => `${wrap(-25, 0, v)}%`);
 
   useAnimationFrame((_, delta) => {
     if (reduce) return;
-    let moveBy = direction.current * baseVelocity * (delta / 1000);
+    const baseSpeed = isHovered ? 0.6 : 2.2;
+    let moveBy = direction.current * baseSpeed * (delta / 1000);
     const vf = velocityFactor.get();
-    if (vf < 0) direction.current = -1;
-    else if (vf > 0) direction.current = 1;
-    moveBy += direction.current * moveBy * vf;
+    if (vf < 0) direction.current = 1;
+    else if (vf > 0) direction.current = -1;
+    moveBy += direction.current * moveBy * Math.abs(vf);
     baseX.set(baseX.get() + moveBy);
   });
 
-  const copy = (
-    <span className="flex shrink-0 items-center">
-      {items.map((item) => (
-        <span key={item} className="flex items-center">
-          <span
-            className={`px-6 sm:px-8 ${outlined ? "text-transparent" : "text-white"}`}
-            style={outlined ? { WebkitTextStroke: "1px rgba(255,255,255,0.45)" } : undefined}
-          >
-            {item}
-          </span>
-          <span className="h-2 w-2 bg-white/50 rotate-45" />
-        </span>
+  const logoGroup = (
+    <div className="flex shrink-0 items-center gap-14 sm:gap-20 md:gap-24 px-7 sm:px-10 md:px-12">
+      {BRAND_LOGOS.map((logo, idx) => (
+        <div
+          key={`${logo.name}-${idx}`}
+          className="group relative flex items-center justify-center cursor-pointer select-none py-2"
+          title={logo.name}
+        >
+          <div className="relative flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+            <Image
+              src={logo.src}
+              alt={logo.alt}
+              width={logo.width}
+              height={logo.height}
+              className={`${logo.className} brightness-0 invert opacity-65 group-hover:opacity-100 group-hover:drop-shadow-[0_0_16px_rgba(255,255,255,0.45)] transition-all duration-300`}
+            />
+          </div>
+          {/* Subtle brand tag floating on hover */}
+          <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap font-mono text-[9px] uppercase tracking-widest text-zinc-400 bg-black/80 px-2 py-0.5 rounded border border-white/10">
+            {logo.name}
+          </div>
+        </div>
       ))}
-    </span>
-  );
-
-  return (
-    <div className="overflow-hidden whitespace-nowrap">
-      <motion.div
-        className="flex w-max font-black uppercase tracking-tight text-3xl sm:text-5xl lg:text-6xl leading-none py-2"
-        style={{ x, skewX }}
-      >
-        {copy}
-        {copy}
-        {copy}
-        {copy}
-      </motion.div>
     </div>
   );
-}
 
-const ROW_A = [
-  "Computer Vision",
-  "Local AI",
-  "Machine Learning",
-  "Flutter",
-  "Next.js",
-  "Python",
-  "Firebase",
-  "Cybersecurity",
-  "Docker",
-  "FastAPI",
-];
-const ROW_B = [
-  "TypeScript",
-  "PyTorch",
-  "React",
-  "Reinforcement Learning",
-  "Supabase",
-  "Security & Auth",
-  "Cloud Architecture",
-  "PostgreSQL",
-  "Node.js",
-  "Tailwind CSS",
-];
-
-/**
- * Two skill rows that drift in opposite directions. Scrolling speeds them up,
- * skews them with your scroll velocity, and flips their direction when you scroll up.
- */
-export default function VelocityMarquee() {
   return (
-    <section aria-label="Core skills" className="relative z-10 py-10 sm:py-14 border-y border-white/10 overflow-hidden">
-      <p className="sr-only">Core skills: {[...ROW_A, ...ROW_B].join(", ")}.</p>
-      <div aria-hidden="true" className="space-y-2 select-none">
-        <MarqueeRow items={ROW_A} baseVelocity={-2} />
-        <MarqueeRow items={ROW_B} baseVelocity={2} outlined />
+    <section
+      aria-label="Technology & AI Brand Partners"
+      className="relative z-10 py-7 sm:py-9 border-y border-white/10 bg-[#07070a]/85 backdrop-blur-md overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="overflow-hidden whitespace-nowrap">
+        <motion.div className="flex w-max items-center" style={{ x }}>
+          {logoGroup}
+          {logoGroup}
+          {logoGroup}
+          {logoGroup}
+        </motion.div>
       </div>
-      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-black to-transparent" />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-black to-transparent" />
+
+      {/* Edge gradient fade masks for smooth infinite conveyor belt appearance */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-36 bg-gradient-to-r from-[#07070a] via-[#07070a]/80 to-transparent z-10"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-36 bg-gradient-to-l from-[#07070a] via-[#07070a]/80 to-transparent z-10"
+      />
     </section>
   );
 }
