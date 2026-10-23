@@ -14,6 +14,7 @@ const PRIMARY_NAV = [
 ];
 
 const ARCHIVE_NAV = [
+  { label: "Autonomous AI", href: "#autonomous-vision" },
   { label: "Domo & GitHub", href: "#contributions" },
   { label: "Achievements", href: "#achievements" },
   { label: "Certifications", href: "#certifications" },

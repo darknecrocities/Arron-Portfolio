@@ -8,6 +8,7 @@ import ContributionsSection from "@/components/sections/ContributionsSection";
 import StatsSection from "@/components/sections/StatsSection";
 import ExperienceSection from "@/components/sections/ExperienceSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
+import SmartCarSection from "@/components/sections/SmartCarSection";
 import AchievementsSection from "@/components/sections/AchievementsSection";
 import CertificationsSection from "@/components/sections/CertificationsSection";
 import PublicationsSection from "@/components/sections/PublicationsSection";
@@ -49,6 +50,7 @@ export default function Home() {
         <StatsSection />
         <ExperienceSection />
         <ProjectsSection />
+        <SmartCarSection />
         <AchievementsSection />
         <CertificationsSection />
         <PublicationsSection />

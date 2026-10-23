@@ -1,0 +1,42 @@
+"use client";
+
+import SectionHeading from "@/components/motion/SectionHeading";
+import Reveal from "@/components/motion/Reveal";
+import SmartCarStage from "./smartcar/SmartCarStage";
+import SmartCarDeepDive from "./smartcar/SmartCarDeepDive";
+
+export default function SmartCarSection() {
+  return (
+    <section
+      id="autonomous-vision"
+      className="relative py-20 sm:py-28 md:py-32 overflow-hidden scroll-mt-20"
+      aria-label="IntelliAIDrive Autonomous AI Showcase"
+    >
+      {/* Background Ambience Glow */}
+      <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">
+        <div className="w-[600px] h-[400px] rounded-full bg-amber-500/5 blur-[120px]" />
+        <div className="w-[500px] h-[300px] rounded-full bg-emerald-500/5 blur-[100px] -translate-x-48" />
+        <div className="w-[500px] h-[300px] rounded-full bg-cyan-500/5 blur-[100px] translate-x-48" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <SectionHeading
+          eyebrow="EDGE AI & REINFORCEMENT LEARNING"
+          title="IntelliAIDrive: Vision & Control Engine"
+          description="Real-time traffic sign classification via YOLOv8n coupled with continuous action-space PPO navigation in Gymnasium."
+        />
+
+        {/* 3D Perspective 3-Card Stage with Video Hero */}
+        <Reveal>
+          <SmartCarStage />
+        </Reveal>
+
+        {/* Scroll-Driven Technical Breakdown & Architecture Narrative */}
+        <Reveal delay={0.15}>
+          <SmartCarDeepDive />
+        </Reveal>
+      </div>
+    </section>
+  );
+}
