@@ -1,329 +1,380 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import { useState, useRef, useEffect, useCallback, useSyncExternalStore } from "react";
 import {
-  FiExternalLink,
-  FiGithub,
-  FiCheck,
-  FiZap,
-  FiArrowUpRight,
-  FiChevronRight,
-} from "react-icons/fi";
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useVelocity,
+  MotionValue,
+  PanInfo,
+} from "framer-motion";
+import { FiChevronLeft, FiChevronRight, FiMaximize2 } from "react-icons/fi";
 import { DOMO_PROJECTS, DomoProjectItem } from "@/data/domoProjects";
+import DomoUnoCard from "@/components/sections/DomoUnoCard";
+import DomoAppModal from "@/components/sections/DomoAppModal";
 
-/* =========================================================================
-   APP ICON STACK COMPONENT (Matches Image 4)
-   ========================================================================= */
-
-interface AppIconStackProps {
-  onSelectProject?: (projectId: string) => void;
-  selectedId?: string | null;
+interface DomoEcosystemGridProps {
+  className?: string;
+  scrollProgress?: MotionValue<number>;
 }
 
-const STACK_ICONS = [
-  { id: "domodomo", src: "/domo/domodomo_v2.png", alt: "DomoDomo (Panda Mascot)", rotate: -10, bg: "#121214" },
-  { id: "domoskills", src: "/domo/domoskills.png", alt: "DomoSkills", rotate: -5, bg: "#121214" },
-  { id: "domonote", src: "/domo/domonote.png", alt: "DomoNote", rotate: 0, bg: "#121214" },
-  { id: "domoscope", src: "/domo/domoscope.png", alt: "DomoScope", rotate: 4, bg: "#121214" },
-  { id: "codepyne", src: "/domo/codepyne.png", alt: "Codepyne", rotate: 8, bg: "#121214" },
-  { id: "domolens", src: "/domo/domolens.png", alt: "DomoLens", rotate: 12, bg: "#121214" },
-];
+const emptySubscribe = () => () => {};
 
-function AppIconStack({ onSelectProject, selectedId }: AppIconStackProps) {
+export default function DomoEcosystemGrid({
+  className = "",
+  scrollProgress,
+}: DomoEcosystemGridProps) {
+  const isMounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+  const [selectedProject, setSelectedProject] = useState<DomoProjectItem | null>(null);
+  const [radius, setRadius] = useState(600);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const numItems = DOMO_PROJECTS.length;
+  const angleStep = 360 / numItems;
+
+  // Manual rotation driven by drag or controls
+  const manualAngle = useMotionValue(0);
+  const smoothAngle = useSpring(manualAngle, {
+    stiffness: 55,
+    damping: 20,
+    mass: 1.1,
+  });
+
+  // Kinetic velocity tracking: banks the wheel on fast drag / flick
+  const angleVelocity = useVelocity(smoothAngle);
+  const dynamicBank = useTransform(angleVelocity, [-1200, 0, 1200], [-8, 0, 8]);
+
+  // Dynamic radius based on viewport
+  useEffect(() => {
+    const updateDimensions = () => {
+      const w = window.innerWidth;
+      if (w < 640) {
+        setRadius(340);
+      } else if (w < 1024) {
+        setRadius(460);
+      } else {
+        setRadius(600);
+      }
+    };
+    updateDimensions();
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, []);
+
+  // Connect scroll runway progress to rotation
+  const scrollAngle = useTransform(
+    scrollProgress || new MotionValue(0),
+    [0.48, 0.95],
+    [0, 360 * 1.5]
+  );
+
+  useEffect(() => {
+    if (!scrollProgress) return;
+    const unsubscribe = scrollAngle.on("change", (latestScrollAngle) => {
+      manualAngle.set(latestScrollAngle);
+    });
+    return () => unsubscribe();
+  }, [scrollAngle, scrollProgress, manualAngle]);
+
+  // Track active index
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const unsubscribe = smoothAngle.on("change", (latest) => {
+      const normalized = ((-latest % 360) + 360) % 360;
+      const index = Math.round(normalized / angleStep) % numItems;
+      setActiveIndex(index);
+    });
+    return () => unsubscribe();
+  }, [smoothAngle, angleStep, numItems]);
+
+  // Drag handling with kinetic flick
+  const handleDrag = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const current = manualAngle.get();
+    manualAngle.set(current + info.delta.x * 0.38);
+  };
+
+  const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const current = manualAngle.get();
+    const target = current + info.velocity.x * 0.16;
+    const snapped = Math.round(target / angleStep) * angleStep;
+    manualAngle.set(snapped);
+  };
+
+  const handlePrev = useCallback(() => {
+    const current = manualAngle.get();
+    const snapped = (Math.round(current / angleStep) + 1) * angleStep;
+    manualAngle.set(snapped);
+  }, [manualAngle, angleStep]);
+
+  const handleNext = useCallback(() => {
+    const current = manualAngle.get();
+    const snapped = (Math.round(current / angleStep) - 1) * angleStep;
+    manualAngle.set(snapped);
+  }, [manualAngle, angleStep]);
+
+  const handleSelectCard = (index: number) => {
+    const project = DOMO_PROJECTS[index];
+    if (activeIndex === index) {
+      setSelectedProject(project);
+    } else {
+      const current = manualAngle.get();
+      const currentNorm = ((-current % 360) + 360) % 360;
+      const targetNorm = index * angleStep;
+      let diff = targetNorm - currentNorm;
+      if (diff > 180) diff -= 360;
+      if (diff < -180) diff += 360;
+      manualAngle.set(current - diff);
+    }
+  };
+
+  const activeProject = DOMO_PROJECTS[activeIndex] || DOMO_PROJECTS[0];
+
   return (
-    <div className="relative w-full max-w-xl mx-auto my-0.5 sm:my-1 flex flex-col items-center select-none">
-      {/* Subtle silver glow behind stack */}
-      <div className="pointer-events-none absolute -inset-2 rounded-full bg-white/5 blur-xl" />
-
-      {/* Interactive Fanned App Icon Stack */}
-      <div className="relative flex items-center justify-center py-0.5 px-4 overflow-visible">
-        {STACK_ICONS.map((item, idx) => {
-          const isSelected = selectedId === item.id;
-          return (
-            <motion.button
-              key={item.id}
-              onClick={() => onSelectProject?.(item.id)}
-              animate={{
-                y: isSelected ? -8 : [0, -4, 0],
-                rotate: isSelected ? 0 : [item.rotate, item.rotate + (idx % 2 === 0 ? 2 : -2), item.rotate],
-                scale: isSelected ? 1.08 : [1, 1.03, 1],
-              }}
-              transition={{
-                duration: 3.2 + (idx * 0.35),
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: idx * 0.2,
-              }}
-              whileHover={{
-                y: -10,
-                scale: 1.15,
-                rotate: 0,
-                zIndex: 40,
-                transition: { type: "spring", stiffness: 350, damping: 20 },
-              }}
-              whileTap={{ scale: 0.95 }}
-              className={`relative -ml-3 sm:-ml-3.5 first:ml-0 rounded-[10px] sm:rounded-[12px] shadow-[0_10px_24px_rgba(0,0,0,0.85)] border border-white/20 overflow-hidden transition-all duration-300 focus:outline-none cursor-pointer ${
-                isSelected ? "ring-2 ring-white scale-110 z-30 -translate-y-2" : ""
-              }`}
-              style={{
-                width: "clamp(32px, 3.5vw, 42px)",
-                height: "clamp(32px, 3.5vw, 42px)",
-                transform: `rotate(${item.rotate}deg)`,
-                zIndex: idx + 10,
-                backgroundColor: item.bg,
-              }}
-              title={item.alt}
-            >
-              <Image
-                src={item.src}
-                alt={item.alt}
-                fill
-                sizes="42px"
-                className="object-cover"
-                priority={idx < 3}
-              />
-              <div className="pointer-events-none absolute inset-0 rounded-[10px] sm:rounded-[12px] ring-1 ring-inset ring-white/25" />
-            </motion.button>
-          );
-        })}
+    <div
+      ref={containerRef}
+      className={`relative w-full max-w-6xl mx-auto flex flex-col items-center select-none ${className}`}
+    >
+      {/* SECTION HEADER */}
+      <div className="text-center mb-1 sm:mb-2 px-3 z-30">
+        <h3 className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-white font-sans">
+          Domo Ecosystem &amp; Autonomous Tools
+        </h3>
+        <p className="text-zinc-400 text-xs sm:text-sm max-w-md mx-auto mt-0.5 leading-snug">
+          11 Connected applications for AI agents, developers, and privacy-first builders.
+        </p>
       </div>
 
-      <p className="text-[10px] sm:text-[11px] font-mono text-zinc-500 mt-0.5">
-        ✦ Domo Ecosystem Suite · Click any app icon to inspect
-      </p>
+      {/* 3D PERSPECTIVE TILTED STAGE (Larger, inclined 3D turntable) */}
+      <div
+        className="relative w-full h-[320px] sm:h-[380px] md:h-[430px] flex items-center justify-center overflow-visible touch-pan-y"
+        style={{
+          perspective: "1200px",
+          perspectiveOrigin: "50% 50%",
+        }}
+      >
+        {/* DRAG HIT AREA */}
+        <motion.div
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.06}
+          onDrag={handleDrag}
+          onDragEnd={handleDragEnd}
+          className="absolute inset-0 z-40 cursor-grab active:cursor-grabbing"
+          style={{ touchAction: "pan-y" }}
+        />
+
+        {/* 3D TILTED TURNTABLE (Client mounted to prevent SSR precision hydration mismatch) */}
+        {isMounted && (
+          <motion.div
+            className="relative w-full h-full flex items-center justify-center"
+            style={{
+              transformStyle: "preserve-3d",
+              rotateX: 14,
+              rotateZ: dynamicBank,
+            }}
+          >
+            {DOMO_PROJECTS.map((project, idx) => (
+              <WheelLogoWrapper
+                key={project.id}
+                project={project}
+                index={idx}
+                angleStep={angleStep}
+                radius={radius}
+                smoothAngle={smoothAngle}
+                isActive={activeIndex === idx}
+                onClick={() => handleSelectCard(idx)}
+              />
+            ))}
+          </motion.div>
+        )}
+
+        {/* PREV / NEXT NAV BUTTONS */}
+        <button
+          type="button"
+          onClick={handlePrev}
+          aria-label="Previous app"
+          className="absolute left-2 sm:left-6 z-40 p-2.5 sm:p-3 rounded-full border border-white/15 bg-black/75 hover:bg-white/15 text-zinc-300 hover:text-white backdrop-blur-xl transition-all cursor-pointer shadow-2xl"
+        >
+          <FiChevronLeft className="text-xl" />
+        </button>
+        <button
+          type="button"
+          onClick={handleNext}
+          aria-label="Next app"
+          className="absolute right-2 sm:right-6 z-40 p-2.5 sm:p-3 rounded-full border border-white/15 bg-black/75 hover:bg-white/15 text-zinc-300 hover:text-white backdrop-blur-xl transition-all cursor-pointer shadow-2xl"
+        >
+          <FiChevronRight className="text-xl" />
+        </button>
+      </div>
+
+      {/* ACTIVE APP SUMMARY BADGE */}
+      <div className="z-30 mt-2 flex flex-col items-center text-center px-4">
+        <motion.button
+          key={activeProject.id}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={() => setSelectedProject(activeProject)}
+          className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 backdrop-blur-xl cursor-pointer transition-all shadow-lg"
+        >
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-xs sm:text-sm font-bold text-white tracking-wide">
+            {activeProject.displayName}
+          </span>
+          <span className="text-[10px] font-mono text-zinc-400 border-l border-white/15 pl-2.5">
+            {activeProject.category} · ▲ {activeProject.upvotes}
+          </span>
+          <FiMaximize2 className="text-xs text-zinc-400 group-hover:text-white transition-colors ml-0.5" />
+        </motion.button>
+
+        <p className="text-xs font-sans text-zinc-400 mt-1.5 line-clamp-1 max-w-sm">
+          {activeProject.tagline}
+        </p>
+
+        {/* DOT INDICATORS */}
+        <div className="flex items-center gap-1.5 mt-3">
+          {DOMO_PROJECTS.map((p, i) => (
+            <button
+              key={p.id}
+              onClick={() => handleSelectCard(i)}
+              aria-label={`Jump to ${p.displayName}`}
+              className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                activeIndex === i
+                  ? "w-6 bg-white shadow-[0_0_8px_rgba(255,255,255,0.7)]"
+                  : "w-1.5 bg-white/20 hover:bg-white/40"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* SPECS POPUP MODAL */}
+      <DomoAppModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+        onPrev={() => {
+          if (!selectedProject) return;
+          const idx = DOMO_PROJECTS.findIndex((p) => p.id === selectedProject.id);
+          const prevIdx = (idx - 1 + numItems) % numItems;
+          setSelectedProject(DOMO_PROJECTS[prevIdx]);
+          handleSelectCard(prevIdx);
+        }}
+        onNext={() => {
+          if (!selectedProject) return;
+          const idx = DOMO_PROJECTS.findIndex((p) => p.id === selectedProject.id);
+          const nextIdx = (idx + 1) % numItems;
+          setSelectedProject(DOMO_PROJECTS[nextIdx]);
+          handleSelectCard(nextIdx);
+        }}
+      />
     </div>
   );
 }
 
 /* =========================================================================
-   DOMO ECOSYSTEM GRID COMPONENT (Matches Image 3)
+   INDIVIDUAL 3D WHEEL LOGO WRAPPER
+   Computes cylindrical X, Z, rotateY, rotateZ, depth opacity & scale
    ========================================================================= */
 
-interface DomoEcosystemGridProps {
-  className?: string;
+interface WheelLogoWrapperProps {
+  project: DomoProjectItem;
+  index: number;
+  angleStep: number;
+  radius: number;
+  smoothAngle: MotionValue<number>;
+  isActive: boolean;
+  onClick: () => void;
 }
 
-export default function DomoEcosystemGrid({ className = "" }: DomoEcosystemGridProps) {
-  const [selectedProject, setSelectedProject] = useState<DomoProjectItem | null>(null);
-  const [highlightedId, setHighlightedId] = useState<string | null>(null);
+function WheelLogoWrapper({
+  project,
+  index,
+  angleStep,
+  radius,
+  smoothAngle,
+  isActive,
+  onClick,
+}: WheelLogoWrapperProps) {
+  const baseAngle = index * angleStep;
 
-  const handleSelectFromStack = (id: string) => {
-    setHighlightedId(id);
-    const found = DOMO_PROJECTS.find((p) => p.id === id);
-    if (found) {
-      setSelectedProject(found);
-    }
-    const cardEl = document.getElementById(`card-${id}`);
-    if (cardEl) {
-      cardEl.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-    }
-  };
+  const currentAngle = useTransform(smoothAngle, (rot) => {
+    const raw = (baseAngle + rot) % 360;
+    return raw > 180 ? raw - 360 : raw < -180 ? raw + 360 : raw;
+  });
+
+  const x = useTransform(currentAngle, (ang) => {
+    const rad = (ang * Math.PI) / 180;
+    return Math.sin(rad) * radius;
+  });
+
+  const z = useTransform(currentAngle, (ang) => {
+    const rad = (ang * Math.PI) / 180;
+    return Math.cos(rad) * radius - radius;
+  });
+
+  const rotateY = useTransform(currentAngle, (ang) => ang * 0.88);
+  const rotateZ = useTransform(currentAngle, (ang) => -ang * 0.08);
+
+  const opacity = useTransform(currentAngle, (ang) => {
+    const abs = Math.abs(ang);
+    if (abs < 32) return 1.0;
+    if (abs < 75) return 0.92 - ((abs - 32) / 43) * 0.55;
+    if (abs < 100) return 0.37 - ((abs - 75) / 25) * 0.35;
+    return 0;
+  });
+
+  const scale = useTransform(currentAngle, (ang) => {
+    const abs = Math.abs(ang);
+    if (abs < 30) return 1.06;
+    if (abs < 90) return 1.0 - (abs / 90) * 0.25;
+    return 0.72;
+  });
+
+  const zIndex = useTransform(currentAngle, (ang) => {
+    return Math.round(100 - Math.abs(ang));
+  });
+
+  const filter = useTransform(currentAngle, (ang) => {
+    const abs = Math.abs(ang);
+    if (abs > 70) return "blur(2px)";
+    return "blur(0px)";
+  });
+
+  const pointerEvents = useTransform(currentAngle, (ang) => {
+    return Math.abs(ang) < 80 ? "auto" : "none";
+  });
 
   return (
-    <div className={`relative w-full max-w-6xl mx-auto flex flex-col justify-center ${className}`}>
-      {/* FLOATING AMBIENT PARTICLES (Matches Image 3) */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden -z-10">
-        <div className="absolute top-1/4 left-1/6 w-1 h-1 rounded-full bg-white/40 blur-[1px]" />
-        <div className="absolute top-1/3 right-1/4 w-1.5 h-1.5 rounded-full bg-white/30 blur-[1px]" />
-        <div className="absolute bottom-1/4 left-1/3 w-2 h-2 rounded-full bg-white/20 blur-[2px]" />
-      </div>
-
-      {/* HEADER: Clean & prominent */}
-      <div className="text-center mb-1 sm:mb-1.5 px-2 sm:px-3">
-        {/* Title */}
-        <h3 className="text-base sm:text-lg md:text-xl font-extrabold tracking-tight text-white font-sans leading-tight">
-          Connected Platforms &amp; Autonomous Tools
-        </h3>
-
-        {/* Subtitle */}
-        <p className="text-zinc-400 text-[10px] sm:text-xs max-w-lg mx-auto mt-0.5 font-sans leading-relaxed">
-          Integrated, privacy-first companion applications engineered for modern developers, security
-          analysts, and AI agents.
-        </p>
-      </div>
-
-      {/* APP ICON STACK */}
-      <AppIconStack onSelectProject={handleSelectFromStack} selectedId={highlightedId} />
-
-      {/* 6 CARDS (Responsive Carousel on mobile, 3x2 Grid on desktop) */}
-      <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-2.5 px-2 sm:px-3 mt-0.5 overflow-x-auto sm:overflow-visible pb-1 sm:pb-0 scrollbar-none snap-x">
-        {DOMO_PROJECTS.map((project, index) => {
-          const isHighlighted = highlightedId === project.id;
-
-          return (
-            <motion.div
-              id={`card-${project.id}`}
-              key={project.id}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              whileHover={{ y: -2, scale: 1.012 }}
-              className={`group relative flex flex-col justify-between rounded-xl border bg-[#141417]/95 backdrop-blur-2xl p-2.5 sm:p-3 shadow-[0_12px_40px_rgba(0,0,0,0.9)] transition-all duration-300 text-left min-w-[240px] max-w-[270px] sm:min-w-0 sm:max-w-none flex-shrink-0 sm:flex-shrink snap-center ${
-                isHighlighted
-                  ? "border-white shadow-[0_0_30px_rgba(255,255,255,0.25)] ring-1 ring-white/50"
-                  : "border-white/15 hover:border-white/30 hover:shadow-[0_16px_45px_rgba(0,0,0,0.95)]"
-              }`}
-            >
-              <div>
-                {/* TOP ROW: Squircle App Icon + Category Badge */}
-                <div className="flex items-center justify-between gap-2 mb-1.5 sm:mb-2">
-                  {/* Real Squircle App Icon */}
-                  <motion.div
-                    animate={{
-                      y: [0, -2, 0],
-                      scale: [1, 1.04, 1],
-                    }}
-                    transition={{
-                      duration: 3.2,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: index * 0.2,
-                    }}
-                    className="relative w-7 h-7 sm:w-8 sm:h-8 rounded-[8px] sm:rounded-[10px] overflow-hidden border border-white/20 bg-black shadow-md flex-shrink-0 group-hover:scale-105 transition-transform duration-300 will-change-transform"
-                  >
-                    <Image
-                      src={project.iconUrl}
-                      alt={project.name}
-                      fill
-                      sizes="32px"
-                      className="object-cover"
-                    />
-                    <div className="pointer-events-none absolute inset-0 rounded-[8px] sm:rounded-[10px] ring-1 ring-inset ring-white/25" />
-                  </motion.div>
-
-                  {/* Category Pill */}
-                  <span className="px-2 py-0.5 rounded-full text-[8.5px] sm:text-[9px] font-mono text-zinc-400 bg-white/5 border border-white/10 select-none whitespace-nowrap">
-                    {project.category}
-                  </span>
-                </div>
-
-                {/* MIDDLE: App Title with Arrow ↗ */}
-                <div>
-                  <a
-                    href={project.demoUrl || project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group/title inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-white hover:text-zinc-200 transition-colors"
-                  >
-                    <span>{project.displayName}</span>
-                    <FiArrowUpRight className="text-[11px] text-zinc-400 group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5 transition-transform" />
-                  </a>
-
-                  {/* 2-line Description */}
-                  <p className="text-[10px] sm:text-[11px] text-zinc-400 leading-snug font-sans line-clamp-2 mt-0.5">
-                    {project.description}
-                  </p>
-                </div>
-              </div>
-
-              {/* CARD FOOTER: "⚡ Quick View" + "View >" */}
-              <div className="flex items-center justify-between pt-1.5 mt-1.5 border-t border-white/5 text-[10px] sm:text-[11px] text-zinc-400">
-                <button
-                  onClick={() => setSelectedProject(project)}
-                  className="inline-flex items-center gap-1 hover:text-white transition-colors cursor-pointer py-0.5"
-                >
-                  <FiZap className="text-[9px] text-zinc-300" />
-                  <span>Quick View</span>
-                </button>
-
-                <a
-                  href={project.demoUrl || project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-0.5 font-medium hover:text-white transition-colors py-0.5"
-                >
-                  <span>View</span>
-                  <FiChevronRight className="text-[11px] text-zinc-400 group-hover:translate-x-0.5 transition-transform" />
-                </a>
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-      <p className="text-[10px] font-mono text-zinc-500 text-center mt-2 sm:hidden select-none">
-        ← Swipe cards to explore all 6 apps →
-      </p>
-
-      {/* SPECS MODAL: On "Quick View" Click */}
-      <AnimatePresence>
-        {selectedProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-            <motion.div
-              initial={{ scale: 0.92, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.92, opacity: 0, y: 20 }}
-              transition={{ duration: 0.2 }}
-              className="relative w-full max-w-lg rounded-2xl border border-zinc-800 bg-[#141416] p-6 shadow-2xl text-left"
-            >
-              <div className="flex items-start justify-between gap-4 mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="relative w-12 h-12 rounded-[14px] overflow-hidden border border-white/15 bg-black shadow-lg">
-                    <Image
-                      src={selectedProject.iconUrl}
-                      alt={selectedProject.name}
-                      fill
-                      sizes="48px"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white">{selectedProject.displayName}</h3>
-                    <p className="text-xs font-mono text-zinc-400">{selectedProject.category}</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setSelectedProject(null)}
-                  className="text-zinc-400 hover:text-white text-lg p-1 cursor-pointer"
-                >
-                  ✕
-                </button>
-              </div>
-
-              <p className="text-sm text-zinc-300 leading-relaxed mb-4">
-                {selectedProject.description}
-              </p>
-
-              <div className="mb-5">
-                <h5 className="text-xs font-mono text-zinc-400 uppercase tracking-wider mb-2">
-                  Key Capabilities &amp; Architecture
-                </h5>
-                <ul className="space-y-1.5 text-xs text-zinc-300">
-                  {selectedProject.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-2">
-                      <FiCheck className="text-white flex-shrink-0" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="flex items-center justify-end gap-3 pt-3.5 border-t border-zinc-800">
-                <a
-                  href={selectedProject.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-lg border border-zinc-700 bg-zinc-900 text-xs font-medium text-white hover:bg-zinc-800 transition-colors inline-flex items-center gap-1.5 cursor-pointer"
-                >
-                  <FiGithub /> View on GitHub
-                </a>
-                {selectedProject.demoUrl && (
-                  <a
-                    href={selectedProject.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-4 py-2 rounded-lg text-xs font-medium text-black bg-white hover:bg-zinc-200 transition-colors inline-flex items-center gap-1.5 shadow-lg font-sans cursor-pointer"
-                  >
-                    <span>Launch</span>
-                    <FiExternalLink />
-                  </a>
-                )}
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-    </div>
+    <motion.div
+      suppressHydrationWarning
+      style={{
+        position: "absolute",
+        x,
+        z,
+        rotateY,
+        rotateZ,
+        opacity,
+        scale,
+        zIndex,
+        filter,
+        pointerEvents,
+        transformStyle: "preserve-3d",
+      }}
+      className="will-change-[transform,opacity]"
+    >
+      <DomoUnoCard
+        project={project}
+        index={index}
+        isActive={isActive}
+        onClick={onClick}
+      />
+    </motion.div>
   );
 }

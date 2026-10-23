@@ -150,11 +150,6 @@ export default function ContributionsSection() {
     [0.94, 1.01, 1.06]
   );
 
-  // Floating background mascot icons parallax
-  const floatPandaY = useTransform(scrollYProgress, [0.47, 0.95], [-20, 25]);
-  const floatScopeY = useTransform(scrollYProgress, [0.47, 0.95], [25, -20]);
-  const floatSkillsY = useTransform(scrollYProgress, [0.47, 0.95], [-25, 20]);
-  const floatNoteY = useTransform(scrollYProgress, [0.47, 0.95], [20, -25]);
 
   return (
     <section
@@ -323,87 +318,9 @@ export default function ContributionsSection() {
             </motion.span>
           </motion.div>
 
-          {/* FLOATING PARALLAX MASCOT ICONS AT EDGES (Safe Offsets, GPU Smooth) */}
-          <div className="pointer-events-none absolute inset-0 overflow-hidden z-0 select-none">
-            {/* Top-Left: DomoDomo (Panda with Cap Mascot) */}
-            <motion.div
-              style={{ y: floatPandaY }}
-              animate={{
-                y: [0, -8, 0],
-              }}
-              transition={{
-                duration: 4.2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="absolute top-20 left-4 sm:left-10 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border border-white/10 bg-[#121214]/80 backdrop-blur-md p-2 shadow-2xl opacity-35 hidden xl:block will-change-transform"
-            >
-              <div className="relative w-full h-full rounded-xl overflow-hidden bg-black">
-                <Image src="/domo/domodomo_v2.png" alt="DomoDomo Panda Mascot" fill sizes="96px" className="object-cover" />
-              </div>
-            </motion.div>
-
-            {/* Top-Right: DomoScope */}
-            <motion.div
-              style={{ y: floatScopeY }}
-              animate={{
-                y: [0, -8, 0],
-              }}
-              transition={{
-                duration: 4.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.5,
-              }}
-              className="absolute top-20 right-4 sm:right-10 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border border-white/10 bg-[#121214]/80 backdrop-blur-md p-2 shadow-2xl opacity-35 hidden xl:block will-change-transform"
-            >
-              <div className="relative w-full h-full rounded-xl overflow-hidden bg-black">
-                <Image src="/domo/domoscope.png" alt="DomoScope" fill sizes="96px" className="object-cover" />
-              </div>
-            </motion.div>
-
-            {/* Bottom-Left: DomoSkills */}
-            <motion.div
-              style={{ y: floatSkillsY }}
-              animate={{
-                y: [0, -8, 0],
-              }}
-              transition={{
-                duration: 4.0,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1.0,
-              }}
-              className="absolute bottom-14 left-4 sm:left-12 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border border-white/20 bg-[#121214]/90 backdrop-blur-xl p-2 shadow-2xl opacity-40 hidden xl:block will-change-transform"
-            >
-              <div className="relative w-full h-full rounded-xl overflow-hidden bg-black">
-                <Image src="/domo/domoskills.png" alt="DomoSkills" fill sizes="96px" className="object-cover" />
-              </div>
-            </motion.div>
-
-            {/* Bottom-Right: DomoNote */}
-            <motion.div
-              style={{ y: floatNoteY }}
-              animate={{
-                y: [0, -8, 0],
-              }}
-              transition={{
-                duration: 4.3,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1.5,
-              }}
-              className="absolute bottom-14 right-4 sm:right-12 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border border-white/20 bg-[#121214]/90 backdrop-blur-xl p-2 shadow-2xl opacity-40 hidden xl:block will-change-transform"
-            >
-              <div className="relative w-full h-full rounded-xl overflow-hidden bg-black">
-                <Image src="/domo/domonote.png" alt="DomoNote" fill sizes="96px" className="object-cover" />
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Domo Ecosystem Grid (Image 3 Cards + Image 4 App Icon Stack) */}
+          {/* Domo Ecosystem 3D Uno-Card Wheel Carousel */}
           <div className="w-full z-20">
-            <DomoEcosystemGrid />
+            <DomoEcosystemGrid scrollProgress={smoothProgress} />
           </div>
         </motion.div>
       </div>

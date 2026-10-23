@@ -27,6 +27,9 @@ const FlashlightCursor = dynamic(() => import("@/components/effects/FlashlightCu
 const SpiderResumeCrawler = dynamic(() => import("@/components/effects/SpiderResumeCrawler"), {
   ssr: false,
 });
+const PeekingMascot = dynamic(() => import("@/components/effects/PeekingMascot"), {
+  ssr: false,
+});
 
 export default function Home() {
   return (
@@ -56,6 +59,9 @@ export default function Home() {
 
       {/* Spotlight cursor sits above everything, including modals */}
       <FlashlightCursor />
+
+      {/* Playful edge-peeking mascot across About to Testimonials */}
+      <PeekingMascot />
 
       {/* Resume click → spider web-crawls the page → confetti → download */}
       <SpiderResumeCrawler />

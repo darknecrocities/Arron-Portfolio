@@ -1,9 +1,18 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiSearch, FiX } from "react-icons/fi";
+import { useState, useMemo, useRef } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useSpring,
+  useVelocity,
+} from "framer-motion";
+import Image from "next/image";
+import { FiSearch, FiX, FiAward, FiArrowUpRight } from "react-icons/fi";
 import SectionHeading from "@/components/motion/SectionHeading";
+import { GreekPilasterTrim } from "@/components/motion/GreekColumn";
 
 const CERTS_DATA = [
   // HACKATHONS & HONORS
@@ -57,6 +66,30 @@ export default function CertificationsSection() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [showAll, setShowAll] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Greek Pantheon Elevation & 3D Scroll Tilt
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 45,
+    damping: 24,
+    restDelta: 0.001,
+  });
+
+  // Temple Parallax Depth & Opacity for Section Backdrop
+  const templeParallaxY = useTransform(smoothProgress, [0, 1], [-40, 50]);
+  const templeOpacity = useTransform(smoothProgress, [0, 0.15, 0.85, 1], [0.65, 0.85, 0.85, 0.45]);
+
+  // Dynamic 3D Velocity Pitch: cards tilt in 3D perspective as user scrolls
+  const scrollVelocity = useVelocity(smoothProgress);
+  const rawTiltX = useTransform(scrollVelocity, [-1.5, 0, 1.5], [8, 0, -8]);
+  const smoothTiltX = useSpring(rawTiltX, { stiffness: 60, damping: 20 });
+
+  const podiumScale = useTransform(smoothProgress, [0.08, 0.35], [0.93, 1]);
 
   const filtered = useMemo(() => {
     return CERTS_DATA.filter((cert) => {
@@ -72,16 +105,52 @@ export default function CertificationsSection() {
   const displayedCerts = showAll ? filtered : filtered.slice(0, 9);
 
   return (
-    <section id="certifications" className="section-base relative z-10">
-      <div className="container-site">
+    <section
+      id="certifications"
+      ref={sectionRef}
+      className="section-base relative z-10 overflow-hidden"
+    >
+      {/* =====================================================================
+          ATMOSPHERIC GREEK PANTHEON TEMPLE BACKDROP (HIGH VISIBILITY)
+          ===================================================================== */}
+      <div className="pointer-events-none absolute inset-0 -z-10 flex items-start justify-center overflow-hidden select-none">
+        <motion.div
+          style={{ y: templeParallaxY, opacity: templeOpacity }}
+          className="relative w-full max-w-6xl h-[650px] md:h-[880px] -mt-6 will-change-transform"
+        >
+          <Image
+            src="/greek/greek_temple.jpg"
+            alt="Greek Pantheon Temple Facade"
+            fill
+            priority
+            className="object-contain object-top opacity-85 contrast-110 brightness-110 drop-shadow-[0_0_50px_rgba(245,158,11,0.2)]"
+          />
+          {/* Subtle bottom fade to seamlessly integrate into card foundation while keeping facade bright */}
+          <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/80 to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#0a0a0f] to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#0a0a0f] to-transparent pointer-events-none" />
+        </motion.div>
+      </div>
+
+      {/* AMBIENT GREEK ROTUNDA WATERMARK */}
+      <div className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 w-[520px] h-[520px] -z-10 opacity-[0.03] blur-[1px]">
+        <Image
+          src="/greek/greek_rotunda.png"
+          alt="Hellenic Rotunda"
+          fill
+          className="object-contain"
+        />
+      </div>
+
+      <div className="container-site relative z-10 pt-4">
         <SectionHeading
           eyebrow="Certifications"
           title="Certifications & Credentials"
           description="Verified credentials across artificial intelligence, cloud architecture, and data engineering."
         />
 
-        {/* Search & Filter Bar */}
-        <div className="space-y-4 mb-8">
+        {/* SEARCH & FILTER BAR */}
+        <div className="space-y-4 mb-8 mt-6">
           <div className="relative">
             <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500" size={15} />
             <input
@@ -92,7 +161,7 @@ export default function CertificationsSection() {
                 setSearch(e.target.value);
                 setShowAll(false);
               }}
-              className="w-full bg-[#0a0a0a] border border-white/15 rounded-none pl-10 pr-9 py-2.5 font-mono text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-white transition-colors"
+              className="w-full bg-[#0d0d12]/90 border border-white/15 rounded-xl pl-10 pr-9 py-3 font-mono text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-amber-400/50 transition-colors shadow-inner"
               aria-label="Search certifications"
             />
             {search && (
@@ -126,67 +195,119 @@ export default function CertificationsSection() {
           </div>
         </div>
 
-        {/* Results Count */}
-        <div className="font-mono text-[11px] text-zinc-500 mb-4 flex items-center justify-between">
+        {/* RESULTS COUNT */}
+        <div className="font-mono text-[11px] text-zinc-500 mb-5 flex items-center justify-between">
           <span>
             Showing {Math.min(displayedCerts.length, filtered.length)} of {filtered.length} credentials
           </span>
+          <span className="text-[10px] text-amber-400 font-mono flex items-center gap-1">
+            <span>🏛</span>
+            <span>Hellenic Colonnade Verified</span>
+          </span>
         </div>
 
-        {/* Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {/* ===================================================================
+            DYNAMIC 3D SCROLL-TILTING MARBLE PODIUM CARDS
+            (Cards pitch & tilt in 3D perspective as you scroll)
+            =================================================================== */}
+        <motion.div
+          style={{
+            scale: podiumScale,
+            perspective: 1200,
+          }}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 will-change-transform"
+        >
           <AnimatePresence mode="popLayout">
-            {displayedCerts.map((cert, i) => (
-              <motion.div
-                key={`${cert.title}-${i}`}
-                layout
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ delay: i * 0.02 }}
-                className="cert-card p-4 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between font-mono text-[10px] text-zinc-500 mb-2">
-                    <span className="text-zinc-300 font-semibold">{cert.issuer}</span>
-                    <span>{cert.date}</span>
+            {displayedCerts.map((cert, i) => {
+              // Alternating yaw based on column (curved pantheon effect)
+              const colIndex = i % 3;
+              const colYaw = colIndex === 0 ? -2.5 : colIndex === 2 ? 2.5 : 0;
+
+              return (
+                <motion.div
+                  key={`${cert.title}-${i}`}
+                  layout
+                  style={{
+                    rotateX: smoothTiltX,
+                    rotateY: colYaw,
+                    transformStyle: "preserve-3d",
+                  }}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.35, delay: i * 0.02 }}
+                  whileHover={{
+                    y: -8,
+                    scale: 1.025,
+                    rotateX: 0,
+                    rotateY: 0,
+                    transition: { type: "spring", stiffness: 350, damping: 22 },
+                  }}
+                  className="group relative flex rounded-2xl border border-white/10 hover:border-amber-400/50 bg-gradient-to-b from-[#14141c] via-[#0d0d12] to-[#070709] p-0.5 shadow-[0_16px_45px_rgba(0,0,0,0.9)] hover:shadow-[0_22px_65px_rgba(245,158,11,0.12)] transition-all overflow-hidden will-change-transform"
+                >
+                  {/* Left Fluted Pilaster Border */}
+                  <GreekPilasterTrim />
+
+                  {/* Main Marble Podium Slab */}
+                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between">
+                    <div>
+                      {/* Top Capital Architrave */}
+                      <div className="w-full flex items-center justify-between font-mono text-[10px] text-zinc-500 mb-2.5 border-b border-white/10 pb-2">
+                        <span className="text-amber-300 font-semibold flex items-center gap-1.5">
+                          <FiAward className="text-sm text-amber-400" />
+                          <span>{cert.issuer}</span>
+                        </span>
+                        <span>{cert.date}</span>
+                      </div>
+
+                      <h3 className="text-white text-sm sm:text-base font-bold font-sans leading-snug group-hover:text-amber-200 transition-colors">
+                        {cert.title}
+                      </h3>
+
+                      <p className="text-zinc-400 text-xs sm:text-[13px] leading-relaxed mt-2.5 line-clamp-2 font-sans">
+                        {cert.description}
+                      </p>
+                    </div>
+
+                    {/* Stepped Pedestal Base Footer */}
+                    <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between font-mono text-[10px] text-zinc-500 uppercase tracking-wider">
+                      <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-zinc-400">
+                        {cert.category}
+                      </span>
+                      <span className="text-zinc-400 group-hover:text-amber-300 transition-colors inline-flex items-center gap-1 font-semibold">
+                        <span>Ascend</span>
+                        <FiArrowUpRight className="text-xs" />
+                      </span>
+                    </div>
                   </div>
 
-                  <h3 className="text-white text-sm font-bold font-sans leading-tight">
-                    {cert.title}
-                  </h3>
-
-                  <p className="text-zinc-400 text-xs leading-relaxed mt-2 line-clamp-2">
-                    {cert.description}
-                  </p>
-                </div>
-
-                <div className="mt-3 pt-2 border-t border-white/5 font-mono text-[9px] text-zinc-500 uppercase tracking-wider">
-                  {cert.category}
-                </div>
-              </motion.div>
-            ))}
+                  {/* Right Fluted Pilaster Border */}
+                  <GreekPilasterTrim />
+                </motion.div>
+              );
+            })}
           </AnimatePresence>
-        </div>
+        </motion.div>
 
         {filtered.length === 0 && (
-          <div className="text-center font-mono text-xs text-zinc-500 py-16 border border-white/5">
-            No matching credentials found.
+          <div className="text-center font-mono text-xs text-zinc-500 py-16 border border-white/5 rounded-xl">
+            No matching credentials found in the Hellenic Academy.
           </div>
         )}
 
-        {/* Toggle Button */}
+        {/* TOGGLE ALL CREDENTIALS */}
         {filtered.length > 9 && (
-          <div className="mt-8 flex justify-center">
+          <div className="mt-10 flex justify-center">
             <button
               onClick={() => setShowAll(!showAll)}
-              className="btn-secondary w-full sm:w-auto px-10 justify-center text-xs"
+              className="btn-secondary w-full sm:w-auto px-10 py-3.5 justify-center text-xs font-mono uppercase tracking-wider rounded-xl border border-white/15 hover:border-amber-400/50 hover:text-amber-300 transition-all cursor-pointer shadow-lg"
             >
-              {showAll ? "Show Less" : "View All Credentials"}
+              {showAll ? "Show Less" : "Ascend to Complete Pantheon Archive"}
             </button>
           </div>
         )}
       </div>
+
       <div className="section-divider mt-20" />
     </section>
   );
