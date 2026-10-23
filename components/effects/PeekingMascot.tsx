@@ -118,6 +118,7 @@ const MAX_PEEKS_PER_SECTION = 2;
 const MASCOT_QUOTES = [
   "Ship-a-little Winner 🏆",
   "Arron Built this 🚀",
+  "70+ Apps Shipped! 🚀",
   "Found another burrow! 🕳️",
   "Meet Arron! 🐾",
   "500+ Commits Shipped! ⚡",

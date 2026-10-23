@@ -147,7 +147,7 @@ export default function DomoEcosystemGrid({
           Domo Ecosystem &amp; Autonomous Tools
         </h3>
         <p className="text-zinc-400 text-xs sm:text-sm max-w-md mx-auto mt-0.5 leading-snug">
-          11 Connected applications for AI agents, developers, and privacy-first builders.
+          70+ Apps shipped for AI agents, developers, and privacy-first builders.
         </p>
       </div>
 
