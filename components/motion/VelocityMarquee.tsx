@@ -95,7 +95,7 @@ const BRAND_LOGOS: BrandLogo[] = [
     width: 731,
     height: 162,
     alt: "Google DeepMind",
-    className: "h-10 sm:h-12 md:h-14 lg:h-16 w-auto",
+    className: "h-14 sm:h-16 md:h-18 lg:h-20 w-auto",
   },
   {
     name: "NVIDIA",
@@ -103,7 +103,7 @@ const BRAND_LOGOS: BrandLogo[] = [
     width: 3840,
     height: 2828,
     alt: "NVIDIA",
-    className: "h-12 sm:h-14 md:h-16 lg:h-18 w-auto",
+    className: "h-16 sm:h-20 md:h-24 lg:h-26 w-auto",
   },
   {
     name: "Anthropic Claude",
@@ -111,7 +111,7 @@ const BRAND_LOGOS: BrandLogo[] = [
     width: 1280,
     height: 275,
     alt: "Anthropic Claude",
-    className: "h-10 sm:h-12 md:h-14 lg:h-16 w-auto",
+    className: "h-14 sm:h-16 md:h-18 lg:h-20 w-auto",
   },
   {
     name: "OpenAI",
@@ -119,15 +119,15 @@ const BRAND_LOGOS: BrandLogo[] = [
     width: 1261,
     height: 348,
     alt: "OpenAI",
-    className: "h-10 sm:h-12 md:h-14 lg:h-16 w-auto",
+    className: "h-14 sm:h-16 md:h-18 lg:h-20 w-auto",
   },
   {
     name: "Google Antigravity",
     src: "/brands/googleantigravity.webp",
-    width: 255,
-    height: 33,
+    width: 1020,
+    height: 132,
     alt: "Google Antigravity",
-    className: "h-8 sm:h-9 md:h-11 lg:h-12 w-auto",
+    className: "h-11 sm:h-13 md:h-15 lg:h-17 w-auto",
   },
   {
     name: "Meta LLaMA",
@@ -135,15 +135,15 @@ const BRAND_LOGOS: BrandLogo[] = [
     width: 1999,
     height: 425,
     alt: "Meta LLaMA",
-    className: "h-10 sm:h-12 md:h-14 lg:h-16 w-auto",
+    className: "h-14 sm:h-16 md:h-18 lg:h-22 w-auto",
   },
   {
     name: "Ollama",
     src: "/brands/olllama.webp",
-    width: 469,
-    height: 160,
+    width: 1407,
+    height: 480,
     alt: "Ollama",
-    className: "h-10 sm:h-12 md:h-14 lg:h-15 w-auto",
+    className: "h-16 sm:h-20 md:h-24 lg:h-26 w-auto",
   },
   {
     name: "Cursor",
@@ -151,7 +151,7 @@ const BRAND_LOGOS: BrandLogo[] = [
     width: 3840,
     height: 917,
     alt: "Cursor",
-    className: "h-10 sm:h-12 md:h-14 lg:h-16 w-auto",
+    className: "h-12 sm:h-14 md:h-16 lg:h-18 w-auto",
   },
 ];
 
@@ -180,11 +180,11 @@ function BrandLogoBelt() {
   });
 
   const logoGroup = (
-    <div className="flex shrink-0 items-center gap-16 sm:gap-20 md:gap-28 px-8 sm:px-10 md:px-14">
+    <div className="flex shrink-0 items-center gap-20 sm:gap-28 md:gap-36 px-10 sm:px-14 md:px-20">
       {BRAND_LOGOS.map((logo, idx) => (
         <div
           key={`${logo.name}-${idx}`}
-          className="group relative flex items-center justify-center cursor-pointer select-none py-2"
+          className="group relative flex items-center justify-center cursor-pointer select-none py-3"
           title={logo.name}
         >
           <div className="relative flex items-center justify-center transition-transform duration-300 group-hover:scale-108">
@@ -193,7 +193,7 @@ function BrandLogoBelt() {
               alt={logo.alt}
               width={logo.width}
               height={logo.height}
-              className={`${logo.className} brightness-0 invert opacity-75 group-hover:opacity-100 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)] transition-all duration-300`}
+              className={`${logo.className} brightness-0 invert opacity-80 group-hover:opacity-100 group-hover:drop-shadow-[0_0_24px_rgba(255,255,255,0.6)] transition-all duration-300`}
             />
           </div>
           <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap font-mono text-[10px] uppercase tracking-widest text-zinc-300 bg-black/95 px-2.5 py-0.5 rounded border border-white/20 z-20">
@@ -206,7 +206,7 @@ function BrandLogoBelt() {
 
   return (
     <div
-      className="py-5 sm:py-7 my-3 border-y border-white/10 bg-[#07070a]/90 backdrop-blur-md overflow-hidden relative select-none"
+      className="py-8 sm:py-10 md:py-12 my-4 border-y border-white/10 bg-[#07070a]/95 backdrop-blur-md overflow-hidden relative select-none"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
