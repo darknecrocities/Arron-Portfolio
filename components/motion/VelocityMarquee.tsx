@@ -251,7 +251,7 @@ export default function VelocityMarquee() {
   return (
     <section
       aria-label="Core skills and AI brand partners"
-      className="relative z-10 py-8 sm:py-12 border-y border-white/10 overflow-hidden bg-black/60"
+      className="relative z-10 py-8 sm:py-12 border-y border-white/10 overflow-hidden bg-black"
     >
       <p className="sr-only">
         Core skills: {[...ROW_A, ...ROW_B].join(", ")}. Technology Partners:{" "}

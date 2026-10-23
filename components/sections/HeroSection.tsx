@@ -67,12 +67,14 @@ export default function HeroSection() {
   const frameOpacity = useTransform(scrollYProgress, [0.03, 0.12], [1, 0]);
 
   // 3. Camera shift and zoom on portrait: shifts to screen center & scales to 5.2x (full section coverage)
-  const photoScale = useTransform(scrollYProgress, [0.08, 0.58], [1.0, 5.2]);
-  const photoTranslateX = useTransform(scrollYProgress, [0.08, 0.48], ["0%", isDesktop ? "-92%" : "0%"]);
-  const photoTranslateY = useTransform(scrollYProgress, [0.08, 0.48], ["0%", "4%"]);
+  const photoScale = useTransform(scrollYProgress, [0.06, 0.40], [1.0, 5.2]);
+  const photoTranslateX = useTransform(scrollYProgress, [0.06, 0.36], ["0%", isDesktop ? "-92%" : "0%"]);
+  const photoTranslateY = useTransform(scrollYProgress, [0.06, 0.36], ["0%", "4%"]);
 
-  // 4. Portrait holds full coverage from 0.58 to 0.70, then dissolves into next section
-  const photoOpacity = useTransform(scrollYProgress, [0.70, 0.88], [1, 0]);
+  // 4. Portrait holds full coverage from 0.40 to 0.48, then cleanly fades out to 0 by 0.64
+  const photoOpacity = useTransform(scrollYProgress, [0.48, 0.64], [1, 0]);
+  // 5. Complete blackout overlay ensures zero ghosting or bleed-through into next section
+  const blackoutOpacity = useTransform(scrollYProgress, [0.50, 0.66], [0, 1]);
 
   const scrollToProjects = () => {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
@@ -96,7 +98,13 @@ export default function HeroSection() {
       {/* ===================================================================
           STICKY CAMERA RIG: KEEPS HERO LOCKED AS SCROLL DRIVES THE ZOOM
           =================================================================== */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden pt-28 sm:pt-32 md:pt-28 pb-10">
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden pt-28 sm:pt-32 md:pt-28 pb-10 bg-black">
+        {/* Full Fade-Out Overlay into Pure Black */}
+        <motion.div
+          style={{ opacity: blackoutOpacity }}
+          className="absolute inset-0 bg-black pointer-events-none z-30"
+        />
+
         <div className="container-site relative z-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             
