@@ -17,6 +17,74 @@ import Reveal from "@/components/motion/Reveal";
 
 const INITIAL_REPOS = 9;
 
+const REVENUECAT_QUOTES = [
+  "RevenueCat Subscriptions Verified! 🛠️🐱",
+  "70+ Apps Shipped & Monetized! 🚀",
+  "In-App Purchases Integrated! ⚡",
+  "Shipathon Builder Award! 🐾",
+  "Purr-fect Architecture! ✨",
+];
+
+function RevenueCatProjectBuddy() {
+  const [speech, setSpeech] = useState<string | null>(null);
+  const [wobble, setWobble] = useState(0);
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setWobble((w) => w + 1);
+    const q = REVENUECAT_QUOTES[Math.floor(Math.random() * REVENUECAT_QUOTES.length)];
+    setSpeech(q);
+    setTimeout(() => setSpeech(null), 3200);
+  };
+
+  return (
+    <motion.div
+      key={`rc-buddy-${wobble}`}
+      onClick={handleClick}
+      whileHover={{ scale: 1.06, rotate: 2 }}
+      whileTap={{ scale: 0.92, rotate: -4 }}
+      className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full border border-amber-500/40 bg-[#140b07]/90 backdrop-blur-md shadow-lg cursor-pointer group relative"
+      title="Click RevenueCat Builder Mascot!"
+      role="button"
+      tabIndex={0}
+      aria-label="RevenueCat Builder Mascot"
+    >
+      <div className="relative w-8 h-8 flex-shrink-0">
+        <Image
+          src="/mascot/revenuecat_builder_animated.gif"
+          alt="RevenueCat Builder Cat"
+          fill
+          unoptimized
+          className="object-contain"
+        />
+      </div>
+      <div className="flex flex-col text-left font-mono">
+        <span className="text-[10px] text-amber-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+          <span>RevenueCat Verified</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+        </span>
+        <span className="text-[9px] text-zinc-400">In-App Subscriptions &amp; Monetization</span>
+      </div>
+
+      {/* Speech Popover */}
+      <AnimatePresence>
+        {speech && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.7, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.7, y: 8 }}
+            transition={{ type: "spring", stiffness: 360, damping: 20 }}
+            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap px-3.5 py-1.5 rounded-xl border border-amber-400/80 bg-[#140b07]/98 backdrop-blur-md shadow-2xl text-xs font-mono text-amber-300 font-bold z-50 pointer-events-none"
+          >
+            {speech}
+            <div className="absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-3 h-3 bg-[#140b07] border-b border-r border-amber-400/80 rotate-45" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -192,11 +260,16 @@ export default function ProjectsSection() {
   return (
     <section id="projects" className="section-base relative z-10">
       <div className="container-site">
-        <SectionHeading
-          eyebrow="Featured Projects"
-          title="Selected Work"
-          description="Private, offline-first AI tools, computer vision research and mobile apps. Tap a card for the details."
-        />
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+          <SectionHeading
+            eyebrow="Featured Projects"
+            title="Selected Work"
+            description="Private, offline-first AI tools, computer vision research and mobile apps. Tap a card for the details."
+          />
+          <div className="sm:pb-8 flex-shrink-0">
+            <RevenueCatProjectBuddy />
+          </div>
+        </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {FEATURED_PROJECTS.map((project, i) => (

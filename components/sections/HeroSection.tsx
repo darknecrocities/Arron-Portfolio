@@ -49,16 +49,16 @@ export default function HeroSection() {
   // Scroll camera shift & dramatic zoom into portrait
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
 
-  // Left text column fades and drifts left
-  const textOpacity = useTransform(scrollYProgress, [0, 0.28], [1, 0]);
-  const textX = useTransform(scrollYProgress, [0, 0.28], [0, -85]);
-  const textScale = useTransform(scrollYProgress, [0, 0.28], [1, 0.94]);
+  // Left text column fades and drifts left early in the scroll
+  const textOpacity = useTransform(scrollYProgress, [0, 0.22], [1, 0]);
+  const textX = useTransform(scrollYProgress, [0, 0.22], [0, -95]);
+  const textScale = useTransform(scrollYProgress, [0, 0.22], [1, 0.92]);
 
-  // Camera shift and zoom on portrait
-  const photoScale = useTransform(scrollYProgress, [0.12, 0.72], [1.0, 2.75]);
-  const photoTranslateX = useTransform(scrollYProgress, [0.12, 0.65], ["0%", "-28%"]);
-  const photoTranslateY = useTransform(scrollYProgress, [0.12, 0.65], ["0%", "5%"]);
-  const photoOpacity = useTransform(scrollYProgress, [0.65, 0.92], [1, 0]);
+  // Camera shift and zoom on portrait: shifts from right column 5 directly to screen center
+  const photoScale = useTransform(scrollYProgress, [0.08, 0.52], [1.0, 2.35]);
+  const photoTranslateX = useTransform(scrollYProgress, [0.08, 0.46], ["0%", "-92%"]);
+  const photoTranslateY = useTransform(scrollYProgress, [0.08, 0.46], ["0%", "4%"]);
+  const photoOpacity = useTransform(scrollYProgress, [0.48, 0.76], [1, 0]);
 
   const scrollToProjects = () => {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
@@ -82,7 +82,7 @@ export default function HeroSection() {
       {/* ===================================================================
           STICKY CAMERA RIG: KEEPS HERO LOCKED AS SCROLL DRIVES THE ZOOM
           =================================================================== */}
-      <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden pt-16 md:pt-0">
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden pt-28 sm:pt-32 md:pt-28 pb-10">
         <div className="container-site relative z-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             

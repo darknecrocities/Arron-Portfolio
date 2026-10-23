@@ -17,6 +17,8 @@ interface TrophyCardItemProps {
 
 function TrophyCardItem({ achievement, index, scrollProgress, onInspect }: TrophyCardItemProps) {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [catSpeech, setCatSpeech] = useState<string | null>(null);
+  const [catWobble, setCatWobble] = useState(0);
 
   // Staggered 3D scroll flip entry per column
   const startP = 0.14 + (index % 3) * 0.04;
@@ -27,6 +29,19 @@ function TrophyCardItem({ achievement, index, scrollProgress, onInspect }: Troph
   const toggleFlip = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsFlipped((f) => !f);
+  };
+
+  const handleCatClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCatWobble((c) => c + 1);
+    const quotes = [
+      "Ship-a-Little Trophy Winner! 🏆🐱",
+      "RevenueCat Community Builder! 🚀",
+      "Shipped & Awarded on Stage! ✨",
+      "Purr-fect Execution! 🐾",
+    ];
+    setCatSpeech(quotes[Math.floor(Math.random() * quotes.length)]);
+    setTimeout(() => setCatSpeech(null), 3200);
   };
 
   return (
@@ -62,6 +77,47 @@ function TrophyCardItem({ achievement, index, scrollProgress, onInspect }: Troph
                   <span>⬡</span>
                   <span>VERIFIED</span>
                 </div>
+
+                {/* RevenueCat Mascot Cameo on Shipathon Trophy Card */}
+                {achievement.id === "shipathon-appbuilders" && (
+                  <motion.div
+                    key={`rc-trophy-${catWobble}`}
+                    onClick={handleCatClick}
+                    whileHover={{ scale: 1.15, rotate: 6 }}
+                    whileTap={{ scale: 0.9, rotate: -8 }}
+                    className="absolute -top-3.5 right-12 z-30 cursor-pointer pointer-events-auto filter drop-shadow-[0_8px_18px_rgba(0,0,0,0.95)]"
+                    title="Click RevenueCat Shipathon Mascot!"
+                    role="button"
+                    tabIndex={0}
+                    aria-label="RevenueCat Shipathon Winner Mascot"
+                  >
+                    <div className="relative w-11 h-11 sm:w-12 sm:h-12">
+                      <Image
+                        src="/mascot/revenuecat_round_animated.gif"
+                        alt="RevenueCat Shipathon Mascot"
+                        fill
+                        unoptimized
+                        className="object-contain"
+                      />
+                    </div>
+
+                    {/* Popover speech bubble */}
+                    <AnimatePresence>
+                      {catSpeech && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.7, y: 10 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.7, y: 8 }}
+                          transition={{ type: "spring", stiffness: 360, damping: 20 }}
+                          className="absolute right-0 bottom-full mb-1.5 whitespace-nowrap px-3 py-1.5 rounded-xl border border-amber-400/80 bg-[#120a06]/98 backdrop-blur-md shadow-2xl text-[11px] font-mono text-amber-300 font-bold z-50 pointer-events-none"
+                        >
+                          {catSpeech}
+                          <div className="absolute right-4 -bottom-1.5 w-3 h-3 bg-[#120a06] border-b border-r border-amber-400/80 rotate-45" />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                )}
 
                 {/* Quick 3D Flip Button */}
                 <button
