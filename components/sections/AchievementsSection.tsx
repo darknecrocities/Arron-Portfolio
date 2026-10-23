@@ -360,69 +360,95 @@ export default function AchievementsSection() {
         )}
       </motion.div>
 
-      {/* INSPECTION MODAL */}
+      {/* INSPECTION MODAL - ACCURATELY CENTERED & ALIGNED */}
       <AnimatePresence>
         {selected && (
           <div
-            className="modal-overlay"
+            className="fixed inset-0 z-[1000] flex items-center justify-center p-4 sm:p-6 md:p-8 bg-black/85 backdrop-blur-md overflow-y-auto"
             onClick={() => setSelected(null)}
           >
             <motion.div
               initial={{ scale: 0.94, opacity: 0, y: 15 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.94, opacity: 0, y: 15 }}
-              transition={{ duration: 0.2 }}
-              className="modal-box bg-[#0c0c10] border border-amber-400/30 p-6 sm:p-7 relative rounded-2xl shadow-2xl max-w-lg"
+              transition={{ duration: 0.22 }}
+              className="relative w-full max-w-lg sm:max-w-xl my-auto rounded-2xl bg-[#0c0c10] border border-amber-400/40 shadow-[0_25px_80px_rgba(0,0,0,0.95)] overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Close Button - Clean Top-Right Corner Alignment */}
+              <button
+                onClick={() => setSelected(null)}
+                className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 z-30 p-2 rounded-full bg-black/75 hover:bg-white text-zinc-300 hover:text-black border border-white/20 transition-all shadow-2xl cursor-pointer"
+                aria-label="Close modal"
+              >
+                <FiX size={16} />
+              </button>
+
+              {/* Edge-to-Edge Trophy Photography Header */}
               {selected.image && (
-                <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-white/15 mb-4 bg-black flex items-center justify-center">
+                <div className="relative w-full aspect-[16/9] sm:aspect-[16/10] bg-black border-b border-white/10 overflow-hidden">
                   <Image
                     src={selected.image}
                     alt={selected.title}
                     fill
+                    priority
                     sizes="(max-width: 640px) 100vw, 750px"
                     className="object-cover"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c10] via-transparent to-transparent pointer-events-none" />
                 </div>
               )}
 
-              <div className="flex items-start justify-between gap-4 pb-3 border-b border-white/10 font-mono">
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-black bg-amber-400 px-2.5 py-0.5 rounded-full">
+              {/* Symmetrical Content Padding & Balanced Layout */}
+              <div className="p-6 sm:p-7">
+                {/* Header Badge & Date Row */}
+                <div className="flex items-center justify-between gap-3 font-mono">
+                  <span
+                    className={`text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 rounded-full border ${
+                      selected.type === "Champion"
+                        ? "bg-amber-400/20 border-amber-400/50 text-amber-300"
+                        : selected.type === "Award"
+                        ? "bg-emerald-400/20 border-emerald-400/50 text-emerald-300"
+                        : "bg-white/10 border-white/20 text-white"
+                    }`}
+                  >
                     {selected.type}
                   </span>
-                  <h3 className="text-white font-bold text-lg font-sans mt-2">{selected.title}</h3>
-                  <p className="text-zinc-400 text-xs mt-1">
-                    {selected.issuer} · {selected.date}
-                  </p>
+                  <span className="text-[11px] font-mono text-zinc-400">{selected.date}</span>
                 </div>
-                <button
-                  onClick={() => setSelected(null)}
-                  className="text-zinc-400 hover:text-white p-1 rounded-full border border-white/10 hover:border-white transition-colors cursor-pointer"
-                  aria-label="Close"
-                >
-                  <FiX size={18} />
-                </button>
+
+                {/* Title & Issuer Subtitle */}
+                <h3 className="text-white font-bold text-xl sm:text-2xl font-sans mt-3 leading-snug">
+                  {selected.title}
+                </h3>
+                <p className="text-zinc-400 text-xs sm:text-sm font-mono mt-1">
+                  {selected.issuer}
+                </p>
+
+                {/* Description */}
+                <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed mt-4 font-sans whitespace-pre-line">
+                  {selected.description}
+                </p>
+
+                {/* Symmetrical Action Footer */}
+                <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+                  <span className="text-zinc-500 font-mono text-[11px] hidden sm:inline">
+                    ✦ Verified Trophy Record ✦
+                  </span>
+
+                  {selected.link && (
+                    <a
+                      href={selected.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-primary text-xs inline-flex items-center gap-2 px-4 py-2 rounded-xl ml-auto"
+                    >
+                      <FiExternalLink size={13} />
+                      <span>Official Reference</span>
+                    </a>
+                  )}
+                </div>
               </div>
-
-              <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed mt-4 font-sans whitespace-pre-line">
-                {selected.description}
-              </p>
-
-              {selected.link && (
-                <div className="mt-6 pt-4 border-t border-white/10 flex justify-end">
-                  <a
-                    href={selected.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-primary text-xs inline-flex items-center gap-2 px-4 py-2 rounded-xl"
-                  >
-                    <FiExternalLink size={13} />
-                    <span>Official Reference</span>
-                  </a>
-                </div>
-              )}
             </motion.div>
           </div>
         )}
