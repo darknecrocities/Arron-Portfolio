@@ -24,7 +24,7 @@ export default function SmartCarSection() {
         <SectionHeading
           eyebrow="EDGE AI & REINFORCEMENT LEARNING"
           title="IntelliAIDrive: Vision & Control Engine"
-          description="Real-time traffic sign classification via YOLOv8n coupled with continuous action-space PPO navigation in Gymnasium."
+          description="Bridging edge perception with physical reality: fusing real-time YOLOv8n vision telemetry with continuous PPO reinforcement learning to autonomously navigate complex simulated real-world environments."
         />
 
         {/* 3D Perspective 3-Card Stage with Video Hero */}

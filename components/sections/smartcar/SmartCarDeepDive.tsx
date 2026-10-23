@@ -56,7 +56,7 @@ export default function SmartCarDeepDive() {
               How I Built IntelliAIDrive
             </h3>
             <p className="text-xs sm:text-sm text-neutral-400 mt-1 max-w-2xl">
-              From raw camera feeds to sub-2ms edge perception and continuous PPO reinforcement learning.
+              From synthetic physics simulations to physical roads: sub-2ms YOLOv8n edge perception coupled with continuous PPO reinforcement learning across complex simulated real-world environments.
             </p>
           </div>
 
