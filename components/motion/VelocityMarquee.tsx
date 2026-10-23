@@ -95,7 +95,7 @@ const BRAND_LOGOS: BrandLogo[] = [
     width: 731,
     height: 162,
     alt: "Google DeepMind",
-    className: "h-9 sm:h-11 md:h-12 lg:h-13 w-auto",
+    className: "h-8 sm:h-9 md:h-10 lg:h-11 w-auto",
   },
   {
     name: "NVIDIA",
@@ -103,7 +103,7 @@ const BRAND_LOGOS: BrandLogo[] = [
     width: 3840,
     height: 2828,
     alt: "NVIDIA",
-    className: "h-11 sm:h-13 md:h-14 lg:h-15 w-auto",
+    className: "h-10 sm:h-11 md:h-12 lg:h-14 w-auto",
   },
   {
     name: "Anthropic Claude",
@@ -111,7 +111,7 @@ const BRAND_LOGOS: BrandLogo[] = [
     width: 1280,
     height: 275,
     alt: "Anthropic Claude",
-    className: "h-9 sm:h-11 md:h-12 lg:h-13 w-auto",
+    className: "h-8 sm:h-9 md:h-10 lg:h-11 w-auto",
   },
   {
     name: "OpenAI",
@@ -119,7 +119,7 @@ const BRAND_LOGOS: BrandLogo[] = [
     width: 1261,
     height: 348,
     alt: "OpenAI",
-    className: "h-9 sm:h-11 md:h-12 lg:h-13 w-auto",
+    className: "h-8 sm:h-9 md:h-10 lg:h-11 w-auto",
   },
   {
     name: "Google Antigravity",
@@ -131,11 +131,11 @@ const BRAND_LOGOS: BrandLogo[] = [
   },
   {
     name: "Meta LLaMA",
-    src: "/brands/llama.png",
-    width: 2329,
-    height: 500,
+    src: "/brands/meta_llama.png",
+    width: 2157,
+    height: 520,
     alt: "Meta LLaMA",
-    className: "h-9 sm:h-11 md:h-12 lg:h-13 w-auto",
+    className: "h-10 sm:h-11 md:h-12 lg:h-14 w-auto",
   },
   {
     name: "Ollama",
@@ -143,7 +143,7 @@ const BRAND_LOGOS: BrandLogo[] = [
     width: 1407,
     height: 480,
     alt: "Ollama",
-    className: "h-11 sm:h-13 md:h-14 lg:h-15 w-auto",
+    className: "h-10 sm:h-11 md:h-12 lg:h-14 w-auto",
   },
   {
     name: "Cursor",
@@ -151,7 +151,7 @@ const BRAND_LOGOS: BrandLogo[] = [
     width: 3840,
     height: 917,
     alt: "Cursor",
-    className: "h-8 sm:h-9 md:h-10 lg:h-11 w-auto",
+    className: "h-7 sm:h-8 md:h-9 lg:h-10 w-auto",
   },
 ];
 
