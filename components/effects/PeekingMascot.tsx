@@ -8,7 +8,7 @@ type EdgePosition = "right" | "left" | "bottom";
 
 interface PeekLocation {
   edge: EdgePosition;
-  offsetPercent: number; // Vertical % for side edges, Horizontal % for bottom
+  offsetPercent: number; // Vertical % for side edges (32-55), Horizontal % for bottom (28-72)
   tilt: number;
   quote: string;
   id: number;
@@ -43,35 +43,35 @@ export default function PeekingMascot() {
   const lastPeekTimeRef = useRef(0);
   const peekCounterRef = useRef(0);
 
-  // Trigger a new randomized peek from any edge/offset
+  // Trigger a new randomized peek from any edge/offset with safe viewport clamping
   const triggerRandomPeek = useCallback(() => {
     const now = Date.now();
     // Throttle new spawns so it doesn't flicker on micro-scrolls
-    if (now - lastPeekTimeRef.current < 1200) return;
+    if (now - lastPeekTimeRef.current < 1100) return;
     lastPeekTimeRef.current = now;
 
     // Pick random edge
     const edges: EdgePosition[] = ["right", "left", "bottom"];
     const randomEdge = edges[Math.floor(Math.random() * edges.length)];
 
-    let offsetPercent = 50;
+    let offsetPercent = 45;
     let tilt = 0;
 
     if (randomEdge === "right") {
-      // Random vertical offset between 20% and 72%
-      offsetPercent = Math.floor(Math.random() * 52) + 20;
-      // Leaning tilt into the screen
-      tilt = -(Math.floor(Math.random() * 12) + 34); // -34deg to -46deg
+      // Safe vertical offset clamped between 32% and 55% so it never cuts off at top or bottom
+      offsetPercent = Math.floor(Math.random() * 24) + 32;
+      // Natural leaning tilt into the viewport
+      tilt = -(Math.floor(Math.random() * 5) + 20); // -20deg to -24deg
     } else if (randomEdge === "left") {
-      // Random vertical offset between 20% and 72%
-      offsetPercent = Math.floor(Math.random() * 52) + 20;
-      // Leaning tilt into the screen
-      tilt = Math.floor(Math.random() * 12) + 34; // +34deg to +46deg
+      // Safe vertical offset clamped between 32% and 55%
+      offsetPercent = Math.floor(Math.random() * 24) + 32;
+      // Natural leaning tilt into the viewport
+      tilt = Math.floor(Math.random() * 5) + 20; // +20deg to +24deg
     } else {
-      // Bottom edge: random horizontal offset between 18% and 76%
-      offsetPercent = Math.floor(Math.random() * 58) + 18;
-      // Slight playful tilt
-      tilt = Math.floor(Math.random() * 14) - 7; // -7deg to +7deg
+      // Bottom edge: safe horizontal offset clamped between 28% and 72% away from corners
+      offsetPercent = Math.floor(Math.random() * 44) + 28;
+      // Upright posture for bottom pop-up
+      tilt = 0;
     }
 
     const randomQuote = MASCOT_QUOTES[Math.floor(Math.random() * MASCOT_QUOTES.length)];
@@ -127,8 +127,8 @@ export default function PeekingMascot() {
       scrollDeltaAccRef.current += delta;
       lastScrollYRef.current = currentScrollY;
 
-      // When user has scrolled enough (e.g. 180px), trigger a fresh random peek!
-      if (scrollDeltaAccRef.current > 180) {
+      // When user has scrolled enough (e.g. 160px), trigger a fresh random peek!
+      if (scrollDeltaAccRef.current > 160) {
         scrollDeltaAccRef.current = 0;
         triggerRandomPeek();
       } else if (isPeekingRef.current && hideTimerRef.current) {
@@ -177,7 +177,7 @@ export default function PeekingMascot() {
   const isVisible = peekState !== null;
   const edge = peekState?.edge || "right";
 
-  // Dynamic positioning and transforms based on randomized edge
+  // Dynamic positioning and transforms: lower body anchored right on the edge
   let containerStyle: React.CSSProperties = {};
   let initialVariant = {};
   let animateVariant = {};
@@ -193,13 +193,13 @@ export default function PeekingMascot() {
       zIndex: 40,
     };
     transformOrigin = "bottom right";
-    initialVariant = { x: 280, opacity: 0, rotate: 0 };
+    initialVariant = { x: "105%", opacity: 0, rotate: 0 };
     animateVariant = {
-      x: 75,
+      x: "28%",
       opacity: 1,
-      rotate: peekState?.tilt || -40,
+      rotate: peekState?.tilt || -22,
     };
-    exitVariant = { x: 300, opacity: 0, transition: { duration: 0.25 } };
+    exitVariant = { x: "105%", opacity: 0, transition: { duration: 0.22 } };
   } else if (edge === "left") {
     containerStyle = {
       position: "fixed",
@@ -209,15 +209,15 @@ export default function PeekingMascot() {
       zIndex: 40,
     };
     transformOrigin = "bottom left";
-    initialVariant = { x: -280, opacity: 0, rotate: 0 };
+    initialVariant = { x: "-105%", opacity: 0, rotate: 0 };
     animateVariant = {
-      x: -75,
+      x: "-28%",
       opacity: 1,
-      rotate: peekState?.tilt || 40,
+      rotate: peekState?.tilt || 22,
     };
-    exitVariant = { x: -300, opacity: 0, transition: { duration: 0.25 } };
+    exitVariant = { x: "-105%", opacity: 0, transition: { duration: 0.22 } };
   } else {
-    // bottom
+    // bottom edge
     containerStyle = {
       position: "fixed",
       bottom: 0,
@@ -226,13 +226,13 @@ export default function PeekingMascot() {
       zIndex: 40,
     };
     transformOrigin = "bottom center";
-    initialVariant = { y: 280, opacity: 0, rotate: 0 };
+    initialVariant = { y: "105%", opacity: 0, rotate: 0 };
     animateVariant = {
-      y: 75,
+      y: "28%",
       opacity: 1,
-      rotate: peekState?.tilt || 0,
+      rotate: 0,
     };
-    exitVariant = { y: 300, opacity: 0, transition: { duration: 0.25 } };
+    exitVariant = { y: "105%", opacity: 0, transition: { duration: 0.22 } };
   }
 
   return (
@@ -242,29 +242,29 @@ export default function PeekingMascot() {
           <motion.div
             key={`mascot-peek-${peekState.id}`}
             style={{ ...containerStyle, transformOrigin }}
-            className="pointer-events-auto cursor-pointer group"
+            className="pointer-events-auto cursor-pointer group will-change-transform"
             initial={initialVariant}
             animate={animateVariant}
             exit={exitVariant}
             transition={{
               type: "spring",
-              stiffness: 140,
+              stiffness: 145,
               damping: 14,
-              mass: 0.85,
+              mass: 0.8,
             }}
             onClick={handleMascotTap}
-            whileHover={{ scale: 1.06 }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.94 }}
           >
             {/* Edge Burrow Shadow ("The Hole") */}
             {edge === "right" && (
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-64 bg-radial-gradient from-black/85 via-black/45 to-transparent blur-md pointer-events-none -z-10" />
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-56 bg-radial-gradient from-black/90 via-black/50 to-transparent blur-md pointer-events-none -z-10" />
             )}
             {edge === "left" && (
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-64 bg-radial-gradient from-black/85 via-black/45 to-transparent blur-md pointer-events-none -z-10" />
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-56 bg-radial-gradient from-black/90 via-black/50 to-transparent blur-md pointer-events-none -z-10" />
             )}
             {edge === "bottom" && (
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-64 h-12 bg-radial-gradient from-black/85 via-black/45 to-transparent blur-md pointer-events-none -z-10" />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-56 h-10 bg-radial-gradient from-black/90 via-black/50 to-transparent blur-md pointer-events-none -z-10" />
             )}
 
             {/* Speech Bubble Tooltip */}
@@ -277,11 +277,11 @@ export default function PeekingMascot() {
                   transition={{ type: "spring", stiffness: 350, damping: 20 }}
                   className={`absolute ${
                     edge === "right"
-                      ? "right-full mr-4 top-8"
+                      ? "right-full mr-3 top-8"
                       : edge === "left"
-                      ? "left-full ml-4 top-8"
-                      : "bottom-full mb-4 left-1/2 -translate-x-1/2"
-                  } whitespace-nowrap px-4 py-2 rounded-xl border border-amber-400/70 bg-[#0d0d12]/95 backdrop-blur-md shadow-[0_10px_35px_rgba(0,0,0,0.95)] text-xs font-mono text-amber-300 font-bold z-50`}
+                      ? "left-full ml-3 top-8"
+                      : "bottom-full mb-3 left-1/2 -translate-x-1/2"
+                  } whitespace-nowrap px-3.5 py-1.5 rounded-xl border border-amber-400/70 bg-[#0d0d12]/95 backdrop-blur-md shadow-[0_10px_35px_rgba(0,0,0,0.95)] text-xs font-mono text-amber-300 font-bold z-50`}
                 >
                   {speechBubble}
                   <div
@@ -297,15 +297,15 @@ export default function PeekingMascot() {
               )}
             </AnimatePresence>
 
-            {/* Enlarged Mascot Character Image with Leaning Posture */}
+            {/* Responsive Mascot Character Image with Lower Body on Edge */}
             <motion.div
               key={tapWobble}
               animate={{
-                scale: [1, 1.15, 0.94, 1.06, 1],
-                rotate: [0, -12, 12, -6, 0],
+                scale: [1, 1.14, 0.94, 1.05, 1],
+                rotate: [0, -10, 10, -5, 0],
               }}
-              transition={{ duration: 0.45 }}
-              className={`relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[420px] lg:h-[420px] ${
+              transition={{ duration: 0.4 }}
+              className={`relative w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96 max-w-[80vw] max-h-[50vh] ${
                 edge === "left" ? "-scale-x-100" : ""
               } drop-shadow-[0_20px_45px_rgba(0,0,0,0.9)] filter group-hover:brightness-110 transition-all`}
             >
@@ -313,7 +313,7 @@ export default function PeekingMascot() {
                 src="/mascot/peeking_mascot.png"
                 alt="Playful Mascot Peeking"
                 fill
-                sizes="(max-width: 640px) 288px, (max-width: 1024px) 384px, 420px"
+                sizes="(max-width: 640px) 224px, (max-width: 1024px) 320px, 384px"
                 className="object-contain"
                 priority
               />
