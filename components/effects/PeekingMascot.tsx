@@ -14,6 +14,21 @@ interface PeekLocation {
   id: number;
 }
 
+const VALID_SECTIONS = [
+  "about",
+  "contributions",
+  "stats",
+  "experience",
+  "projects",
+  "achievements",
+  "certifications",
+  "publications",
+  "leadership",
+  "testimonials",
+];
+
+const MAX_PEEKS_PER_SECTION = 2;
+
 const MASCOT_QUOTES = [
   "Ship-a-little Winner 🏆",
   "Arron Built this 🚀",
@@ -39,15 +54,19 @@ export default function PeekingMascot() {
   const isPeekingRef = useRef(false);
   const hideTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastScrollYRef = useRef(0);
-  const scrollDeltaAccRef = useRef(0);
   const lastPeekTimeRef = useRef(0);
   const peekCounterRef = useRef(0);
+
+  // Section-based rate limiter (strictly 1-2 peeks per section to prevent spam)
+  const sectionPeekCountsRef = useRef<Record<string, number>>({});
+  const lastSectionRef = useRef<string | null>(null);
+  const sectionScrollDeltaRef = useRef<number>(0);
 
   // Trigger a new randomized peek from any edge/offset with safe viewport clamping
   const triggerRandomPeek = useCallback(() => {
     const now = Date.now();
-    // Throttle new spawns so it doesn't flicker on micro-scrolls
-    if (now - lastPeekTimeRef.current < 1100) return;
+    // Throttle new spawns so it doesn't flicker
+    if (now - lastPeekTimeRef.current < 1500) return;
     lastPeekTimeRef.current = now;
 
     // Pick random edge
@@ -86,7 +105,7 @@ export default function PeekingMascot() {
     });
     isPeekingRef.current = true;
 
-    // Reset hide timer: retreat into hole after 2.0s of scroll inactivity
+    // Reset hide timer: retreat into hole after 2.0s
     if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
     hideTimerRef.current = setTimeout(() => {
       setPeekState(null);
@@ -95,50 +114,62 @@ export default function PeekingMascot() {
     }, 2000);
   }, []);
 
-  // Listen to scroll events within the active zone (#about through #testimonials)
+  // Listen to scroll events: strictly limit to 1-2 peeks per section
   useEffect(() => {
     if (!isMounted) return;
 
     const handleScroll = () => {
-      const aboutEl = document.getElementById("about");
-      const testimonialsEl = document.getElementById("testimonials");
-
-      if (!aboutEl || !testimonialsEl) return;
-
-      const aboutTop = aboutEl.getBoundingClientRect().top + window.scrollY - 150;
-      const testBottom = testimonialsEl.getBoundingClientRect().bottom + window.scrollY + 100;
       const currentScrollY = window.scrollY;
+      const delta = Math.abs(currentScrollY - lastScrollYRef.current);
+      lastScrollYRef.current = currentScrollY;
 
-      // Check if within active zone
-      const inZone = currentScrollY >= aboutTop && currentScrollY <= testBottom;
+      // Determine current active section in view
+      const viewportCenter = window.innerHeight * 0.45;
+      let activeSectionId: string | null = null;
 
-      if (!inZone) {
+      for (const id of VALID_SECTIONS) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= viewportCenter && rect.bottom >= viewportCenter) {
+          activeSectionId = id;
+          break;
+        }
+      }
+
+      // If outside active sections (Hero or Contact footer), retract and hide
+      if (!activeSectionId) {
         if (isPeekingRef.current) {
           setPeekState(null);
           setSpeechBubble(null);
           isPeekingRef.current = false;
         }
-        lastScrollYRef.current = currentScrollY;
         return;
       }
 
-      // Track scroll delta
-      const delta = Math.abs(currentScrollY - lastScrollYRef.current);
-      scrollDeltaAccRef.current += delta;
-      lastScrollYRef.current = currentScrollY;
+      // Track section transitions and scroll delta within section
+      if (activeSectionId !== lastSectionRef.current) {
+        lastSectionRef.current = activeSectionId;
+        sectionScrollDeltaRef.current = 0;
+      } else {
+        sectionScrollDeltaRef.current += delta;
+      }
 
-      // When user has scrolled enough (e.g. 160px), trigger a fresh random peek!
-      if (scrollDeltaAccRef.current > 160) {
-        scrollDeltaAccRef.current = 0;
+      const count = sectionPeekCountsRef.current[activeSectionId] || 0;
+
+      // Strictly limit to 1-2 peeks per section to prevent spamming
+      if (count >= MAX_PEEKS_PER_SECTION) {
+        return;
+      }
+
+      // 1st peek triggers after entering section (scroll delta > 90px)
+      // 2nd peek triggers only after extensive scrolling within section (scroll delta > 420px)
+      const threshold = count === 0 ? 90 : 420;
+
+      if (sectionScrollDeltaRef.current >= threshold && !isPeekingRef.current) {
+        sectionPeekCountsRef.current[activeSectionId] = count + 1;
+        sectionScrollDeltaRef.current = 0;
         triggerRandomPeek();
-      } else if (isPeekingRef.current && hideTimerRef.current) {
-        // While scrolling, keep extending the peek timer so it stays active
-        clearTimeout(hideTimerRef.current);
-        hideTimerRef.current = setTimeout(() => {
-          setPeekState(null);
-          setSpeechBubble(null);
-          isPeekingRef.current = false;
-        }, 1800);
       }
     };
 
