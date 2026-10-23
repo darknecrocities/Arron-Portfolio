@@ -80,15 +80,15 @@ export default function CertificationsSection() {
     restDelta: 0.001,
   });
 
-  // Temple Camera Pull-Back: Starts zoomed in (1.45) then zooms out to 1.0
-  const templeScale = useTransform(smoothProgress, [0.05, 0.35], [1.45, 1.0]);
-  const templeY = useTransform(smoothProgress, [0.05, 0.45], [-50, 15]);
-  const templeOpacity = useTransform(smoothProgress, [0.05, 0.2, 0.85, 1], [0.45, 0.85, 0.85, 0.45]);
+  // Temple Camera Pull-Back: Starts zoomed in (1.70) then zooms out to 1.0 over long runway
+  const templeScale = useTransform(smoothProgress, [0.04, 0.44], [1.70, 1.0]);
+  const templeY = useTransform(smoothProgress, [0.04, 0.45], [-60, 25]);
+  const templeOpacity = useTransform(smoothProgress, [0.03, 0.18, 0.88, 1], [0.3, 0.95, 0.95, 0.4]);
 
   // Foreground Elements Unveil: Fade in and scale up centered on the temple
-  const contentOpacity = useTransform(smoothProgress, [0.12, 0.30], [0, 1]);
-  const contentScale = useTransform(smoothProgress, [0.12, 0.32], [0.90, 1]);
-  const contentY = useTransform(smoothProgress, [0.12, 0.32], [50, 0]);
+  const contentOpacity = useTransform(smoothProgress, [0.15, 0.40], [0, 1]);
+  const contentScale = useTransform(smoothProgress, [0.15, 0.42], [0.88, 1]);
+  const contentY = useTransform(smoothProgress, [0.15, 0.42], [60, 0]);
 
   // Dynamic 3D Velocity Pitch: cards tilt in 3D perspective as user scrolls
   const scrollVelocity = useVelocity(smoothProgress);
@@ -114,7 +114,7 @@ export default function CertificationsSection() {
     <section
       id="certifications"
       ref={sectionRef}
-      className="section-base relative z-10 overflow-hidden"
+      className="section-base relative z-10 overflow-hidden min-h-[160vh] md:min-h-[185vh] flex flex-col justify-center"
     >
       {/* =====================================================================
           ATMOSPHERIC GREEK PANTHEON TEMPLE BACKDROP (ZOOM-OUT TRANSITION)
@@ -122,19 +122,17 @@ export default function CertificationsSection() {
       <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden select-none">
         <motion.div
           style={{ y: templeY, scale: templeScale, opacity: templeOpacity }}
-          className="relative w-full max-w-6xl h-[700px] md:h-[920px] will-change-transform"
+          className="relative w-full max-w-[1500px] h-[950px] md:h-[1300px] lg:h-[1500px] will-change-transform"
         >
           <Image
-            src="/greek/greek_temple.jpg"
+            src="/greek/greek_temple.png"
             alt="Greek Pantheon Temple Facade"
             fill
             priority
-            className="object-contain object-center opacity-85 contrast-110 brightness-110 drop-shadow-[0_0_60px_rgba(245,158,11,0.25)]"
+            className="object-contain object-center opacity-90 contrast-110 brightness-110 drop-shadow-[0_0_80px_rgba(245,158,11,0.25)]"
           />
           {/* Subtle bottom fade to seamlessly integrate into card foundation while keeping facade bright */}
-          <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/80 to-transparent pointer-events-none" />
-          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#0a0a0f] to-transparent pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#0a0a0f] to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/60 to-transparent pointer-events-none" />
         </motion.div>
       </div>
 

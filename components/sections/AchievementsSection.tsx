@@ -1,34 +1,180 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
 import Image from "next/image";
 import { ACHIEVEMENTS, Achievement } from "@/data/achievements";
-import { FiExternalLink, FiX, FiChevronRight } from "react-icons/fi";
+import { FiExternalLink, FiX, FiChevronRight, FiRepeat } from "react-icons/fi";
 import SectionHeading from "@/components/motion/SectionHeading";
 import ClothCurtain from "@/components/motion/ClothCurtain";
+
+interface TrophyCardItemProps {
+  achievement: Achievement;
+  index: number;
+  scrollProgress: MotionValue<number>;
+  onInspect: (a: Achievement) => void;
+}
+
+function TrophyCardItem({ achievement, index, scrollProgress, onInspect }: TrophyCardItemProps) {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  // Staggered 3D scroll flip entry per column
+  const startP = 0.14 + (index % 3) * 0.04;
+  const endP = startP + 0.16;
+  const scrollRotate = useTransform(scrollProgress, [startP, endP], [180, 0]);
+  const finalRotateY = useTransform(scrollRotate, (rot) => (isFlipped ? rot + 180 : rot));
+
+  const toggleFlip = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsFlipped((f) => !f);
+  };
+
+  return (
+    <div className="w-full [perspective:1200px]">
+      <motion.div
+        layout
+        style={{
+          rotateY: finalRotateY,
+          transformStyle: "preserve-3d",
+        }}
+        transition={{ duration: 0.55, type: "spring", stiffness: 220, damping: 20 }}
+        className="relative w-full min-h-[380px] rounded-2xl will-change-transform cursor-pointer group"
+        onClick={() => onInspect(achievement)}
+      >
+        {/* =================================================================
+            FRONT FACE: TROPHY PHOTOGRAPHY & RECOGNITION
+            ================================================================= */}
+        <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] flex flex-col justify-between rounded-2xl border border-white/10 bg-[#0d0d12]/95 backdrop-blur-xl hover:border-amber-400/40 hover:shadow-[0_16px_45px_rgba(245,158,11,0.15)] transition-all overflow-hidden">
+          <div>
+            {achievement.image && (
+              <div className="relative h-44 overflow-hidden border-b border-white/10 bg-black/60 group-hover:bg-black/20 transition-all duration-500">
+                <Image
+                  src={achievement.image}
+                  alt={achievement.title}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                  className="object-cover transition-transform duration-700 group-hover:scale-108"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d12] via-transparent to-transparent pointer-events-none" />
+
+                {/* Domo Insignia Stamp */}
+                <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full bg-black/75 border border-white/20 backdrop-blur-md text-[9px] font-mono text-amber-300 flex items-center gap-1 shadow-lg">
+                  <span>⬡</span>
+                  <span>VERIFIED</span>
+                </div>
+
+                {/* Quick 3D Flip Button */}
+                <button
+                  onClick={toggleFlip}
+                  className="absolute top-2.5 left-2.5 p-1.5 rounded-full bg-black/75 border border-white/20 hover:border-amber-400 text-zinc-300 hover:text-amber-300 backdrop-blur-md transition-all shadow-lg cursor-pointer"
+                  title="Flip Card in 3D"
+                  aria-label="Flip Card in 3D"
+                >
+                  <FiRepeat size={12} />
+                </button>
+              </div>
+            )}
+
+            <div className="p-5">
+              <div className="flex items-center justify-between gap-2 mb-2 font-mono">
+                <span
+                  className={`text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 rounded-full border ${
+                    achievement.type === "Champion"
+                      ? "bg-amber-400/15 border-amber-400/40 text-amber-300"
+                      : achievement.type === "Award"
+                      ? "bg-emerald-400/15 border-emerald-400/40 text-emerald-300"
+                      : "bg-white/10 border-white/20 text-white"
+                  }`}
+                >
+                  {achievement.type}
+                </span>
+                <span className="text-[10px] text-zinc-500">{achievement.date}</span>
+              </div>
+
+              <h3 className="text-white text-sm sm:text-base font-bold font-sans leading-tight mt-1 group-hover:text-amber-200 transition-colors">
+                {achievement.title}
+              </h3>
+
+              <p className="text-zinc-400 text-xs mt-1.5 font-mono">{achievement.issuer}</p>
+
+              <p className="text-zinc-400 text-xs leading-relaxed mt-2.5 line-clamp-2">
+                {achievement.description}
+              </p>
+            </div>
+          </div>
+
+          <div className="px-5 pb-4 pt-2.5 border-t border-white/5 flex items-center justify-between font-mono text-[11px]">
+            <span className="text-zinc-500">Inspection</span>
+            <span className="text-white font-semibold group-hover:text-amber-300 group-hover:translate-x-1 transition-all inline-flex items-center gap-1">
+              <span>Inspect Award</span>
+              <FiChevronRight className="text-xs" />
+            </span>
+          </div>
+        </div>
+
+        {/* =================================================================
+            BACK FACE: GILDED DOMO CHAMPIONSHIP GOLD SEAL
+            ================================================================= */}
+        <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-between p-6 rounded-2xl border-2 border-amber-400/60 bg-gradient-to-br from-[#1c1204] via-[#0d0903] to-[#2b1c06] shadow-[0_20px_50px_rgba(245,158,11,0.25)] text-center overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.12)_0,transparent_70%)] pointer-events-none" />
+
+          {/* Header Badge */}
+          <div className="relative z-10 flex items-center justify-between font-mono text-[10px] text-amber-300/80 border-b border-amber-400/30 pb-3">
+            <span className="tracking-widest uppercase">DOMO PODIUM #{index + 1}</span>
+            <button
+              onClick={toggleFlip}
+              className="p-1 rounded-full bg-black/60 border border-amber-400/40 text-amber-300 hover:text-white transition-all cursor-pointer"
+              title="Flip to Front"
+            >
+              <FiRepeat size={12} />
+            </button>
+          </div>
+
+          {/* Center Laurel Trophy Insignia */}
+          <div className="relative z-10 my-auto flex flex-col items-center">
+            <div className="w-16 h-16 rounded-full border-2 border-amber-400/80 bg-amber-500/10 flex items-center justify-center text-3xl shadow-[0_0_25px_rgba(245,158,11,0.5)] mb-3">
+              🏆
+            </div>
+            <h4 className="text-amber-200 font-sans font-black text-sm sm:text-base leading-snug px-2">
+              {achievement.title}
+            </h4>
+            <p className="text-amber-400/70 text-xs font-mono mt-1">{achievement.issuer}</p>
+            <div className="mt-3 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-400/40 text-[10px] font-mono text-amber-300 font-bold uppercase tracking-wider">
+              {achievement.type} · {achievement.date}
+            </div>
+          </div>
+
+          {/* Bottom Flip Trigger */}
+          <div className="relative z-10 pt-3 border-t border-amber-400/30 flex items-center justify-center font-mono text-[10px] text-amber-300/80">
+            <span>✦ Click Card to View Front Details ✦</span>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
 
 export default function AchievementsSection() {
   const [selected, setSelected] = useState<Achievement | null>(null);
   const [showAll, setShowAll] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Scroll tracking for fluid cloth curtain reveal
+  // Scroll tracking for fluid cloth curtain reveal & 3D card flips
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 38,
+    stiffness: 40,
     damping: 24,
-    mass: 1.25,
+    mass: 1.2,
     restDelta: 0.001,
   });
 
-  // Underneath content scales up with spotlight clarity
-  const contentScale = useTransform(smoothProgress, [0.18, 0.48], [0.93, 1]);
-  const contentOpacity = useTransform(smoothProgress, [0.18, 0.46], [0.35, 1]);
+  // Underneath content scales up with spotlight clarity over longer runway
+  const contentScale = useTransform(smoothProgress, [0.15, 0.42], [0.92, 1]);
+  const contentOpacity = useTransform(smoothProgress, [0.15, 0.38], [0.2, 1]);
 
   const displayedAchievements = showAll ? ACHIEVEMENTS : ACHIEVEMENTS.slice(0, 6);
 
@@ -43,90 +189,19 @@ export default function AchievementsSection() {
     { label: "Stage III · Academic & Industry Merit", items: col3, isCenter: false },
   ];
 
-  const renderCard = (achievement: Achievement, keyPrefix: string) => (
-    <motion.div
-      key={`${keyPrefix}-${achievement.id}`}
-      layout
-      whileHover={{ y: -6, scale: 1.02 }}
-      transition={{ duration: 0.25 }}
-      className="trophy-card cursor-pointer group flex flex-col justify-between rounded-2xl border border-white/10 bg-[#0d0d12]/95 backdrop-blur-xl hover:border-amber-400/40 hover:shadow-[0_16px_45px_rgba(245,158,11,0.12)] transition-all overflow-hidden"
-      onClick={() => setSelected(achievement)}
-      role="button"
-      aria-label={`View ${achievement.title} details`}
-    >
-      <div>
-        {/* Award / Trophy Hero Photography */}
-        {achievement.image && (
-          <div className="relative h-44 overflow-hidden border-b border-white/10 bg-black/60 group-hover:bg-black/20 transition-all duration-500">
-            <Image
-              src={achievement.image}
-              alt={achievement.title}
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-              className="object-cover transition-transform duration-700 group-hover:scale-108"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d12] via-transparent to-transparent pointer-events-none" />
-
-            {/* Domo Insignia Stamp in Corner */}
-            <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full bg-black/75 border border-white/20 backdrop-blur-md text-[9px] font-mono text-amber-300 flex items-center gap-1 shadow-lg">
-              <span>⬡</span>
-              <span>VERIFIED</span>
-            </div>
-          </div>
-        )}
-
-        <div className="p-5">
-          {/* Tag & Date */}
-          <div className="flex items-center justify-between gap-2 mb-2 font-mono">
-            <span
-              className={`text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 rounded-full border ${
-                achievement.type === "Champion"
-                  ? "bg-amber-400/15 border-amber-400/40 text-amber-300"
-                  : achievement.type === "Award"
-                  ? "bg-emerald-400/15 border-emerald-400/40 text-emerald-300"
-                  : "bg-white/10 border-white/20 text-white"
-              }`}
-            >
-              {achievement.type}
-            </span>
-            <span className="text-[10px] text-zinc-500">{achievement.date}</span>
-          </div>
-
-          <h3 className="text-white text-sm sm:text-base font-bold font-sans leading-tight mt-1 group-hover:text-amber-200 transition-colors">
-            {achievement.title}
-          </h3>
-
-          <p className="text-zinc-400 text-xs mt-1.5 font-mono">{achievement.issuer}</p>
-
-          <p className="text-zinc-400 text-xs leading-relaxed mt-2.5 line-clamp-2">
-            {achievement.description}
-          </p>
-        </div>
-      </div>
-
-      <div className="px-5 pb-4 pt-2.5 border-t border-white/5 flex items-center justify-between font-mono text-[11px]">
-        <span className="text-zinc-500">Inspection</span>
-        <span className="text-white font-semibold group-hover:text-amber-300 group-hover:translate-x-1 transition-all inline-flex items-center gap-1">
-          <span>Inspect Award</span>
-          <FiChevronRight className="text-xs" />
-        </span>
-      </div>
-    </motion.div>
-  );
-
   return (
     <section
       id="achievements"
       ref={sectionRef}
-      className="section-base relative z-10 overflow-hidden"
+      className="section-base relative z-10 overflow-hidden min-h-[185vh] md:min-h-[210vh] flex flex-col justify-center"
     >
       {/* =====================================================================
-          PHYSICS-BASED CLOTH CURTAIN WITH 3D VELVET FLUTES & ACCORDION GATHERING
+          THEATRICAL VELVET CURTAIN WITH OVERHEAD VALANCE & FOOTLIGHTS
           ===================================================================== */}
       <ClothCurtain scrollProgress={smoothProgress} />
 
       {/* =====================================================================
-          UNVEILED CHAMPIONSHIP PODIUM CONTENT
+          UNVEILED CHAMPIONSHIP PODIUM CONTENT WITH 3D CARD FLIPS
           ===================================================================== */}
       <motion.div
         style={{ scale: contentScale, opacity: contentOpacity }}
@@ -157,7 +232,6 @@ export default function AchievementsSection() {
                 stage.isCenter ? "lg:-translate-y-3" : ""
               }`}
             >
-              {/* Podium Highlight Aura for Center Stage */}
               {stage.isCenter && (
                 <div className="pointer-events-none absolute -inset-4 rounded-3xl bg-amber-500/[0.04] blur-3xl -z-10" />
               )}
@@ -170,7 +244,15 @@ export default function AchievementsSection() {
 
               {/* Column Cards */}
               <AnimatePresence mode="popLayout">
-                {stage.items.map((achievement) => renderCard(achievement, "desktop"))}
+                {stage.items.map((achievement, idx) => (
+                  <TrophyCardItem
+                    key={`desktop-${achievement.id}`}
+                    achievement={achievement}
+                    index={idx}
+                    scrollProgress={smoothProgress}
+                    onInspect={setSelected}
+                  />
+                ))}
               </AnimatePresence>
             </div>
           ))}
@@ -179,10 +261,14 @@ export default function AchievementsSection() {
         {/* RESPONSIVE GRID (MOBILE / TABLET) */}
         <div className="grid sm:grid-cols-2 lg:hidden gap-4 mt-6">
           <AnimatePresence mode="popLayout">
-            {displayedAchievements.map((achievement) => (
-              <div key={`mobile-${achievement.id}`}>
-                {renderCard(achievement, "mobile")}
-              </div>
+            {displayedAchievements.map((achievement, idx) => (
+              <TrophyCardItem
+                key={`mobile-${achievement.id}`}
+                achievement={achievement}
+                index={idx}
+                scrollProgress={smoothProgress}
+                onInspect={setSelected}
+              />
             ))}
           </AnimatePresence>
         </div>

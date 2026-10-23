@@ -176,13 +176,13 @@
    ========================================== */
 .section-base {
   position: relative;
-  padding: 5rem 0;
+  padding: 7.5rem 0;
   overflow: hidden;
 }
 
 @media (min-width: 768px) {
   .section-base {
-    padding: 7.5rem 0;
+    padding: 11.5rem 0;
   }
 }
 
