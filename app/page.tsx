@@ -9,6 +9,7 @@ import StatsSection from "@/components/sections/StatsSection";
 import ExperienceSection from "@/components/sections/ExperienceSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
 import SmartCarSection from "@/components/sections/SmartCarSection";
+import HeliosSection from "@/components/sections/HeliosSection";
 import AchievementsSection from "@/components/sections/AchievementsSection";
 import CertificationsSection from "@/components/sections/CertificationsSection";
 import PublicationsSection from "@/components/sections/PublicationsSection";
@@ -52,6 +53,7 @@ export default function Home() {
         <ExperienceSection />
         <ProjectsSection />
         <SmartCarSection />
+        <HeliosSection />
         <AchievementsSection />
         <CertificationsSection />
         <PublicationsSection />

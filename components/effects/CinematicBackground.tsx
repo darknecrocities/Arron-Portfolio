@@ -39,7 +39,9 @@ export default function CinematicBackground() {
       speed: Math.random() * 0.2 + 0.05,
     }));
 
+    let running = true;
     const draw = () => {
+      if (!running) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       for (const p of particlesRef.current) {
@@ -58,10 +60,23 @@ export default function CinematicBackground() {
       rafRef.current = requestAnimationFrame(draw);
     };
 
+    const onVisibility = () => {
+      if (document.hidden) {
+        running = false;
+        cancelAnimationFrame(rafRef.current);
+      } else {
+        running = true;
+        rafRef.current = requestAnimationFrame(draw);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
     draw();
 
     return () => {
+      running = false;
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", onVisibility);
       cancelAnimationFrame(rafRef.current);
     };
   }, []);

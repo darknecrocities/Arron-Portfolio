@@ -178,6 +178,7 @@
   position: relative;
   padding: 7.5rem 0;
   overflow: hidden;
+  contain: layout paint style;
 }
 
 @media (min-width: 768px) {
