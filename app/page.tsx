@@ -14,6 +14,7 @@ import CertificationsSection from "@/components/sections/CertificationsSection";
 import PublicationsSection from "@/components/sections/PublicationsSection";
 import LeadershipSection from "@/components/sections/LeadershipSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
+import CollaboratorSpeakerSection from "@/components/sections/CollaboratorSpeakerSection";
 import ContactSection from "@/components/sections/ContactSection";
 import MotionProvider from "@/components/motion/MotionProvider";
 import VelocityMarquee from "@/components/motion/VelocityMarquee";
@@ -56,6 +57,7 @@ export default function Home() {
         <PublicationsSection />
         <LeadershipSection />
         <TestimonialsSection />
+        <CollaboratorSpeakerSection />
         <ContactSection />
       </main>
 
