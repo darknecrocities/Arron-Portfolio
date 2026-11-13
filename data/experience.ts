@@ -14,7 +14,7 @@ export const EXPERIENCE: Experience[] = [
     id: "flyrank-ai",
     role: "Machine Learning Engineer",
     company: "Flyrank.ai",
-    period: "2025 — Present",
+    period: "2025 — Nov 2026",
     description:
       "Architecting machine learning pipelines, fine-tuning language models, and developing intelligent automation systems.",
     tags: ["Machine Learning", "Python", "LLMs", "AI Systems"],
@@ -34,7 +34,7 @@ export const EXPERIENCE: Experience[] = [
     id: "intuition-machines",
     role: "Machine Learning Intern — Computer Vision",
     company: "Intuition Machines",
-    period: "Feb 2026 — Present",
+    period: "Feb 2026 — Sep 2026",
     description:
       "Developing and testing computer vision pipelines and deep learning models. Focused on model inference optimization, data evaluation pipelines, and production-grade computer vision challenges.",
     tags: ["Computer Vision", "Deep Learning", "PyTorch", "Python", "Inference Optimization"],
@@ -44,7 +44,7 @@ export const EXPERIENCE: Experience[] = [
     id: "lakbay-ph",
     role: "Software Engineer",
     company: "Lakbay PH",
-    period: "Nov 2025 — Present",
+    period: "Nov 2025 — Jul 2026",
     description:
       "Architected and deployed a mobile travel and tourism platform for the Philippines. Engineered stateful UI components in Flutter, designed Supabase backend schemas, and integrated resilient REST API services.",
     tags: ["Flutter", "Supabase", "System Architecture", "REST APIs", "Mobile Systems"],
